@@ -1,0 +1,11 @@
+Package: dataone-cn-os-core
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: openssh-client, openssh-server, subversion
+Suggests:
+Conflicts:
+Installed-Size: 1 kb
+Maintainer: Matt Jones <jones@nceas.ucsb.edu>
+Description: This is a metapackage that installs the OS dependencies that are needed to build a coordinating node instance.
