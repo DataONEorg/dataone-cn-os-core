@@ -3,7 +3,7 @@ Version: 1.0.0
 Section: utils
 Priority: optional
 Architecture: amd64
-Depends: openssh-client, openssh-server, subversion
+Depends: openssh-client, openssh-server, subversion, auth-client-config, libnss-ldap
 Suggests:
 Conflicts:
 Installed-Size: 1 kb
