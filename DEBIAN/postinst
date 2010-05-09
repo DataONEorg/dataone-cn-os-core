@@ -1,7 +1,14 @@
 #!/bin/bash
 
+LONG_DATE=`date +%Y%m%d%H%M%S`
+
+TOMCAT=tomcat6
+TOMCAT_USER=tomcat6
+TOMCAT_HOME=/var/lib/tomcat6
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
+APACHE_CONF=/etc/apache2
+MOD_JK_CONF=/etc/libapache2-mod-jk
 
 ##################################################################
 # Configure the firewall
@@ -79,6 +86,20 @@ a2dissite 000-default
 ## Stop tomcat
 echo "Stopping Tomcat"
 /etc/init.d/${TOMCAT} stop
+
+## copy in jk.conf file
+if [ -e ${TOMCAT_HOME}/conf/server.xml ]
+then 
+  JK_CONF_DIFF=`diff ${SCRIPT_DIR}/server.xml ${TOMCAT_HOME}/conf/server.xml`
+  if [ "${JK_CONF_DIFF}" != "" ]
+  then
+    echo "Backing up ${TOMCAT_HOME}/conf/server.xml to ${TOMCAT_HOME}/conf/server.xml.${LONG_DATE}"
+    mv ${TOMCAT_HOME}/conf/server.xml ${TOMCAT_HOME}/conf/server.xml.${LONG_DATE}
+  fi
+fi
+echo "Copying server.xml to ${TOMCAT_HOME}/conf/"
+cp ${TOMCAT_HOME}/server.xml ${TOMCAT_HOME}/conf/
+
 
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /etc/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/lib/tomcat6
