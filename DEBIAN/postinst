@@ -1,8 +1,10 @@
 #!/bin/bash
 
+
 ##################################################################
 # Configure the firewall
 ##################################################################
+
 
 ufw default deny
 ufw allow ssh
@@ -27,5 +29,12 @@ else
     this, SSL will not function properly."
 fi
 echo "Completed configuration of private keys."
+
+chown -R ${TOMCAT_USER}.${TOMCAT_USER} /etc/tomcat6
+chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/lib/tomcat6
+chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/log/tomcat6
+chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/cache/tomcat6
+chown -R ${TOMCAT_USER}.${TOMCAT_USER} /usr/share/tomcat6
+
 
 echo "Configuration of OS complete."
