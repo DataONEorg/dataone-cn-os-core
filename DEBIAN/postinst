@@ -9,6 +9,7 @@ SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
+SITES="cn cn-ssl"
 
 ##################################################################
 # Configure the firewall
@@ -46,6 +47,14 @@ echo "Completed configuration of private keys."
 ## Stop apache
 echo "Stopping Apache"
 /etc/init.d/apache2 stop
+
+## make certain we have a directory for the JKMount directives of our apps
+if [ ! -d ${APACHE_CONF}/jk_mount ]
+then
+	mkdir ${APACHE_CONF}/jk_mount
+	chdir 750 ${APACHE_CONF}/jk_mount
+fi
+
 ## copy in jk.conf file
 if [ -e ${APACHE_CONF}/mods-available/jk.conf ]
 then 
@@ -71,6 +80,32 @@ then
 fi
 echo "Copying workers.properties to ${MOD_JK_CONF}/"
 cp ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/
+
+## copy in site configuration files
+for SITE in ${SITES}
+do
+    if [ -e ${APACHE_CONF}/sites-available/${SITE} ]
+    then 
+      SITE_DIFF=`diff ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/${SITE}`
+      if [ "${SITE_DIFF}" != "" ]
+      then
+        echo "Backing up ${APACHE_CONF}/sites-available/${SITE} to ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}"
+        mv ${APACHE_CONF}/sites-available/${SITE} ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}
+      fi
+    fi
+    echo "Copying ${SITE} site file to ${APACHE_CONF}/sites-available/"
+    cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/
+
+    ## enable ${SITE} site
+    echo "Enabling ${SITE} site"
+    a2dissite ${SITE}
+    a2ensite ${SITE}
+done
+
+# Turn on the ssl module
+echo "Refreshing Mod SSL"
+a2dismod ssl
+a2enmod ssl
 
 ## disable and then re-enable mod jk to pick up changes
 echo "Refreshing Mod JK"

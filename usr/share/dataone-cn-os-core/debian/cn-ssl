@@ -1,0 +1,29 @@
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+        DocumentRoot /var/www
+        ServerName cn-dev.dataone.org
+
+<!--        
+	ScriptAlias /knb/cgi-bin/ /usr/share/tomcat6/webapps/knb/cgi-bin/
+        <Directory "/usr/share/tomcat6/webapps/knb/cgi-bin/">
+                AllowOverride All
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                Order allow,deny
+                Allow from all
+        </Directory> 
+-->
+
+	Include /etc/apache2/jk_mount	
+
+        #   SSL Engine Switch:
+        #   Enable/Disable SSL for this virtual host.
+        SSLEngine on
+        SSLOptions +StrictRequire
+
+        SSLCertificateFile /etc/ssl/certs/_.dataone.org.crt
+        SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
+        SSLCertificateChainFile /etc/ssl/certs/gd_intermediate_bundle.crt
+
+</VirtualHost>
+</IfModule>
+
