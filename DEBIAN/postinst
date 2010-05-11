@@ -133,7 +133,7 @@ then
   fi
 fi
 echo "Copying server.xml to ${TOMCAT_HOME}/conf/"
-cp ${TOMCAT_HOME}/server.xml ${TOMCAT_HOME}/conf/
+cp ${SCRIPT_DIR}/server.xml ${TOMCAT_HOME}/conf/
 
 
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /etc/tomcat6
