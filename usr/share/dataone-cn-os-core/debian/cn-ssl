@@ -3,15 +3,13 @@
         DocumentRoot /var/www
         ServerName cn-dev.dataone.org
 
-<!--        
-	ScriptAlias /knb/cgi-bin/ /usr/share/tomcat6/webapps/knb/cgi-bin/
-        <Directory "/usr/share/tomcat6/webapps/knb/cgi-bin/">
-                AllowOverride All
-                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-                Order allow,deny
-                Allow from all
-        </Directory> 
--->
+#        ScriptAlias /knb/cgi-bin/ /usr/share/tomcat6/webapps/knb/cgi-bin/
+#        <Directory "/usr/share/tomcat6/webapps/knb/cgi-bin/">
+#                AllowOverride All
+#                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+#                Order allow,deny
+#                Allow from all
+#        </Directory>
 
 	Include /etc/apache2/jk_mount	
 
