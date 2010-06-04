@@ -3,7 +3,7 @@ Version: 0.0.5
 Section: utils
 Priority: optional
 Architecture: amd64
-Depends: dpkg-dev, openssh-client, openssh-server, subversion, auth-client-config, libnss-ldap, ufw, apache2, sun-java6-jdk, tomcat6, tomcat6-admin, libapache2-mod-jk
+Depends: dpkg-dev, openssh-client, openssh-server, subversion, auth-client-config, libnss-ldap, nscd, ufw, apache2, sun-java6-jdk, tomcat6, tomcat6-admin, libapache2-mod-jk
 Installed-Size: 1 kb
 Maintainer: Matt Jones <jones@nceas.ucsb.edu>
 Description: This is a metapackage that installs the OS dependencies that are needed to build a coordinating node instance. It also installs several configuration files that are customized for DataONE.
