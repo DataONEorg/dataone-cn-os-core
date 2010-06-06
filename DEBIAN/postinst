@@ -12,18 +12,6 @@ MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn cn-ssl"
 
 ##################################################################
-# Configure the firewall
-##################################################################
-
-
-ufw default deny
-ufw allow ssh
-ufw allow http
-ufw allow https
-ufw enable
-echo "Completed configuration of ufw firewall."
-
-##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
 # secure to do so -- access to the file must be restricted
