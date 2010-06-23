@@ -1,17 +1,16 @@
 <VirtualHost *:80>
         DocumentRoot /var/www
         ServerName cn-dev.dataone.org
+	DirectoryIndex listObjects.xml
 
-        
-#        ScriptAlias /knb/cgi-bin/ /usr/share/tomcat6/webapps/knb/cgi-bin/
-#        <Directory "/usr/share/tomcat6/webapps/knb/cgi-bin/">
-#                AllowOverride All
-#                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-#                Order allow,deny
-#                Allow from all
-#        </Directory>
-
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
 
 	Include /etc/apache2/jk_mount
 
 </VirtualHost>
+
