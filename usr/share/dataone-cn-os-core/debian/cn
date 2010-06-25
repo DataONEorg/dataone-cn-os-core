@@ -1,6 +1,6 @@
 <VirtualHost *:80>
         DocumentRoot /var/www
-        ServerName cn-dev.dataone.org
+        ServerName SERVER_NAME
 	DirectoryIndex listObjects.xml
 
 	<Directory /var/www/>

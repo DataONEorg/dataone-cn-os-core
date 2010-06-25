@@ -83,7 +83,14 @@ do
     fi
     echo "Copying ${SITE} site file to ${APACHE_CONF}/sites-available/"
     cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/
-
+    ## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
+    HOSTNAME=`perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts`
+    if [ "$HOSTNAME" != "" ]
+    then
+      sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
+    else
+      echo "HOSTNAME can not be set in ${TOMCAT_HOME}/webapps/knb/WEB-INF/metacat.properties"
+    fi
     ## enable ${SITE} site
     echo "Enabling ${SITE} site"
     a2dissite ${SITE}
