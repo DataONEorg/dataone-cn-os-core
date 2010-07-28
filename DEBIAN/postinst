@@ -4,6 +4,7 @@ LONG_DATE=`date +%Y%m%d%H%M%S`
 
 TOMCAT=tomcat6
 TOMCAT_USER=tomcat6
+DATAONE_USER=tomcat6
 TOMCAT_HOME=/var/lib/tomcat6
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
@@ -137,6 +138,15 @@ chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/log/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/cache/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /usr/share/tomcat6
 
+if [ -e "/var/log/dataone" ]
+then
+  echo "/var/log/dataone already exists"
+else
+  mkdir /var/log/dataone
+fi
+
+chown -R ${DATAONE_USER}.${DATAONE_USER} /var/log/dataone
+chown -R ${DATAONE_USER}.${DATAONE_USER} /var/lib/dataone
 ## Start Tomcat
 echo "starting Tomcat server"
 
