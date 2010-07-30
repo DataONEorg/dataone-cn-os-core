@@ -35,7 +35,7 @@
     </node>
     <node replicate="true" synchronize="true" type="mn">
         <identifier>http://daacmn.dataone.utk.edu</identifier>
-        <name>daac</name>
+        <name>ornldaac</name>
         <baseURL>http://daacmn.dataone.utk.edu/mn/</baseURL>
         <services>
             <service api="mn_crud" method="get" rest="object/${GUID}" available="true"    datechecked="1900-01-01T00:00:00Z" />
