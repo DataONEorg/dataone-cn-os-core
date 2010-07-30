@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-    Document   : nodeList.xml
-    Created on : July 15, 2010, 3:10 PM
-    Author     : rwaltz
-    Description:
-        Purpose of the document follows.
--->
-
 <ns1:nodeList  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
    xmlns:ns1='http://dataone.org/service/types/NodeList/0.1'
    xsi:schemaLocation='http://dataone.org/service/types/NodeList/0.1 https://repository.dataone.org/software/cicore/trunk/schemas/nodelist.xsd'>
@@ -59,7 +51,7 @@
     <node replicate="true" synchronize="true" type="mn">
         <identifier>http://knb-mn.ecoinformatics.org</identifier>
         <name>knb</name>
-        <baseURL>http://knb-mn.ecoinformatics.org/mn/</baseURL>
+        <baseURL>http://knb-mn.ecoinformatics.org/knb/</baseURL>
         <services>
             <service api="mn_crud" method="get" rest="object/${GUID}" available="true"    datechecked="1900-01-01T00:00:00Z" />
             <service api="mn_crud" method="getSystemMetadata" rest="meta/${GUID}" available="true"     datechecked="1900-01-01T00:00:00Z" />
