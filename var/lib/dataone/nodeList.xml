@@ -2,7 +2,7 @@
 
 <ns1:nodeList  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
    xmlns:ns1='http://dataone.org/service/types/NodeList/0.1'
-   xsi:schemaLocation='http://dataone.org/service/types/NodeList/0.1 https://repository.dataone.org/software/cicore/trunk/schemas/nodelist.xsd'>
+   xsi:schemaLocation='http://dataone.org/service/types/NodeList/0.1 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_4/nodelist.xsd'>
 
     <node replicate="true" synchronize="true" type="cn">
         <identifier>http://cn-dev.dataone.org</identifier>
