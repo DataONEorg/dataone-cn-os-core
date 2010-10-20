@@ -90,7 +90,7 @@ do
     then
       sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
     else
-      echo "HOSTNAME can not be set in ${TOMCAT_HOME}/webapps/knb/WEB-INF/metacat.properties"
+      echo "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
     fi
     ## enable ${SITE} site
     echo "Enabling ${SITE} site"

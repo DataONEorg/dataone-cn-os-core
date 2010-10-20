@@ -1,0 +1,90 @@
+#!/bin/bash
+
+LONG_DATE=`date +%Y%m%d%H%M%S`
+
+TOMCAT=tomcat6
+TOMCAT_USER=tomcat6
+DATAONE_USER=tomcat6
+TOMCAT_HOME=/var/lib/tomcat6
+SOURCE_DIR=/usr/share/dataone-cn-os-core
+SCRIPT_DIR=${SOURCE_DIR}/debian
+APACHE_CONF=/etc/apache2
+MOD_JK_CONF=/etc/libapache2-mod-jk
+SITES="cn cn-ssl"
+KEY=/etc/ssl/private/dataone_org.key
+
+
+rm -rf ${KEY}
+rm -rf /var/lib/dataone
+
+###############################################################################
+# Configure Apache
+###############################################################################
+
+## Stop apache
+echo "Stopping Apache"
+/etc/init.d/apache2 stop
+
+# Turn off the ssl module
+echo "Removing Mod SSL"
+a2dismod ssl
+
+## disable  mod jk 
+echo "Removing Mod JK"
+a2dismod jk
+
+echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
+rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
+
+## remove workers.properties file for mod-jk
+if [ -e ${MOD_JK_CONF}/workers.properties ]
+then 
+  WORKERS_PROPS_DIFF=`diff ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/workers.properties`
+  if [ "${WORKERS_PROPS_DIFF}" != "" ]
+  then
+    echo "Backing up ${MOD_JK_CONF}/workers.properties to ${MOD_JK_CONF}/workers.properties.${LONG_DATE}"
+    mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
+  fi
+fi
+echo "Copying workers.properties to ${MOD_JK_CONF}/"
+rm -f ${MOD_JK_CONF}/workers.properties*
+
+rm -rf ${SOURCE_DIR}
+
+## copy in site configuration files
+for SITE in ${SITES}
+do
+    a2dissite ${SITE}
+
+    rm -f  ${APACHE_CONF}/sites-available/${SITE}*
+
+done
+
+## enable the default apache site
+a2ensite 000-default
+## Start Apache
+/etc/init.d/apache2 start
+
+## Stop tomcat
+echo "Stopping Tomcat"
+/etc/init.d/${TOMCAT} stop
+
+## restore server.xml
+
+rm -f ${TOMCAT_HOME}/conf/server.xml
+mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
+at6
+
+if [ -e "/var/log/dataone" ]
+then
+  rm -rf "/var/log/dataone already exists"
+fi
+
+## Start Tomcat
+echo "starting Tomcat server"
+
+/etc/init.d/${TOMCAT} start
+
+
+
+echo "Removal of CN OS CORE complete."
