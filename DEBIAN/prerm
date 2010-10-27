@@ -76,7 +76,6 @@ echo "Stopping Tomcat"
 
 rm -f ${TOMCAT_HOME}/conf/server.xml
 mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
-at6
 
 if [ -e "/var/log/dataone" ]
 then
