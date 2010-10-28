@@ -34,7 +34,7 @@
         <baseURL>http://mn-dev.dataone.org/mn/</baseURL>
         <services>
             <service version="0.5" available="true">
-                <name>cn_crud</name>
+                <name>mn_crud</name>
                 <method name="get" rest="object/${GUID}" implemented="true" />
                 <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
                 <method name="resolve" rest="resolve/${GUID}" implemented="true" />
@@ -53,7 +53,7 @@
         <baseURL>http://dev-dryad-mn.dataone.org/mn/</baseURL>
         <services>
             <service version="0.5" available="true">
-                <name>cn_crud</name>
+                <name>mn_crud</name>
                 <method name="get" rest="object/${GUID}" implemented="true" />
                 <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
                 <method name="resolve" rest="resolve/${GUID}" implemented="true" />
@@ -72,7 +72,7 @@
         <baseURL>http://daacmn.dataone.utk.edu/mn/</baseURL>
         <services>
             <service version="0.5" available="true">
-                <name>cn_crud</name>
+                <name>mn_crud</name>
                 <method name="get" rest="object/${GUID}" implemented="true" />
                 <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
                 <method name="resolve" rest="resolve/${GUID}" implemented="true" />
@@ -91,7 +91,7 @@
         <baseURL>http://knb-mn.ecoinformatics.org/knb/</baseURL>
         <services>
             <service version="0.5" available="true">
-                <name>cn_crud</name>
+                <name>mn_crud</name>
                 <method name="get" rest="object/${GUID}" implemented="true" />
                 <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
                 <method name="resolve" rest="resolve/${GUID}" implemented="true" />
