@@ -5,7 +5,7 @@
    xsi:schemaLocation='http://dataone.org/service/types/NodeList/0.5 https://repository.dataone.org/software/cicore/tags/D1_SCHEMA_0_5/nodelist.xsd'>
 
     <node replicate="true" synchronize="true" type="cn" environment="dev">
-        <identifier>http://cn-dev.dataone.org</identifier>
+        <identifier>cn-dev</identifier>
         <name>cn_dev</name>
         <description>Development Coordinating node</description>
         <baseURL>http://cn-dev.dataone.org/cn/</baseURL>
