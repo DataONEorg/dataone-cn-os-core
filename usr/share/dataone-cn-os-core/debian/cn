@@ -11,6 +11,9 @@
 	</Directory>
 
 	Include /etc/apache2/jk_mount
+	
+	AllowEncodedSlashes On
+	AcceptPathInfo On
 
 </VirtualHost>
 

@@ -132,6 +132,20 @@ echo "Copying server.xml to ${TOMCAT_HOME}/conf/"
 cp ${SCRIPT_DIR}/server.xml ${TOMCAT_HOME}/conf/
 
 
+# add slash-handling properties to catalina.properties file
+# (tomcat doesn't support include, so need to add it to the main file)
+if [ -e ${TOMCAT_HOME}/conf/catalina.properties ]
+then
+    if [ grep -v ALLOW_ENCODED_SLASH ${TOMCAT_HOME}/conf/catalina.properties ]
+	then
+		echo "Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
+		echo >> ${TOMCAT_HOME}/conf/catalina.properties
+        echo \# Dataone configuration for handling encoded slash and backslashes >> ${TOMCAT_HOME}/conf/catalina.properties
+        echo org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true >> ${TOMCAT_HOME}/conf/catalina.properties
+        echo org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH=true >> ${TOMCAT_HOME}/conf/catalina.properties
+    fi
+fi
+
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /etc/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/lib/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/log/tomcat6
@@ -152,4 +166,4 @@ echo "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
 
-echo "Configuration of OS complete."
+echo "Configuration of OS com>lete."
