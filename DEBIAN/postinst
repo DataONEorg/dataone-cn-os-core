@@ -138,7 +138,7 @@ if [ -e ${TOMCAT_HOME}/conf/catalina.properties ]
 then
     if [ grep -v ALLOW_ENCODED_SLASH ${TOMCAT_HOME}/conf/catalina.properties ]
 	then
-		echo "Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
+		echo Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
 		echo >> ${TOMCAT_HOME}/conf/catalina.properties
         echo \# Dataone configuration for handling encoded slash and backslashes >> ${TOMCAT_HOME}/conf/catalina.properties
         echo org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true >> ${TOMCAT_HOME}/conf/catalina.properties
@@ -166,4 +166,4 @@ echo "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
 
-echo "Configuration of OS com>lete."
+echo "Configuration of OS complete."
