@@ -139,6 +139,7 @@ then
 	CONTAINS_ENCODED_SLASH=`grep 'ALLOW_ENCODED_SLASH' ${TOMCAT_HOME}/conf/catalina.properties`
     if [ "$CONTAINS_ENCODED_SLASH" == "" ]
 	then
+		cp ${TOMCAT_HOME}/conf/catalina.properties ${TOMCAT_HOME}/conf/catalina.properties.${LONG_DATE}
 		echo Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
 		echo >> ${TOMCAT_HOME}/conf/catalina.properties
         echo \# Dataone configuration for handling encoded slash and backslashes >> ${TOMCAT_HOME}/conf/catalina.properties
