@@ -10,10 +10,10 @@
 		allow from all
 	</Directory>
 
-	Include /etc/apache2/jk_mount
-	
 	AllowEncodedSlashes On
 	AcceptPathInfo On
+
+	Include /etc/apache2/jk_mount
 
 </VirtualHost>
 
