@@ -7,7 +7,7 @@
         <identifier>cn-dev</identifier>
         <name>cn_dev</name>
         <description>Development Coordinating node</description>
-        <baseURL>http://cn-dev.dataone.org/cn/d1</baseURL>
+        <baseURL>http://cn-dev.dataone.org/cn</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -28,9 +28,9 @@
     </node>
     <node replicate="true" synchronize="true" type="mn" environment="dev">
         <identifier>http://mn-dev.dataone.org</identifier>
-        <name>DataONESamples</name>
+        <name>dryad</name>
         <description>Development Member node</description>
-        <baseURL>http://mn-dev.dataone.org/mn/</baseURL>
+        <baseURL>http://gmn-dev.dyndns.org/mn</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
@@ -106,7 +106,7 @@
         <identifier>http://cn-unm-1.dataone.org</identifier>
         <name>cn-unm-1</name>
         <description>Production Coordinating node at University of New Mexico</description>
-        <baseURL>http://cn-unm-1.dataone.org/cn/d1</baseURL>
+        <baseURL>http://cn-unm-1.dataone.org/cn</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -120,7 +120,7 @@
         <identifier>http://cn-ucsb-1.dataone.org</identifier>
         <name>cn-ucsb-1</name>
         <description>Production Coordinating node at University of California Santa Barbara</description>
-        <baseURL>http://cn-ucsb-1.dataone.org/cn/d1</baseURL>
+        <baseURL>http://cn-ucsb-1.dataone.org/cn</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -134,7 +134,7 @@
         <identifier>http://cn-orc-1.dataone.org</identifier>
         <name>cn-orc-1</name>
         <description>Production Coordinating node at Oak Ridge National Laboratories UTK Campus</description>
-        <baseURL>http://cn-orc-1.dataone.org/cn/d1</baseURL>
+        <baseURL>http://cn-orc-1.dataone.org/cn</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -149,25 +149,6 @@
         <name>Test MN store on cn-dev</name>
         <description>Metacat used as data store on cn-dev</description>
         <baseURL>http://cn-dev.dataone.org/knb/d1</baseURL>
-        <services>
-            <service version="0.5" available="true">
-                <name>mn_crud</name>
-                <method name="get" rest="object/${GUID}" implemented="true" />
-                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
-                <method name="resolve" rest="resolve/${GUID}" implemented="true" />
-            </service>
-        </services>
-        <synchronization>
-            <schedule sec="00" min="00" hour="12" mday="*"  mon="*" wday="*" year="*" />
-            <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
-            <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
-        </synchronization>
-    </node>
-    <node replicate="true" synchronize="true" type="mn" environment="dev">
-        <identifier>http://gmn-dev.dyndns.org</identifier>
-        <name>More DataONESamples</name>
-        <description>Dynamic Development Member node</description>
-        <baseURL>http://gmn-dev.dyndns.org/mn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
