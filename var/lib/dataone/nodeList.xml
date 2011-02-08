@@ -7,7 +7,7 @@
         <identifier>cn-dev</identifier>
         <name>cn_dev</name>
         <description>Development Coordinating node</description>
-        <baseURL>http://cn-dev.dataone.org/cn</baseURL>
+        <baseURL>http://cn-dev.dataone.org/cn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -30,7 +30,7 @@
         <identifier>http://mn-dev.dataone.org</identifier>
         <name>dryad</name>
         <description>Development Member node</description>
-        <baseURL>http://gmn-dev.dyndns.org/mn</baseURL>
+        <baseURL>http://gmn-dev.dyndns.org/mn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
@@ -87,7 +87,7 @@
         <identifier>http://knb-mn.ecoinformatics.org</identifier>
         <name>knb</name>
         <description>Production Member node with  KNB Data</description>
-        <baseURL>http://knb-mn.ecoinformatics.org/knb/d1</baseURL>
+        <baseURL>http://knb-mn.ecoinformatics.org/knb/d1/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
@@ -106,7 +106,7 @@
         <identifier>http://cn-unm-1.dataone.org</identifier>
         <name>cn-unm-1</name>
         <description>Production Coordinating node at University of New Mexico</description>
-        <baseURL>http://cn-unm-1.dataone.org/cn</baseURL>
+        <baseURL>http://cn-unm-1.dataone.org/cn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -120,7 +120,7 @@
         <identifier>http://cn-ucsb-1.dataone.org</identifier>
         <name>cn-ucsb-1</name>
         <description>Production Coordinating node at University of California Santa Barbara</description>
-        <baseURL>http://cn-ucsb-1.dataone.org/cn</baseURL>
+        <baseURL>http://cn-ucsb-1.dataone.org/cn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -134,7 +134,7 @@
         <identifier>http://cn-orc-1.dataone.org</identifier>
         <name>cn-orc-1</name>
         <description>Production Coordinating node at Oak Ridge National Laboratories UTK Campus</description>
-        <baseURL>http://cn-orc-1.dataone.org/cn</baseURL>
+        <baseURL>http://cn-orc-1.dataone.org/cn/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>cn_crud</name>
@@ -148,7 +148,7 @@
         <identifier>http://cn-dev.dataone.org/knb/d1</identifier>
         <name>Test MN store on cn-dev</name>
         <description>Metacat used as data store on cn-dev</description>
-        <baseURL>http://cn-dev.dataone.org/knb/d1</baseURL>
+        <baseURL>http://cn-dev.dataone.org/knb/d1/</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
