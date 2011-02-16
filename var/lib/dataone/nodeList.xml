@@ -4,7 +4,7 @@
    xmlns:ns1='http://dataone.org/service/types/0.5.1'>
 
     <node replicate="true" synchronize="true" type="cn" environment="dev">
-        <identifier>cn-dev</identifier>
+        <identifier>http://cn-dev.dataone.org</identifier>
         <name>cn_dev</name>
         <description>Development Coordinating node</description>
         <baseURL>http://cn-dev.dataone.org/cn/</baseURL>
@@ -31,6 +31,25 @@
         <name>dryad</name>
         <description>Development Member node</description>
         <baseURL>http://gmn-dev.dyndns.org/mn/</baseURL>
+        <services>
+            <service version="0.5" available="true">
+                <name>mn_crud</name>
+                <method name="get" rest="object/${GUID}" implemented="true" />
+                <method name="getSystemMetadata" rest="meta/${GUID}" implemented="true" />
+                <method name="resolve" rest="resolve/${GUID}" implemented="true" />
+            </service>
+        </services>
+        <synchronization>
+            <schedule sec="00" min="00" hour="12" mday="*"  mon="*" wday="*" year="*" />
+            <lastHarvested>1900-01-01T00:00:00Z</lastHarvested>
+            <lastCompleteHarvest>1900-01-01T00:00:00Z</lastCompleteHarvest>
+        </synchronization>
+    </node>
+    <node replicate="true" synchronize="true" type="mn" environment="dev">
+        <identifier>http://knb-test-1.dataone.org</identifier>
+        <name>knb</name>
+        <description>Development Member node</description>
+        <baseURL>http://knb-test-1.dataone.org/knb/d1</baseURL>
         <services>
             <service version="0.5" available="true">
                 <name>mn_crud</name>
