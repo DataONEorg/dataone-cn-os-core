@@ -88,6 +88,9 @@ echo "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
 
-
+###############################################################################
+# Remove OpenLDAP
+###############################################################################
+## TODO: remove config, schema, and data
 
 echo "Removal of CN OS CORE complete."

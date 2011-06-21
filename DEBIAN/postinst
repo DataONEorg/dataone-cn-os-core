@@ -11,6 +11,8 @@ SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn cn-ssl"
+LDAP_CONF=/etc/ldap
+LDAP_USER=openldap
 
 ##################################################################
 # Install the dataone private key provided by the user
@@ -168,4 +170,56 @@ echo "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
 
+###############################################################################
+# Configure OpenLDAP
+###############################################################################
+## place schema extension
+if [ -e ${LDAP_CONF}/schema/dataone.schema ]
+then 
+  SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
+  if [ "${SCHEMA_DIFF}" != "" ]
+  then
+    echo "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
+    mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
+  fi
+fi
+echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
+cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
+
+## place slapd.conf template
+if [ -e ${LDAP_CONF}/slapd.conf ]
+then 
+  SLAPD_DIFF=`diff ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/slapd.conf`
+  if [ "${SLAPD_DIFF}" != "" ]
+  then
+    echo "Backing up ${LDAP_CONF}/slapd.conf to ${LDAP_CONF}/slapd.conf.${LONG_DATE}"
+    mv ${LDAP_CONF}/slapd.conf ${LDAP_CONF}/slapd.conf.${LONG_DATE}
+  fi
+fi
+echo "Copying slapd.conf to ${LDAP_CONF}/"
+cp ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/
+
+## TODO: configure the file with correct values (passwords)
+echo "YOU MUST EDIT THE CONFIGURATION FILE: ${LDAP_CONF}/slapd.conf"
+
+## set permissions 
+chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
+chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
+
+## start, using slapd.conf file
+echo "Starting slapd using: ${LDAP_CONF}/slapd.conf"
+slapd -h 'ldap:/// ldapi:///' -f /etc/ldap/slapd.conf
+
+## add the root entry
+echo "Adding root entry using: ${SCRIPT_DIR}/ldap/dataone.ldif"
+ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
+
+## list the entries
+echo "Listing LDAP entries for: dc=dataone,dc=org"
+ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -b 'dc=dataone,dc=org'		
+
+## done with OpenLDAP
+echo "LDAP configuration complete"
+
+######################################
 echo "Configuration of OS complete."
