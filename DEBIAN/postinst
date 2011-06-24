@@ -212,7 +212,7 @@ echo "Stoping slapd"
 
 ## start, using slapd.conf file
 echo "Starting slapd using: ${LDAP_CONF}/slapd.conf"
-slapd -h 'ldap:/// ldapi:///' -f /etc/ldap/slapd.conf
+slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
 
 ## add the root entry
 echo "Adding root entry using: ${SCRIPT_DIR}/ldap/dataone.ldif"
