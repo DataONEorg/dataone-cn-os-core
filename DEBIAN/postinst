@@ -206,6 +206,10 @@ echo "YOU MUST EDIT THE CONFIGURATION FILE: ${LDAP_CONF}/slapd.conf"
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
 
+## stop the default service
+echo "Stoping slapd"
+/etc/init.d/slapd stop
+
 ## start, using slapd.conf file
 echo "Starting slapd using: ${LDAP_CONF}/slapd.conf"
 slapd -h 'ldap:/// ldapi:///' -f /etc/ldap/slapd.conf
