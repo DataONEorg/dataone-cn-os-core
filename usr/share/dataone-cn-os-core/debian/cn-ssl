@@ -16,8 +16,7 @@
         #   SSL Engine Switch:
         #   Enable/Disable SSL for this virtual host.
         SSLEngine on
-        SSLOptions +StrictRequire
-        #SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
+        SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
         SSLVerifyClient optional
         SSLVerifyDepth 10
 
