@@ -4,11 +4,13 @@
 #    Dave Vieglais
 #      vieglais&ku.edu  
 # OID macros
-objectIdentifier myOID  			1.3.6.1.4.1.37951
-objectIdentifier mySNMP 			myOID:1
-objectIdentifier myLDAP 			myOID:2
-objectIdentifier myAttributeType	myLDAP:1
-objectIdentifier myObjectClass		myLDAP:2
+objectIdentifier myOID              1.3.6.1.4.1.37951
+objectIdentifier mySNMP             myOID:1
+objectIdentifier myLDAP             myOID:2
+objectIdentifier myAttributeType    myLDAP:1
+objectIdentifier myObjectClass        myLDAP:2
+objectIdentifier d1NodeListAttributeType    myLDAP:3
+objectIdentifier d1NodeListObjectClass        myLDAP:4
 # d1Principal attributes
 attributetype ( myAttributeType:1 NAME 'isVerified'
         DESC 'boolean flag denoting if the entity is verified'
@@ -22,7 +24,7 @@ attributetype ( myAttributeType:2 NAME 'equivalentIdentity'
 attributetype ( myAttributeType:3 NAME 'equivalentIdentityRequest'
         DESC 'identity equivalence request'
         EQUALITY distinguishedNameMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )        
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
 objectclass ( myObjectClass:1 NAME 'd1Principal'
         DESC 'DataONE principal extension'
         AUXILIARY
@@ -37,3 +39,217 @@ objectclass ( myObjectClass:2 NAME 'd1Group'
         DESC 'DataONE group extension'
         AUXILIARY
         MUST adminIdentity )        
+attributetype ( 
+    d1NodeListAttributeType:1
+    NAME 'd1NodeId'
+    DESC 'unique identifier for a DataONE node, forms part of a (DN)'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
+    )    
+attributetype ( 
+    d1NodeListAttributeType:2
+    NAME 'd1NodeServiceId'
+    DESC 'unique identifier for a DataONE Node Service, forms part of a (DN)'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
+    )
+attributetype ( 
+    d1NodeListAttributeType:3 
+    NAME 'd1NodeName'
+    DESC 'unique human readable Name for a DataONE node'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:4 
+    NAME 'd1NodeDescription'
+    DESC 'unique human readable Description for a DataONE node'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768}
+    )
+attributetype ( 
+    d1NodeListAttributeType:5
+    NAME 'd1NodeBaseURL'
+    DESC 'URL where a DataONE node may be located on Internet'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{800}
+    )
+attributetype ( 
+    d1NodeListAttributeType:6
+    NAME 'd1NodeReplicate'
+    DESC 'Boolean indicating if the Node receives replicate data from other Nodes'
+    EQUALITY booleanMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+    )
+attributetype ( 
+    d1NodeListAttributeType:7
+    NAME 'd1NodeSynchronize'
+    DESC 'Boolean indicating if the Node allows for synchronization of data. 
+        May be turned off if node is offline temporarily'
+    EQUALITY booleanMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+    )
+attributetype ( 
+    d1NodeListAttributeType:8
+    NAME 'd1NodeType'
+    DESC 'Indicates if node is Coordinating Node/Member Node or Monitor'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
+    )
+attributetype ( 
+    d1NodeListAttributeType:9
+    NAME 'd1NodeLastHarvested'
+    DESC 'Date the node was Last Harvested for Synchronization data. Keeps track
+        of information for incremental harvesting of a membernode.
+        The date records the dateSysMetadataModified of the latest object 
+        synchronized, not the date the synch harvest occurred.
+        Stored as string representations of ISO 8601 datetimes'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
+    )
+attributetype ( 
+    d1NodeListAttributeType:10
+    NAME 'd1NodeLastCompleteHarvest'
+    DESC 'Date the node was last fully Harvested for Synchronization data. 
+        A full harvest is all data synchronized rather then an incremental harvest.
+        Stored as string representations of ISO 8601 datetimes'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
+    )
+attributetype ( 
+    d1NodeListAttributeType:11
+    NAME 'd1NodeSynSchdSec'
+    DESC 'Crontab Seconds field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:12
+    NAME 'd1NodeSynSchdMin'
+    DESC 'Crontab Minutes field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:13
+    NAME 'd1NodeSynSchdHour'
+    DESC 'Crontab Hour field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:14
+    NAME 'd1NodeSynSchdMday'
+    DESC 'Crontab Day of the Month field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:15
+    NAME 'd1NodeSynSchdMon'
+    DESC 'Crontab Month field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:16
+    NAME 'd1NodeSynSchdWday'
+    DESC 'Crontab Day of Week field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:17
+    NAME 'd1NodeSynSchdYear'
+    DESC 'Crontab Year field.
+        The full entry signifying start of a synchronization Job'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:18
+    NAME 'd1NodePingStatusSuccess'
+    DESC 'Boolean indicating if the Node is responding.'
+    EQUALITY booleanMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+    )
+attributetype ( 
+    d1NodeListAttributeType:19
+    NAME 'd1NodePingDateChecked'
+    DESC 'Date the node was last checked for a Status.
+        Stored as string representations of ISO 8601 datetimes'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
+    )
+attributetype ( 
+    d1NodeListAttributeType:20
+    NAME 'd1NodePingLastSuccess'
+    DESC 'Date the node was last found to be responsive.
+        Stored as string representations of ISO 8601 datetimes'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
+    )
+attributetype ( 
+    d1NodeListAttributeType:21
+    NAME 'd1NodeServiceName'
+    DESC 'Name of a DataONE node Service API'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+    d1NodeListAttributeType:22
+    NAME 'd1NodeServiceVersion'
+    DESC 'Version level of a DataONE node Service API'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
+    )
+attributetype ( 
+    d1NodeListAttributeType:23
+    NAME 'd1NodeServiceAvailable'
+    DESC 'Boolean indicating if a Service API is implemented on a node.'
+    EQUALITY booleanMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+    )
+objectclass (
+    d1NodeListObjectClass:1
+    NAME 'd1Node'
+    DESC 'DataONE Node container forms a nodeList'
+    SUP top
+    STRUCTURAL
+    MUST (d1NodeId $ d1NodeName $ d1NodeDescription $ d1NodeBaseURL $
+         d1NodeReplicate $ d1NodeSynchronize $ d1NodeType )
+    MAY( d1NodeLastHarvested $ d1NodeLastCompleteHarvest $ d1NodeSynSchdSec $ 
+        d1NodeSynSchdMin  $ d1NodeSynSchdHour $  d1NodeSynSchdMday $ 
+        d1NodeSynSchdMon $ d1NodeSynSchdWday $  d1NodeSynSchdYear $
+        d1NodePingStatusSuccess $ d1NodePingDateChecked $ d1NodePingLastSuccess )
+    )
+objectclass (
+    d1NodeListObjectClass:2
+    NAME 'd1NodeService'
+    DESC 'DataONE Node Service definition'
+    SUP top
+    STRUCTURAL
+    MUST (d1NodeServiceId $ d1NodeId $ d1NodeServiceName $ 
+    	d1NodeServiceVersion $ d1NodeServiceAvailable )
+    )
+     
