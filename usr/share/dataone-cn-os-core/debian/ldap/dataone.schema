@@ -38,7 +38,33 @@ attributetype ( myAttributeType:4 NAME 'adminIdentity'
 objectclass ( myObjectClass:2 NAME 'd1Group'
         DESC 'DataONE group extension'
         AUXILIARY
-        MUST adminIdentity )        
+        MUST adminIdentity )
+# d1Reservation attributes    
+attributetype ( myAttributeType:5 NAME 'reservationId'
+        DESC 'Unique ID for the reservation entry (part of DN)'
+        EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )     
+attributetype ( myAttributeType:6 NAME 'subject'
+        DESC 'Identity holding the reservation'
+        EQUALITY distinguishedNameMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+attributetype ( myAttributeType:7 NAME 'identifier'
+        DESC 'Reserved Identifier'
+        EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )    
+attributetype ( myAttributeType:8 NAME 'created'
+        DESC 'Date reservation was placed'
+        EQUALITY generalizedTimeMatch
+        ORDERING generalizedTimeOrderingMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.53 ) 				       
+objectclass ( myObjectClass:3 NAME 'd1Reservation'
+        DESC 'DataONE identifier reservation extension'
+        SUP top
+    	STRUCTURAL
+        MUST reservationId $ subject $ identifier $ created )        
+# d1NodeList                
 attributetype ( 
     d1NodeListAttributeType:1
     NAME 'd1NodeId'
