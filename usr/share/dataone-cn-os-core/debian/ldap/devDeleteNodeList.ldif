@@ -1,0 +1,57 @@
+dn: d1NodeServiceId=CNCore-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNRead-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNAuthorization-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNIdentity-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNReplication-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNRegister-0.6.2,d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeId=c3p0,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNCore-0.6.2,d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNRead-0.6.2,d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNAuthorization-0.6.2,d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNStorage-0.6.2,d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNReplication-0.6.2,d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeId=r2d2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNCore-0.6.2,d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNRead-0.6.2,d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNAuthorization-0.6.2,d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNStorage-0.6.2,d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=MNReplication-0.6.2,d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeId=m0t1,dc=dataone,dc=org
+changetype: delete
+
