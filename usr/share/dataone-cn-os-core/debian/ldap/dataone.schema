@@ -58,12 +58,12 @@ attributetype ( myAttributeType:8 NAME 'created'
         DESC 'Date reservation was placed'
         EQUALITY generalizedTimeMatch
         ORDERING generalizedTimeOrderingMatch
-		SYNTAX 1.3.6.1.4.1.1466.115.121.1.53 ) 				       
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 ) 				       
 objectclass ( myObjectClass:3 NAME 'd1Reservation'
         DESC 'DataONE identifier reservation extension'
         SUP top
-    	STRUCTURAL
-        MUST reservationId $ subject $ identifier $ created )        
+    	STRUCTURAL 
+        MUST ( reservationId $ subject $ identifier $ created ) )        
 # d1NodeList                
 attributetype ( 
     d1NodeListAttributeType:1
