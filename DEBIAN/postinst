@@ -217,6 +217,7 @@ slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
 ## add the root entry
 echo "Adding root entry using: ${SCRIPT_DIR}/ldap/dataone.ldif"
 ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
+ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
 ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
 
 ## list the entries
