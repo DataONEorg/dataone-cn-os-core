@@ -215,7 +215,10 @@ echo "Starting slapd using: ${LDAP_CONF}/slapd.conf"
 slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
 
 ## add the root entry
-echo "Adding root entry using: ${SCRIPT_DIR}/ldap/dataone.ldif"
+# XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
+#      we need a way to switch which nodeList file we load
+echo "Adding all entries"
+ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
 ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
 ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
 ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
@@ -227,5 +230,19 @@ ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -b '
 ## done with OpenLDAP
 echo "LDAP configuration complete"
 
+echo "ETC configuration"
+## replace the token NODEIDENTIFIER in the properties file to a nodeId as deduced from this perl script
+# XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
+#   this is due to the needing to determine which ldif file 
+sleep 5
+
+NODEIDENTIFIER=`/usr/bin/perl  /usr/share/dataone-cn-os-core/debian/getD1NodeId.pl`
+if [ "$NODEIDENTIFIER" != "ERROR" ]
+then
+	sed -i.bak  's/\(cn\.nodeId\=\)NODEIDENTIFIER/\1'${NODEIDENTIFIER}'/;' /etc/dataone/node.properties
+	rm /etc/dataone/node.properties.bak
+else
+	echo "ERROR: NODE ID can not be set in /etc/dataone/node.properties cn.nodeId must be manually set"
+fi
 ######################################
 echo "Configuration of OS complete."
