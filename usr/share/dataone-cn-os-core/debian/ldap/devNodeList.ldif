@@ -2,7 +2,7 @@ dn: d1NodeId=c3p0,dc=dataone,dc=org
 d1NodeId: c3p0
 d1NodeName: cn_dev
 d1NodeDescription: Development Protocol Coordinating Node
-d1NodeBaseURL: https://cn-dev.dataone.org/cn/v1
+d1NodeBaseURL: https://cn-dev.test.dataone.org/cn/v1
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeType: cn
@@ -56,11 +56,72 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
+
+dn: d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeId: c0t2
+d1NodeName: cn_dev_2
+d1NodeDescription: Development Protocol Coordinating Node
+d1NodeBaseURL: https://cn-dev-2.test.dataone.org/cn/v1
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeType: cn
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: FALSE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,d1NodeId=c0t2,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: c0t2
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: FALSE
+objectclass: d1NodeService
+
+
+
 dn: d1NodeId=r2d2,dc=dataone,dc=org
 d1NodeId: r2d2
 d1NodeName: gmn-dev
 d1NodeDescription: Development AstroMech Member Node
-d1NodeBaseURL: https://gmn-dev.dyndns.org/mn/
+d1NodeBaseURL: https://gmn-dev.test.dataone.org/mn/
 d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeType: mn
@@ -124,7 +185,7 @@ dn: d1NodeId=m0t1,dc=dataone,dc=org
 d1NodeId: m0t1
 d1NodeName: knb-test-1
 d1NodeDescription: Development Metacat Member node
-d1NodeBaseURL: https://knb-test-1.dataone.org/knb/d1/mn
+d1NodeBaseURL: https://knb-test-1.test.dataone.org/knb/d1/mn
 d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeType: mn
