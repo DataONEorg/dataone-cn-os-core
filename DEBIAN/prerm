@@ -18,7 +18,6 @@ do
 	rm -f ${CERT}
 done
 
-rm -rf /var/lib/dataone
 
 ###############################################################################
 # Configure Apache

@@ -165,10 +165,7 @@ fi
 
 chown -R ${DATAONE_USER}.${DATAONE_USER} /var/log/dataone
 chown -R ${DATAONE_USER}.${DATAONE_USER} /var/lib/dataone
-## Start Tomcat
-echo "starting Tomcat server"
 
-/etc/init.d/${TOMCAT} start
 
 ###############################################################################
 # Configure OpenLDAP
@@ -244,5 +241,9 @@ then
 else
 	echo "ERROR: NODE ID can not be set in /etc/dataone/node.properties cn.nodeId must be manually set"
 fi
+## Start Tomcat
+echo "starting Tomcat server"
+
+/etc/init.d/${TOMCAT} start
 ######################################
 echo "Configuration of OS complete."
