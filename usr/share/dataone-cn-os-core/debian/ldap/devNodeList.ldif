@@ -2,7 +2,7 @@ dn: d1NodeId=c3p0,dc=dataone,dc=org
 d1NodeId: c3p0
 d1NodeName: cn_dev
 d1NodeDescription: Development Protocol Coordinating Node
-d1NodeBaseURL: https://cn-dev.test.dataone.org/cn/v1
+d1NodeBaseURL: https://cn-dev.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeType: cn
@@ -61,7 +61,7 @@ dn: d1NodeId=c0t2,dc=dataone,dc=org
 d1NodeId: c0t2
 d1NodeName: cn_dev_2
 d1NodeDescription: Development Protocol Coordinating Node
-d1NodeBaseURL: https://cn-dev-2.test.dataone.org/cn/v1
+d1NodeBaseURL: https://cn-dev-2.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeType: cn
