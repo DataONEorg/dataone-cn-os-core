@@ -13,7 +13,9 @@ MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn cn-ssl"
 LDAP_CONF=/etc/ldap
 LDAP_USER=openldap
-
+CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
+CA_CERT_DIR=/var/local/dataone/ca
+SSL_CERT_DIR=/etc/ssl/certs
 ##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
@@ -30,6 +32,25 @@ else
     this, SSL will not function properly."
 fi
 echo "Completed configuration of private keys."
+
+echo "Start configuration of public CA store"
+if [ ! -d ${CA_CERT_DIR} ]
+then
+	mkdir ${CA_CERT_DIR}
+	chdir 750 ${CA_CERT_DIR}
+	chown -R ${TOMCAT_USER}.${TOMCAT_USER} ${CA_CERT_DIR}
+fi
+
+for CA_CERT in ${CILOGON_CERTS}
+do
+# make a link in CA_CERT_DIR from the /etc/ssl/cert/{CA_CERT} file for the 
+# cacert's hash
+	CA_HASH=`openssl x509 -noout -hash -in ${SSL_CERT_DIR}/${CA_CERT}`
+
+	#symlink the hash value in CA_CERT_DIR back to actual cert in SSL_CERT_DIR
+	ln -s ${SSL_CERT_DIR}/${CA_CERT} ${CA_CERT_DIR}/${CA_HASH}
+done
+echo "Completed configuration of public CA store"
 
 ###############################################################################
 # Configure Apache

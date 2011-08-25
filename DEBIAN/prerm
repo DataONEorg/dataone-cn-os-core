@@ -11,12 +11,7 @@ SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn cn-ssl"
-CERTS="/etc/ssl/certs/_.dataone.org.crt /etc/ssl/certs/gd_intermediate_bundle.crt"
 
-for CERT in ${CERTS}
-do
-	rm -f ${CERT}
-done
 
 
 ###############################################################################
