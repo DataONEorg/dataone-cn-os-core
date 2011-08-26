@@ -19,6 +19,27 @@ changetype: delete
 dn: d1NodeId=c3p0,dc=dataone,dc=org
 changetype: delete
 
+dn: d1NodeServiceId=CNCore-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNRead-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNReplication-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeServiceId=CNRegister-v1,d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
+dn: d1NodeId=c0t2,dc=dataone,dc=org
+changetype: delete
+
 dn: d1NodeServiceId=MNCore-v1,d1NodeId=r2d2,dc=dataone,dc=org
 changetype: delete
 
