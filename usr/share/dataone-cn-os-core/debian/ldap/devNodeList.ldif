@@ -5,6 +5,7 @@ d1NodeDescription: Development Protocol Coordinating Node
 d1NodeBaseURL: https://cn-dev.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
+d1NodeState: up
 d1NodeType: cn
 objectclass: d1Node
 
@@ -64,6 +65,7 @@ d1NodeDescription: Development Protocol Coordinating Node
 d1NodeBaseURL: https://cn-dev-2.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
+d1NodeState: up
 d1NodeType: cn
 objectclass: d1Node
 
@@ -124,6 +126,7 @@ d1NodeDescription: Development AstroMech Member Node
 d1NodeBaseURL: https://gmn-dev.test.dataone.org/mn/
 d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
+d1NodeState: up
 d1NodeType: mn
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
@@ -132,13 +135,8 @@ d1NodeSynSchdMin: 0,5,10,15,20,25,30,35,40,45,50,55
 d1NodeSynSchdHour: *
 d1NodeSynSchdMday: *
 d1NodeSynSchdMon: *
-d1NodeSynSchdWday: *
+d1NodeSynSchdWday: ?
 d1NodeSynSchdYear: *
-d1NodeState: up
-d1NodeStatusSuccess: TRUE
-d1NodeStatusDateChecked: 1900-01-01T00:00:00Z
-d1NodePingSuccess: TRUE
-d1NodePingDateChecked: 1900-01-01T00:00:00Z
 objectclass: d1Node
 
 dn: d1NodeServiceId=MNCore-v1,d1NodeId=r2d2,dc=dataone,dc=org
@@ -188,6 +186,7 @@ d1NodeDescription: Development Metacat Member node
 d1NodeBaseURL: https://knb-test-1.test.dataone.org/knb/d1/mn
 d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
+d1NodeState: up
 d1NodeType: mn
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
@@ -196,13 +195,8 @@ d1NodeSynSchdMin: 0,5,10,15,20,25,30,35,40,45,50,55
 d1NodeSynSchdHour: *
 d1NodeSynSchdMday: *
 d1NodeSynSchdMon: *
-d1NodeSynSchdWday: *
+d1NodeSynSchdWday: ?
 d1NodeSynSchdYear: *
-d1NodeState: up
-d1NodeStatusSuccess: TRUE
-d1NodeStatusDateChecked: 1900-01-01T00:00:00Z
-d1NodePingSuccess: TRUE
-d1NodePingDateChecked: 1900-01-01T00:00:00Z
 objectclass: d1Node
 
 dn: d1NodeServiceId=MNCore-v1,d1NodeId=m0t1,dc=dataone,dc=org

@@ -48,7 +48,7 @@ do
 	CA_HASH=`openssl x509 -noout -hash -in ${SSL_CERT_DIR}/${CA_CERT}`
 
 	#symlink the hash value in CA_CERT_DIR back to actual cert in SSL_CERT_DIR
-	ln -s ${SSL_CERT_DIR}/${CA_CERT} ${CA_CERT_DIR}/${CA_HASH}
+	ln -s ${SSL_CERT_DIR}/${CA_CERT} ${CA_CERT_DIR}/${CA_HASH}.0
 done
 echo "Completed configuration of public CA store"
 
