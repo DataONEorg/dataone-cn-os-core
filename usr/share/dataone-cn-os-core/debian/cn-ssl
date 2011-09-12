@@ -12,7 +12,9 @@
 	</Directory>
 
 	Include /etc/apache2/jk_mount	
-
+	AllowEncodedSlashes On
+	AcceptPathInfo On
+	
         #   SSL Engine Switch:
         #   Enable/Disable SSL for this virtual host.
         SSLEngine on
