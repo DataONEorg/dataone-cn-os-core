@@ -123,7 +123,7 @@ dn: d1NodeId=r2d2,dc=dataone,dc=org
 d1NodeId: r2d2
 d1NodeName: gmn-dev
 d1NodeDescription: Development AstroMech Member Node
-d1NodeBaseURL: https://gmn-dev.test.dataone.org/mn/
+d1NodeBaseURL: https://gmn-dev.test.dataone.org/mn
 d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeState: up
