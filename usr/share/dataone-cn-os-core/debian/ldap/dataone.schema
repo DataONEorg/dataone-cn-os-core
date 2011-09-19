@@ -260,14 +260,14 @@ objectclass (
     d1NodeListObjectClass:1
     NAME 'd1Node'
     DESC 'DataONE Node container forms a nodeList'
-    SUP top
+    SUP device
     STRUCTURAL
     MUST (d1NodeId $ d1NodeName $ d1NodeDescription $ d1NodeBaseURL $
          d1NodeReplicate $ d1NodeSynchronize $ d1NodeState $ d1NodeType )
-    MAY( d1NodeLastHarvested $ d1NodeLastCompleteHarvest $ d1NodeSynSchdSec $ 
-        d1NodeSynSchdMin  $ d1NodeSynSchdHour $  d1NodeSynSchdMday $ 
-        d1NodeSynSchdMon $ d1NodeSynSchdWday $  d1NodeSynSchdYear $ 
-        d1NodePingSuccess $ d1NodePingDateChecked )
+    MAY( subject $ d1NodeLastHarvested $ d1NodeLastCompleteHarvest $ 
+        d1NodeSynSchdSec $ d1NodeSynSchdMin  $ d1NodeSynSchdHour $  
+        d1NodeSynSchdMday $ d1NodeSynSchdMon $ d1NodeSynSchdWday $  
+        d1NodeSynSchdYear $ d1NodePingSuccess $ d1NodePingDateChecked )
     )
 objectclass (
     d1NodeListObjectClass:2
