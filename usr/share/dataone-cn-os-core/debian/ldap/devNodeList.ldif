@@ -1,4 +1,5 @@
-dn: d1NodeId=c3p0,dc=dataone,dc=org
+dn: cn=c3p0,dc=dataone,dc=org
+cn: c3p0
 d1NodeId: c3p0
 d1NodeName: cn_dev
 d1NodeDescription: Development Protocol Coordinating Node
@@ -7,9 +8,11 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+subject: cn=c3p0,dc=dataone,dc=org
+objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNCore
@@ -17,7 +20,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNRead
@@ -25,7 +28,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNAuthorization
@@ -33,7 +36,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNIdentity
@@ -41,7 +44,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNReplication
@@ -49,7 +52,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,d1NodeId=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=c3p0,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: c3p0
 d1NodeServiceName: CNRegister
@@ -58,7 +61,8 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=c0t2,dc=dataone,dc=org
+dn: cn=c0t2,dc=dataone,dc=org
+cn: c0t2
 d1NodeId: c0t2
 d1NodeName: cn_dev_2
 d1NodeDescription: Development Protocol Coordinating Node
@@ -67,9 +71,11 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+subject: cn=c0t2,dc=dataone,dc=org
+objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNCore
@@ -77,7 +83,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNRead
@@ -85,7 +91,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNAuthorization
@@ -93,7 +99,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNIdentity
@@ -101,7 +107,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNReplication
@@ -109,7 +115,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,d1NodeId=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=c0t2,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: c0t2
 d1NodeServiceName: CNRegister
@@ -119,7 +125,8 @@ objectclass: d1NodeService
 
 
 
-dn: d1NodeId=r2d2,dc=dataone,dc=org
+dn: cn=r2d2,dc=dataone,dc=org
+cn: r2d2
 d1NodeId: r2d2
 d1NodeName: gmn-dev
 d1NodeDescription: Development AstroMech Member Node
@@ -128,6 +135,7 @@ d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeState: up
 d1NodeType: mn
+subject: cn=r2d2,dc=dataone,dc=org
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
 d1NodeSynSchdSec: 0
@@ -137,9 +145,10 @@ d1NodeSynSchdMday: *
 d1NodeSynSchdMon: *
 d1NodeSynSchdWday: ?
 d1NodeSynSchdYear: *
+objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=MNCore-v1,d1NodeId=r2d2,dc=dataone,dc=org
+dn: d1NodeServiceId=MNCore-v1,cn=r2d2,dc=dataone,dc=org
 d1NodeServiceId: MNCore-v1
 d1NodeId: r2d2
 d1NodeServiceName: MNCore
@@ -147,7 +156,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNRead-v1,d1NodeId=r2d2,dc=dataone,dc=org
+dn: d1NodeServiceId=MNRead-v1,cn=r2d2,dc=dataone,dc=org
 d1NodeServiceId: MNRead-v1
 d1NodeId: r2d2
 d1NodeServiceName: MNRead
@@ -155,7 +164,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNAuthorization-v1,d1NodeId=r2d2,dc=dataone,dc=org
+dn: d1NodeServiceId=MNAuthorization-v1,cn=r2d2,dc=dataone,dc=org
 d1NodeServiceId: MNAuthorization-v1
 d1NodeId: r2d2
 d1NodeServiceName: MNAuthorization
@@ -163,7 +172,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNStorage-v1,d1NodeId=r2d2,dc=dataone,dc=org
+dn: d1NodeServiceId=MNStorage-v1,cn=r2d2,dc=dataone,dc=org
 d1NodeServiceId: MNStorage-v1
 d1NodeId: r2d2
 d1NodeServiceName: MNStorage
@@ -171,7 +180,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNReplication-v1,d1NodeId=r2d2,dc=dataone,dc=org
+dn: d1NodeServiceId=MNReplication-v1,cn=r2d2,dc=dataone,dc=org
 d1NodeServiceId: MNReplication-v1
 d1NodeId: r2d2
 d1NodeServiceName: MNReplication
@@ -179,7 +188,8 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeId=m0t1,dc=dataone,dc=org
+dn: cn=m0t1,dc=dataone,dc=org
+cn: m0t1
 d1NodeId: m0t1
 d1NodeName: knb-test-1
 d1NodeDescription: Development Metacat Member node
@@ -188,6 +198,7 @@ d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeState: up
 d1NodeType: mn
+subject: cn=m0t1,dc=dataone,dc=org
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
 d1NodeSynSchdSec: 30
@@ -197,9 +208,10 @@ d1NodeSynSchdMday: *
 d1NodeSynSchdMon: *
 d1NodeSynSchdWday: ?
 d1NodeSynSchdYear: *
+objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=MNCore-v1,d1NodeId=m0t1,dc=dataone,dc=org
+dn: d1NodeServiceId=MNCore-v1,cn=m0t1,dc=dataone,dc=org
 d1NodeServiceId: MNCore-v1
 d1NodeId: m0t1
 d1NodeServiceName: MNCore
@@ -207,7 +219,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNRead-v1,d1NodeId=m0t1,dc=dataone,dc=org
+dn: d1NodeServiceId=MNRead-v1,cn=m0t1,dc=dataone,dc=org
 d1NodeServiceId: MNRead-v1
 d1NodeId: m0t1
 d1NodeServiceName: MNRead
@@ -215,7 +227,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNAuthorization-v1,d1NodeId=m0t1,dc=dataone,dc=org
+dn: d1NodeServiceId=MNAuthorization-v1,cn=m0t1,dc=dataone,dc=org
 d1NodeServiceId: MNAuthorization-v1
 d1NodeId: m0t1
 d1NodeServiceName: MNAuthorization
@@ -223,7 +235,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNStorage-v1,d1NodeId=m0t1,dc=dataone,dc=org
+dn: d1NodeServiceId=MNStorage-v1,cn=m0t1,dc=dataone,dc=org
 d1NodeServiceId: MNStorage-v1
 d1NodeId: m0t1
 d1NodeServiceName: MNStorage
@@ -231,7 +243,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNReplication-v1,d1NodeId=m0t1,dc=dataone,dc=org
+dn: d1NodeServiceId=MNReplication-v1,cn=m0t1,dc=dataone,dc=org
 d1NodeServiceId: MNReplication-v1
 d1NodeId: m0t1
 d1NodeServiceName: MNReplication
