@@ -1,7 +1,7 @@
 dn: cn=d1c1,dc=dataone,dc=org
 d1NodeId: d1c1
 d1NodeName: cn-unm-1
-d1NodeDescription: University of New Mexico Staging Coordinating Node
+d1NodeDescription: University of New Mexico Production Coordinating Node
 d1NodeBaseURL: https://cn-unm-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
@@ -46,7 +46,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: d1c1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=d1c1,dc=dataone,dc=org
@@ -54,14 +54,14 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: d1c1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
 dn: cn=d1c2,dc=dataone,dc=org
 d1NodeId: d1c2
 d1NodeName: cn-ucsb-1
-d1NodeDescription: University of California Santa Barbara Staging Coordinating Node
+d1NodeDescription: University of California Santa Barbara Production Coordinating Node
 d1NodeBaseURL: https://cn-ucsb-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
@@ -106,7 +106,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: d1c2
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=d1c2,dc=dataone,dc=org
@@ -114,14 +114,14 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: d1c2
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
 dn: cn=d1c3,dc=dataone,dc=org
 d1NodeId: d1c3
 d1NodeName: cn-orc-1
-d1NodeDescription: Oak Ridge National Laboratory Staging Coordinating Node
+d1NodeDescription: Oak Ridge National Laboratory Production Coordinating Node
 d1NodeBaseURL: https://cn-orc-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
@@ -166,7 +166,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: d1c3
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=d1c3,dc=dataone,dc=org
@@ -174,7 +174,7 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: d1c3
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: cn=DAAC,dc=dataone,dc=org
