@@ -256,6 +256,20 @@ attributetype (
     EQUALITY booleanMatch
     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
     )
+attributetype ( 
+	d1NodeListAttributeType:24
+	NAME 'd1NodeContactSubject'
+	DESC 'Identity responsible for Administrative functions of the Node'
+	EQUALITY distinguishedNameMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	)
+attributetype ( 
+    d1NodeListAttributeType:25
+    NAME 'd1NodeApproved'
+    DESC 'Boolean indicating if a Node is approved for addition.'
+    EQUALITY booleanMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+    )	
 objectclass (
     d1NodeListObjectClass:1
     NAME 'd1Node'
@@ -263,7 +277,8 @@ objectclass (
     SUP device
     STRUCTURAL
     MUST (d1NodeId $ d1NodeName $ d1NodeDescription $ d1NodeBaseURL $
-         d1NodeReplicate $ d1NodeSynchronize $ d1NodeState $ d1NodeType )
+         d1NodeReplicate $ d1NodeSynchronize $ d1NodeState $ d1NodeType $
+         d1NodeContactSubject $ d1NodeApproved)
     MAY( subject $ d1NodeLastHarvested $ d1NodeLastCompleteHarvest $ 
         d1NodeSynSchdSec $ d1NodeSynSchdMin  $ d1NodeSynSchdHour $  
         d1NodeSynSchdMday $ d1NodeSynSchdMon $ d1NodeSynSchdWday $  

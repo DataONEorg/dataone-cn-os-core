@@ -8,7 +8,9 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
 subject: cn=c3p0,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -71,7 +73,9 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
 subject: cn=c0t2,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -135,7 +139,9 @@ d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeState: up
 d1NodeType: mn
+d1NodeApproved: TRUE
 subject: cn=r2d2,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
 d1NodeSynSchdSec: 0
@@ -198,7 +204,9 @@ d1NodeReplicate: TRUE
 d1NodeSynchronize: TRUE
 d1NodeState: up
 d1NodeType: mn
+d1NodeApproved: TRUE
 subject: cn=m0t1,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
 d1NodeSynSchdSec: 30

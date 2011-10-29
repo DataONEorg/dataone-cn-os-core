@@ -194,15 +194,23 @@ chown -R ${DATAONE_USER}.${DATAONE_USER} /var/lib/dataone
 ###############################################################################
 # Configure OpenLDAP
 ###############################################################################
+# Only populate LDAP on first run, otherwise migrate
+POPULATE=0
+MIGRATE=0
 ## place schema extension
 if [ -e ${LDAP_CONF}/schema/dataone.schema ]
 then 
   SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
   if [ "${SCHEMA_DIFF}" != "" ]
   then
+  	MIGRATE=1
+    echo "Schema changing: Run the pre migration script"
+    ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
     echo "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
     mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
   fi
+else
+	POPULATE=1
 fi
 echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
@@ -232,18 +240,31 @@ echo "Stoping slapd"
 /etc/init.d/slapd stop
 
 ## start, using slapd.conf file
-echo "Starting slapd using: ${LDAP_CONF}/slapd.conf"
-slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
+echo "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
+#slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
+
+rm -rf /etc/ldap/slapd.d/*
+slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d
+chown -R openldap.openldap /etc/ldap/slapd.d
+
+echo "Starting slapd"
+/etc/init.d/slapd start
 
 ## add the root entry
 # XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
 #      we need a way to switch which nodeList file we load
-echo "Adding all entries"
-ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
-ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
-ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
-ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
-
+if [ ${POPULATE} > 0 ]
+then
+	echo "Adding all entries"
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+	ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
+fi
+if [ ${MIGRATE] > 0 ]
+then
+	${SCRIPT_DIR}/ldap/migrateLdap.pl
+fi
 ## list the entries
 echo "Listing LDAP entries for: dc=dataone,dc=org"
 ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -b 'dc=dataone,dc=org'		
