@@ -253,7 +253,7 @@ echo "Starting slapd"
 ## add the root entry
 # XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
 #      we need a way to switch which nodeList file we load
-if [ ${POPULATE} > 0 ]
+if [ $POPULATE -ne 0 ]
 then
 	echo "Adding all entries"
 	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
@@ -261,7 +261,7 @@ then
 	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
 	ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
 fi
-if [ ${MIGRATE] > 0 ]
+if [ $MIGRATE -ne 0 ]
 then
 	${SCRIPT_DIR}/ldap/migrateLdap.pl
 fi
