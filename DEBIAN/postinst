@@ -11,7 +11,7 @@ SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn cn-ssl"
-LDAP_CONF=/etc/ldap
+
 LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 CA_CERT_DIR=/var/local/dataone/ca
@@ -203,14 +203,14 @@ then
   SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
   if [ "${SCHEMA_DIFF}" != "" ]
   then
-  	MIGRATE=1
+    MIGRATE=1
     echo "Schema changing: Run the pre migration script"
     ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
     echo "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
     mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
   fi
 else
-	POPULATE=1
+    POPULATE=1
 fi
 echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
@@ -245,6 +245,11 @@ echo "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
 
 rm -rf /etc/ldap/slapd.d/*
 slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d
+if [ -e ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif ]
+then
+	 sed -i.bak  's/uri=\"\"//' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
+	 rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
+fi
 chown -R openldap.openldap /etc/ldap/slapd.d
 
 echo "Starting slapd"

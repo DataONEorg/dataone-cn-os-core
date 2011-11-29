@@ -269,7 +269,22 @@ attributetype (
     DESC 'Boolean indicating if a Node is approved for addition.'
     EQUALITY booleanMatch
     SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-    )	
+    )
+attributetype ( 
+    d1NodeListAttributeType:26
+    NAME 'd1ServiceMethodName'
+    DESC 'Name of a DataONE Service API Method'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+    )
+attributetype ( 
+	d1NodeListAttributeType:27
+	NAME 'd1AllowedSubject'
+	DESC 'Subject that is allowed to execute a Service Method'
+	EQUALITY distinguishedNameMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	)
 objectclass (
     d1NodeListObjectClass:1
     NAME 'd1Node'
@@ -293,4 +308,13 @@ objectclass (
     MUST (d1NodeServiceId $ d1NodeId $ d1NodeServiceName $ 
     	d1NodeServiceVersion $ d1NodeServiceAvailable )
     )
-     
+    
+objectclass (
+    d1NodeListObjectClass:3
+    NAME 'd1ServiceMethodRestriction'
+    DESC 'DataONE Node Service definition'
+    SUP top
+    STRUCTURAL
+    MUST (d1NodeServiceId $ d1NodeId $ d1ServiceMethodName )
+    MAY( d1AllowedSubject )
+    )
