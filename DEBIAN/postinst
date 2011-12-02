@@ -156,10 +156,15 @@ then
 		## have change significantly. We must manually add it to the JAVA_OPTS LINE
 		## and then change this script to handle the exact line to add it to
     else 
-       	sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\24096\3"/;' /etc/init.d/tomcat6
+    ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
+    ## developer VMs will not be able to support this amount of heap space
+    ## in fact our development environment probably can't
+    
+       	sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -XX:UseParallelGC -XX:MaxPermSize=128M -Xms8192M"/;' /etc/init.d/tomcat6
        	rm /etc/init.d/tomcat6.bak
     fi
 fi
+
 ## copy in jk.conf file
 if [ -e ${TOMCAT_HOME}/conf/server.xml ]
 then 
