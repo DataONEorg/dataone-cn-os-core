@@ -144,6 +144,22 @@ a2dissite 000-default
 echo "Stopping Tomcat"
 /etc/init.d/${TOMCAT} stop
 
+# determine if the tomcat init script has a sufficient heap size
+
+if [ -e /etc/init.d/tomcat6 ]
+then
+	CONTAINS_ENCODED_SLASH=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
+    if [ "$CONTAINS_ENCODED_SLASH" == "" ]
+	then
+		echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
+		## -Xmx is not set, that is bad, the tomcat installation must
+		## have change significantly. We must manually add it to the JAVA_OPTS LINE
+		## and then change this script to handle the exact line to add it to
+    else 
+       	sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\24096\3"/;' /etc/init.d/tomcat6
+       	rm /etc/init.d/tomcat6.bak
+    fi
+fi
 ## copy in jk.conf file
 if [ -e ${TOMCAT_HOME}/conf/server.xml ]
 then 
@@ -165,6 +181,7 @@ then
 	CONTAINS_ENCODED_SLASH=`grep 'ALLOW_ENCODED_SLASH' ${TOMCAT_HOME}/conf/catalina.properties`
     if [ "$CONTAINS_ENCODED_SLASH" == "" ]
 	then
+		
 		cp ${TOMCAT_HOME}/conf/catalina.properties ${TOMCAT_HOME}/conf/catalina.properties.${LONG_DATE}
 		echo Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
 		echo >> ${TOMCAT_HOME}/conf/catalina.properties
