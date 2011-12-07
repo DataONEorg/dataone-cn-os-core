@@ -150,7 +150,7 @@ echo "Stopping Tomcat"
 if [ -e /etc/init.d/tomcat6 ]
 then
 	CONTAINS_ENCODED_SLASH=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
-    if [ "$CONTAINS_ENCODED_SLASH" == "" ]
+    if [ "${CONTAINS_ENCODED_SLASH}" == "" ]
 	then
 		echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
 		## -Xmx is not set, that is bad, the tomcat installation must
