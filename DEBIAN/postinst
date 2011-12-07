@@ -10,6 +10,7 @@ SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
+LDAP_CONF=/etc/ldap
 SITES="cn cn-ssl"
 
 LDAP_USER=openldap
