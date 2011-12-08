@@ -149,20 +149,23 @@ echo "Stopping Tomcat"
 
 if [ -e /etc/init.d/tomcat6 ]
 then
-	CONTAINS_ENCODED_SLASH=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
+    CONTAINS_ENCODED_SLASH=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
     if [ "${CONTAINS_ENCODED_SLASH}" == "" ]
-	then
-		echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
-		## -Xmx is not set, that is bad, the tomcat installation must
-		## have change significantly. We must manually add it to the JAVA_OPTS LINE
-		## and then change this script to handle the exact line to add it to
+    then
+        echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
+        ## -Xmx is not set, that is bad, the tomcat installation must
+        ## have change significantly. We must manually add it to the JAVA_OPTS LINE
+        ## and then change this script to handle the exact line to add it to
     else 
-    ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
-    ## developer VMs will not be able to support this amount of heap space
-    ## in fact our development environment probably can't
-    
-       	sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -XX:UseParallelGC -XX:MaxPermSize=128M -Xms8192M"/;' /etc/init.d/tomcat6
-       	rm /etc/init.d/tomcat6.bak
+        CONTAINS_MAXPERMSIZE_OPTS=`egrep 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat6`
+        if [ "${CONTAINS_MAXPERMSIZE_OPTS}" == "" ]
+        then
+            ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
+            ## developer VMs will not be able to support this amount of heap space
+            ## in fact our development environment probably can't
+            sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms8192M -XX:MaxPermSize=128M"/;' /etc/init.d/tomcat6
+            rm /etc/init.d/tomcat6.bak
+        fi
     fi
 fi
 
