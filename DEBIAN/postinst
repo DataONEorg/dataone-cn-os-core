@@ -149,8 +149,8 @@ echo "Stopping Tomcat"
 
 if [ -e /etc/init.d/tomcat6 ]
 then
-    CONTAINS_ENCODED_SLASH=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
-    if [ "${CONTAINS_ENCODED_SLASH}" == "" ]
+    CONTAINS_XMX_OPTS=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
+    if [ "${CONTAINS_XMX_OPTS}" == "" ]
     then
         echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
         ## -Xmx is not set, that is bad, the tomcat installation must
@@ -172,18 +172,18 @@ fi
 
 if [ -e /etc/default/tomcat6 ]
 then
-    CONTAINS_ENCODED_SLASH=`egrep '^\#?JAVA_OPTS=\"\$\{JAVA_OPTS\} \-XX\:\+UseConcMarkSweepGC\"' /etc/default/tomcat6`
-    if [ "${CONTAINS_ENCODED_SLASH}" == "" ]
+    CONTAINS_CONCMARKSWEEP_OPTS=`egrep '^\#?JAVA_OPTS\=".\{JAVA_OPTS\}.+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat6`
+    if [ "${CONTAINS_CONCMARKSWEEP_OPTS}" == "" ]
     then
     	echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/tomcat6
     else 
-        CONTAINS_MAXPERMSIZE_OPTS=`egrep 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat6`
-        if [ "${CONTAINS_MAXPERMSIZE_OPTS}" == "" ]
+        CONTAINS_USEPARALLEL_OPTS=`egrep 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat6`
+        if [ "${CONTAINS_USEPARALLEL_OPTS}" == "" ]
         then
             ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
             ## developer VMs will not be able to support this amount of heap space
             ## in fact our development environment probably can't
-            sed -i.bak --regexp-extended 's/^\#?JAVA_OPTS=\"\$\{JAVA_OPTS\} \-XX\:\+UseConcMarkSweepGC\"/JAVA_OPTS="\$\{JAVA_OPTS\} \-XX\:\+UseParallelGC"/;' /etc/default/tomcat6
+            sed -i.bak --regexp-extended 's/^\#?JAVA_OPTS=\".\{JAVA_OPTS\}.+\-XX\:\+UseConcMarkSweepGC\"/JAVA_OPTS="\$\{JAVA_OPTS\} \-XX\:\+UseParallelGC"/;' /etc/default/tomcat6
             rm /etc/default/tomcat6.bak
         fi
     fi
