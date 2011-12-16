@@ -240,7 +240,6 @@ else
 fi
 
 chown -R ${DATAONE_USER}.${DATAONE_USER} /var/log/dataone
-chown -R ${DATAONE_USER}.${DATAONE_USER} /var/lib/dataone
 
 
 ###############################################################################
@@ -264,8 +263,16 @@ then
 else
     POPULATE=1
 fi
+if [ $POPULATE -ne 0 ]
+then
+	echo "Adding non dataone schema specific entries"
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
+	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+fi
 echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
+chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
 
 ## place slapd.conf template
 if [ -e ${LDAP_CONF}/slapd.conf ]
@@ -285,10 +292,13 @@ echo "YOU MUST EDIT THE CONFIGURATION FILE: ${LDAP_CONF}/slapd.conf"
 
 ## set permissions 
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
-chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
+
+# try to add the dc=org before going through the rest of the routine
+# the worst that could happen is a denied message
+
 
 ## stop the default service
-echo "Stoping slapd"
+echo "Stopping slapd"
 /etc/init.d/slapd stop
 
 ## start, using slapd.conf file
@@ -307,15 +317,12 @@ chown -R openldap.openldap /etc/ldap/slapd.d
 echo "Starting slapd"
 /etc/init.d/slapd start
 
-## add the root entry
+
 # XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
 #      we need a way to switch which nodeList file we load
 if [ $POPULATE -ne 0 ]
 then
-	echo "Adding all entries"
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+	echo "Adding all dataone schema specific entries"
 	ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
 fi
 if [ $MIGRATE -ne 0 ]
