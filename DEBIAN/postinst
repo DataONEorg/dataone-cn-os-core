@@ -164,10 +164,18 @@ then
             ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
             ## developer VMs will not be able to support this amount of heap space
             ## in fact our development environment probably can't
-            sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms8192M -XX:MaxPermSize=128M"/;' /etc/init.d/tomcat6
+            sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat6
             rm /etc/init.d/tomcat6.bak
         fi
     fi
+    CONTAINS_ULIMIT_SETTINGS=`egrep 'ulimit.+\-Hn' /etc/init.d/tomcat6`
+    if [ "${CONTAINS_ULIMIT_SETTINGS}" == "" ]
+    then
+		sed -i.bak --regexp-extended 's/^(.+start\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;
+			s/^(.+restart\|force\-reload\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;' /etc/init.d/tomcat6
+		rm /etc/init.d/tomcat6.bak
+	ulimit -Hn 16384
+	ulimit -Sn 16384
 fi
 
 if [ -e /etc/default/tomcat6 ]
@@ -340,5 +348,9 @@ fi
 echo "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
+
+#open up the correct port for ldap
+ufw allow 389 
+
 ######################################
 echo "Configuration of OS complete."
