@@ -68,10 +68,10 @@ echo "Stopping Tomcat"
 
 ## restore server.xml
 
-rm -f ${TOMCAT_HOME}/conf/server.xml
 # this mv code does not work, mv thinks /conf/server.xml is a directory. fix it
-mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
-mv ${TOMCAT_HOME}/conf/catalina.properties.* ${TOMCAT_HOME}/conf/catalina.properties
+#rm -f ${TOMCAT_HOME}/conf/server.xml
+#mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
+#mv ${TOMCAT_HOME}/conf/catalina.properties.* ${TOMCAT_HOME}/conf/catalina.properties
 
 if [ -e "/var/log/dataone" ]
 then
