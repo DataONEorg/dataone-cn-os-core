@@ -174,8 +174,7 @@ then
 		sed -i.bak --regexp-extended 's/^(.+start\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;
 			s/^(.+restart\|force\-reload\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;' /etc/init.d/tomcat6
 		rm /etc/init.d/tomcat6.bak
-	ulimit -Hn 16384
-	ulimit -Sn 16384
+	fi
 fi
 
 if [ -e /etc/default/tomcat6 ]
