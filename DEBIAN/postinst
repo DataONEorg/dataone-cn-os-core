@@ -265,10 +265,15 @@ else
 fi
 if [ $POPULATE -ne 0 ]
 then
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
 	echo "Adding non dataone schema specific entries"
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/org.ldif
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/dataone.ldif
-	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
+	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
 fi
 echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
