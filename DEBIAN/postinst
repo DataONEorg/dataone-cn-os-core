@@ -17,6 +17,15 @@ LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
+
+##################################################################
+# Set up logging for background processes
+##################################################################
+if [ ! -e /var/log/dataone ]
+	mkdir  /var/log/dataone
+	chown tomcat6.tomcat6 /var/log/dataone
+fi
+
 ##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
@@ -146,6 +155,7 @@ echo "Stopping Tomcat"
 /etc/init.d/${TOMCAT} stop
 
 # determine if the tomcat init script has a sufficient heap size
+# XXX the below configuration needs to be altered per environment
 
 if [ -e /etc/init.d/tomcat6 ]
 then
@@ -232,14 +242,6 @@ chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/log/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/cache/tomcat6
 chown -R ${TOMCAT_USER}.${TOMCAT_USER} /usr/share/tomcat6
 
-if [ -e "/var/log/dataone" ]
-then
-  echo "/var/log/dataone already exists"
-else
-  mkdir /var/log/dataone
-fi
-
-chown -R ${DATAONE_USER}.${DATAONE_USER} /var/log/dataone
 
 
 ###############################################################################
@@ -308,7 +310,7 @@ echo "Stopping slapd"
 
 ## start, using slapd.conf file
 echo "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
-#slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -f /etc/ldap/slapd.conf
+#slapd -h 'ldap:/// ldapi:///' -g ${LDAP_USER} -u ${LDAP_USER} -f /etc/ldap/slapd.conf
 
 rm -rf /etc/ldap/slapd.d/*
 slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d
@@ -317,7 +319,7 @@ then
 	 sed -i.bak  's/uri=\"\"//' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
 	 rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
 fi
-chown -R openldap.openldap /etc/ldap/slapd.d
+chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d
 
 echo "Starting slapd"
 /etc/init.d/slapd start
