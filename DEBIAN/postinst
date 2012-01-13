@@ -21,7 +21,8 @@ SSL_CERT_DIR=/etc/ssl/certs
 ##################################################################
 # Set up logging for background processes
 ##################################################################
-if [ ! -e /var/log/dataone ]
+if [ ! -e "/var/log/dataone" ]
+then
 	mkdir  /var/log/dataone
 	chown tomcat6.tomcat6 /var/log/dataone
 fi
