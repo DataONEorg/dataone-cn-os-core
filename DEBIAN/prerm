@@ -73,10 +73,10 @@ echo "Stopping Tomcat"
 #mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
 #mv ${TOMCAT_HOME}/conf/catalina.properties.* ${TOMCAT_HOME}/conf/catalina.properties
 
-if [ -e "/var/log/dataone" ]
-then
-  rm -rf "/var/log/dataone already exists"
-fi
+#if [ -e "/var/log/dataone" ]
+#then
+#  rm -rf "/var/log/dataone already exists"
+#fi
 
 ## Start Tomcat
 echo "starting Tomcat server"
