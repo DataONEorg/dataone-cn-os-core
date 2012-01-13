@@ -181,8 +181,7 @@ then
     CONTAINS_ULIMIT_SETTINGS=`egrep 'ulimit.+\-Hn' /etc/init.d/tomcat6`
     if [ "${CONTAINS_ULIMIT_SETTINGS}" == "" ]
     then
-		sed -i.bak --regexp-extended 's/^(.+start\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;
-			s/^(.+restart\|force\-reload\).*$)/\1\n        ulimit -Hn 16384\n        ulimit -Sn 16384\n/;' /etc/init.d/tomcat6
+		sed -i.bak --regexp-extended 's/^(\#\!\/bin\/sh.*$)/\1\n  ulimit -Hn 16384\n  ulimit -Sn 16384\n/;' /etc/init.d/tomcat6
 		rm /etc/init.d/tomcat6.bak
 	fi
 fi
