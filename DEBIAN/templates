@@ -1,0 +1,67 @@
+Template: dataone-cn-os-core/cn.context.label
+Description: Which deployment environment?
+ Choose a deployment environment to install from the list
+Default: DEV
+Type: select
+Choices: DEV, STAGE, SANDBOX, PRODUCTION
+
+Template: dataone-cn-os-core/cn.dev.iplist
+Description: List the IP adresses:
+ The IP addresses for each Coordinating Node in the environment are needed to
+ configure LDAP, Hazelcast, and other services. Provide a space-separated list
+ of IP addresses.
+Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Type: string
+
+Template: dataone-cn-os-core/cn.stage.iplist
+Description: List the IP adresses:
+ The IP addresses for each Coordinating Node in the environment are needed to
+ configure LDAP, Hazelcast, and other services. Provide a space-separated list
+ of IP addresses.
+Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Type: string
+
+Template: dataone-cn-os-core/cn.sandbox.iplist
+Description: List the IP adresses:
+ The IP addresses for each Coordinating Node in the environment are needed to
+ configure LDAP, Hazelcast, and other services. Provide a space-separated list
+ of IP addresses.
+Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Type: string
+
+Template: dataone-cn-os-core/cn.production.iplist
+Description: List the IP adresses:
+ The IP addresses for each Coordinating Node in the environment are needed to
+ configure LDAP, Hazelcast, and other services. Provide a space-separated list
+ of IP addresses.
+Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Type: string
+
+Template: dataone-cn-os-core/cn.openldap.populated
+Description: Is the LDAP database populated?
+  The LDAP database should only be populated on the first run of the
+  installation, otherwise it should be migrated.
+Default: false
+Type: boolean
+
+Template: dataone-cn-os-core/cn.openldap.password
+Description: What is the LDAP database admin password?
+  Provide the LDAP database password for the administrative user.
+Type: password
+
+Template: dataone-cn-os-core/cn.openldap.synchronized
+Description: Synchronize the LDAP database across CNs?
+ The CN environment can be stand-alone (one CN), or synchronized via LDAP with
+ the other defined CNs.
+Default: false
+Type: boolean
+
+Template: dataone-cn-os-core/cn.openldap.serverID
+Description: What is the unique LDAP serverID for this CN?
+ When the CN environment is synchronized via LDAP, each CN MUST have a 
+ unique serverID defined in the LDAP configuration. Set the other CNs
+ in the environment to a number other than this.
+Default: 1
+Type: select
+Choices: 1, 2, 3
+

@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# source the debconf library
+if [ -e "/usr/share/debconf/confmodule" ]; then
+    . /usr/share/debconf/confmodule
+else
+    echo "debconf must be installed. Exiting."
+    exit 1
+fi
+
+# Reminder: don't echo to stdout, it messes up debconf
+
 LONG_DATE=`date +%Y%m%d%H%M%S`
 
 TOMCAT=tomcat6
@@ -10,6 +20,7 @@ SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
+D1_CONF=/etc/dataone
 LDAP_CONF=/etc/ldap
 SITES="cn cn-ssl"
 
@@ -17,16 +28,59 @@ LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
+D1_LOG_DIR=/var/log/dataone
+if [ ! -e ${D1_LOG_DIR} ]; then
+    mkdir -p ${D1_LOG_DIR}
+fi
 
 ##################################################################
 # Set up logging for background processes
 ##################################################################
-if [ ! -e "/var/log/dataone" ]
-then
-	mkdir  /var/log/dataone
+if [ ! -e "/var/log/dataone" ]; then
+	mkdir  -p /var/log/dataone
 	chown tomcat6.tomcat6 /var/log/dataone
 fi
 
+# functions to echo to STDERR or the install log instead of STDOUT
+logError () {
+    echo -e "$@" 1>&2
+}
+
+log () {
+    echo -e "$@" >> ${D1_LOG_DIR}/dataone-cn-os-core.install.log
+}
+
+# Fetch the cn.context.label from the debconf database and set the per-environment variables
+db_get dataone-cn-os-core/cn.context.label
+CONTEXT=${RET}
+# Set the pre-configured selection values
+debconf-set-selections "${D1_CONF_DIR}/d1-${CONTEXT,,}-environment.conf"
+
+log "Context is: ${CONTEXT}"
+
+##################################################################
+# Set the context of the deployment (DEV, STAGE, SANDBOX, PRODUCTION)
+##################################################################
+CONTEXT_LABEL="cn.context.label"
+NODE_PROPS="$D1_CONF/node.properties"
+
+if [ -e ${NODE_PROPS} ]; then
+    sed -i.bak "s/\(${CONTEXT_LABEL} *=\).*/\1${CONTEXT}/" ${NODE_PROPS}
+else
+    log "The file ${NODE_PROPS} must be in place to proceed."
+    exit 1;
+fi
+
+# set the properties associated with this context
+IPLIST_LABEL="cn.${CONTEXT,,}.iplist"
+
+if [ -e ${NODE_PROPS} ]; then
+    # Fetch the context's ip list from the debconf database
+    db_get dataone-cn-os-core/cn.${CONTEXT,,}.iplist
+    sed -i.bak "s/\(${IPLIST_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+else
+    log "Couldn't set the IP list correctly."
+fi
 ##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
@@ -34,114 +88,107 @@ fi
 ##################################################################
 KEY_FILE=${HOME}/dataone_org.key
 KEY_DIR=/etc/ssl/private/
-if [ -e ${KEY_FILE} ]
-then
-    echo "Copying private key: ${KEY_FILE}."
+if [ -e ${KEY_FILE} ];then
+    log "Copying private key: ${KEY_FILE}."
     cp ${KEY_FILE} ${KEY_DIR}
+    log "Completed configuration of private keys."
 else
-    echo "Key file is missing.  Please provide it as ${KEY_FILE}. Without
+    log "Key file is missing.  Please provide it as ${KEY_FILE}. Without
     this, SSL will not function properly."
 fi
-echo "Completed configuration of private keys."
 
-echo "Start configuration of public CA store"
-if [ ! -d ${CA_CERT_DIR} ]
-then
-	mkdir ${CA_CERT_DIR}
+log "Start configuration of public CA store"
+if [ ! -d ${CA_CERT_DIR} ]; then
+	mkdir -p ${CA_CERT_DIR}
 	chdir 750 ${CA_CERT_DIR}
-	chown -R ${TOMCAT_USER}.${TOMCAT_USER} ${CA_CERT_DIR}
+	chown -R ${TOMCAT_USER}:${TOMCAT_USER} ${CA_CERT_DIR}
 fi
 
 for CA_CERT in ${CILOGON_CERTS}
-do
-# make a link in CA_CERT_DIR from the /etc/ssl/cert/{CA_CERT} file for the 
-# cacert's hash
-	CA_HASH=`openssl x509 -noout -hash -in ${SSL_CERT_DIR}/${CA_CERT}`
-
-	#symlink the hash value in CA_CERT_DIR back to actual cert in SSL_CERT_DIR
-	ln -s ${SSL_CERT_DIR}/${CA_CERT} ${CA_CERT_DIR}/${CA_HASH}.0
-done
-echo "Completed configuration of public CA store"
+    do
+    # make a link in CA_CERT_DIR from the /etc/ssl/cert/{CA_CERT} file for the 
+    # cacert's hash
+    	CA_HASH=`openssl x509 -noout -hash -in ${SSL_CERT_DIR}/${CA_CERT}`
+    
+    	#symlink the hash value in CA_CERT_DIR back to actual cert in SSL_CERT_DIR
+    	ln -s ${SSL_CERT_DIR}/${CA_CERT} ${CA_CERT_DIR}/${CA_HASH}.0
+    done
+log "Completed configuration of public CA store"
 
 ###############################################################################
 # Configure Apache
 ###############################################################################
 
 ## Stop apache
-echo "Stopping Apache"
+log "Stopping Apache"
 /etc/init.d/apache2 stop
 
 ## make certain we have a directory for the JKMount directives of our apps
-if [ ! -d ${APACHE_CONF}/jk_mount ]
-then
-	mkdir ${APACHE_CONF}/jk_mount
+if [ ! -d ${APACHE_CONF}/jk_mount ]; then
+	mkdir -p ${APACHE_CONF}/jk_mount
 	chdir 750 ${APACHE_CONF}/jk_mount
 fi
 
 ## copy in jk.conf file
-if [ -e ${APACHE_CONF}/mods-available/jk.conf ]
-then 
-  JK_CONF_DIFF=`diff ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf`
-  if [ "${JK_CONF_DIFF}" != "" ]
-  then
-    echo "Backing up ${APACHE_CONF}/mods-available/jk.conf to ${APACHE_CONF}/mods-available/jk.conf.${LONG_DATE}"
-    mv ${APACHE_CONF}/mods-available/jk.conf ${APACHE_CONF}/mods-available/jk.conf.${LONG_DATE}
-  fi
+if [ -e ${APACHE_CONF}/mods-available/jk.conf ]; then 
+    JK_CONF_DIFF=`diff ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf`
+    if [ "${JK_CONF_DIFF}" != "" ]; then
+        log "Backing up ${APACHE_CONF}/mods-available/jk.conf to ${APACHE_CONF}/mods-available/jk.conf.${LONG_DATE}"
+        mv ${APACHE_CONF}/mods-available/jk.conf ${APACHE_CONF}/mods-available/jk.conf.${LONG_DATE}
+    fi
 fi
-echo "Copying jk.conf to ${APACHE_CONF}/mods-available/"
+log "Copying jk.conf to ${APACHE_CONF}/mods-available/"
 cp ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/
 
 ## copy in workers.properties file for mod-jk
-if [ -e ${MOD_JK_CONF}/workers.properties ]
-then 
+if [ -e ${MOD_JK_CONF}/workers.properties ]; then 
   WORKERS_PROPS_DIFF=`diff ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/workers.properties`
-  if [ "${WORKERS_PROPS_DIFF}" != "" ]
-  then
-    echo "Backing up ${MOD_JK_CONF}/workers.properties to ${MOD_JK_CONF}/workers.properties.${LONG_DATE}"
-    mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
-  fi
+    if [ "${WORKERS_PROPS_DIFF}" != "" ]; then
+        log "Backing up ${MOD_JK_CONF}/workers.properties to ${MOD_JK_CONF}/workers.properties.${LONG_DATE}"
+        mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
+    fi
 fi
-echo "Copying workers.properties to ${MOD_JK_CONF}/"
+log "Copying workers.properties to ${MOD_JK_CONF}/"
 cp ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/
 
 ## copy in site configuration files
 for SITE in ${SITES}
-do
-    if [ -e ${APACHE_CONF}/sites-available/${SITE} ]
-    then 
-      SITE_DIFF=`diff ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/${SITE}`
-      if [ "${SITE_DIFF}" != "" ]
-      then
-        echo "Backing up ${APACHE_CONF}/sites-available/${SITE} to ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}"
-        mv ${APACHE_CONF}/sites-available/${SITE} ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}
-      fi
-    fi
-    echo "Copying ${SITE} site file to ${APACHE_CONF}/sites-available/"
-    cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/
-    ## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
-    # HOSTNAME=`perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts`
-    
-    ## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
-    HOSTNAME=`/bin/hostname -f`
-    if [ "$HOSTNAME" != "" ]
-    then
-      sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
-    else
-      echo "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
-    fi
-    ## enable ${SITE} site
-    echo "Enabling ${SITE} site"
-    a2dissite ${SITE}
-    a2ensite ${SITE}
-done
+    do
+        if [ -e ${APACHE_CONF}/sites-available/${SITE} ]
+        then 
+          SITE_DIFF=`diff ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/${SITE}`
+          if [ "${SITE_DIFF}" != "" ]
+          then
+            log "Backing up ${APACHE_CONF}/sites-available/${SITE} to ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}"
+            mv ${APACHE_CONF}/sites-available/${SITE} ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}
+          fi
+        fi
+        log "Copying ${SITE} site file to ${APACHE_CONF}/sites-available/"
+        cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/
+        ## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
+        # HOSTNAME=`perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts`
+        
+        ## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
+        HOSTNAME=`/bin/hostname -f`
+        if [ "$HOSTNAME" != "" ]
+        then
+          sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
+        else
+          log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
+        fi
+        ## enable ${SITE} site
+        log "Enabling ${SITE} site"
+        a2dissite ${SITE}
+        a2ensite ${SITE}
+    done
 
 # Turn on the ssl module
-echo "Refreshing Mod SSL"
+log "Refreshing Mod SSL"
 a2dismod ssl
 a2enmod ssl
 
 ## disable and then re-enable mod jk to pick up changes
-echo "Refreshing Mod JK"
+log "Refreshing Mod JK"
 a2dismod jk
 a2enmod jk
 
@@ -152,18 +199,17 @@ a2dissite 000-default
 /etc/init.d/apache2 start
 
 ## Stop tomcat
-echo "Stopping Tomcat"
+log "Stopping Tomcat"
 /etc/init.d/${TOMCAT} stop
 
 # determine if the tomcat init script has a sufficient heap size
 # XXX the below configuration needs to be altered per environment
 
-if [ -e /etc/init.d/tomcat6 ]
-then
+if [ -e /etc/init.d/tomcat6 ]; then
     CONTAINS_XMX_OPTS=`egrep 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6`
     if [ "${CONTAINS_XMX_OPTS}" == "" ]
     then
-        echo "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
+        log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
         ## -Xmx is not set, that is bad, the tomcat installation must
         ## have change significantly. We must manually add it to the JAVA_OPTS LINE
         ## and then change this script to handle the exact line to add it to
@@ -187,19 +233,15 @@ then
 	fi
 fi
 
-if [ -e /etc/default/tomcat6 ]
-then
+if [ -e /etc/default/tomcat6 ]; then
 	CONTAINS_USEPARALLEL_OPTS=`egrep 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat6`
     CONTAINS_CONCMARKSWEEP_OPTS=`egrep '^\#?JAVA_OPTS\=".\{JAVA_OPTS\}.+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat6`
-    if [ "${CONTAINS_CONCMARKSWEEP_OPTS}" == "" ]
-    then
-    	if [ "${CONTAINS_USEPARALLEL_OPTS}" == "" ]
-    	then
+    if [ "${CONTAINS_CONCMARKSWEEP_OPTS}" == "" ]; then
+    	if [ "${CONTAINS_USEPARALLEL_OPTS}" == "" ]; then
     		echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/tomcat6
     	fi
     else 
-        if [ "${CONTAINS_USEPARALLEL_OPTS}" == "" ]
-        then
+        if [ "${CONTAINS_USEPARALLEL_OPTS}" == "" ]; then
             ## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
             ## developer VMs will not be able to support this amount of heap space
             ## in fact our development environment probably can't
@@ -209,29 +251,25 @@ then
     fi
 fi
 ## copy in jk.conf file
-if [ -e ${TOMCAT_HOME}/conf/server.xml ]
-then 
+if [ -e ${TOMCAT_HOME}/conf/server.xml ]; then 
   JK_CONF_DIFF=`diff ${SCRIPT_DIR}/server.xml ${TOMCAT_HOME}/conf/server.xml`
-  if [ "${JK_CONF_DIFF}" != "" ]
-  then
-    echo "Backing up ${TOMCAT_HOME}/conf/server.xml to ${TOMCAT_HOME}/conf/server.xml.${LONG_DATE}"
+  if [ "${JK_CONF_DIFF}" != "" ]; then
+    log "Backing up ${TOMCAT_HOME}/conf/server.xml to ${TOMCAT_HOME}/conf/server.xml.${LONG_DATE}"
     mv ${TOMCAT_HOME}/conf/server.xml ${TOMCAT_HOME}/conf/server.xml.${LONG_DATE}
   fi
 fi
-echo "Copying server.xml to ${TOMCAT_HOME}/conf/"
+log "Copying server.xml to ${TOMCAT_HOME}/conf/"
 cp ${SCRIPT_DIR}/server.xml ${TOMCAT_HOME}/conf/
 
 
 # add slash-handling properties to catalina.properties file
 # (tomcat doesn't support include, so need to add it to the main file)
-if [ -e ${TOMCAT_HOME}/conf/catalina.properties ]
-then
+if [ -e ${TOMCAT_HOME}/conf/catalina.properties ]; then
 	CONTAINS_ENCODED_SLASH=`grep 'ALLOW_ENCODED_SLASH' ${TOMCAT_HOME}/conf/catalina.properties`
-    if [ "$CONTAINS_ENCODED_SLASH" == "" ]
-	then
+    if [ "$CONTAINS_ENCODED_SLASH" == "" ]; then
 		
 		cp ${TOMCAT_HOME}/conf/catalina.properties ${TOMCAT_HOME}/conf/catalina.properties.${LONG_DATE}
-		echo Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
+		log Appending slash-handling Java system properties to  ${TOMCAT_HOME}/conf/catalina.properties
 		echo >> ${TOMCAT_HOME}/conf/catalina.properties
         echo \# Dataone configuration for handling encoded slash and backslashes >> ${TOMCAT_HOME}/conf/catalina.properties
         echo org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true >> ${TOMCAT_HOME}/conf/catalina.properties
@@ -239,11 +277,11 @@ then
     fi
 fi
 
-chown -R ${TOMCAT_USER}.${TOMCAT_USER} /etc/tomcat6
-chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/lib/tomcat6
-chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/log/tomcat6
-chown -R ${TOMCAT_USER}.${TOMCAT_USER} /var/cache/tomcat6
-chown -R ${TOMCAT_USER}.${TOMCAT_USER} /usr/share/tomcat6
+chown -R ${TOMCAT_USER}:${TOMCAT_USER} /etc/tomcat6
+chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/lib/tomcat6
+chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/tomcat6
+chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/cache/tomcat6
+chown -R ${TOMCAT_USER}:${TOMCAT_USER} /usr/share/tomcat6
 
 
 
@@ -251,54 +289,103 @@ chown -R ${TOMCAT_USER}.${TOMCAT_USER} /usr/share/tomcat6
 # Configure OpenLDAP
 ###############################################################################
 # Only populate LDAP on first run, otherwise migrate
-POPULATE=0
-MIGRATE=0
-## place schema extension
-if [ -e ${LDAP_CONF}/schema/dataone.schema ]
-then 
-  SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
-  if [ "${SCHEMA_DIFF}" != "" ]
-  then
-    MIGRATE=1
-    echo "Schema changing: Run the pre migration script"
-    ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
-    echo "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
-    mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
-  fi
-else
-    POPULATE=1
-fi
-if [ $POPULATE -ne 0 ]
-then
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+log "Configuring OpenLDAP"
 
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
-	echo "Adding non dataone schema specific entries"
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
-	sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+## place schema extension
+db_get dataone-cn-os-core/cn.openldap.populated
+if [ "$RET" = "false" ]; then
+    log "Populating the LDAP database for the first time"
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+    
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
+    log "Adding non dataone schema specific entries"
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
+    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+    # Update the debconf database
+    db_set dataone-cn-os-core/cn.openldap.populated true
+    db_fset dataone-cn-os-core/cn.openldap.populated seen true
+else
+    log "LDAP database has been populated. Evaluating migration."
+    if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
+        SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
+        if [ "${SCHEMA_DIFF}" != "" ]; then
+            log "Schema changing: Run the pre migration script"
+            ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
+            log "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
+            mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
+        fi
+    fi
 fi
-echo "Copying dataone.schema to ${LDAP_CONF}/schema/"
+
+log "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
 
 ## place slapd.conf template
-if [ -e ${LDAP_CONF}/slapd.conf ]
-then 
+if [ -e ${LDAP_CONF}/slapd.conf ]; then 
   SLAPD_DIFF=`diff ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/slapd.conf`
-  if [ "${SLAPD_DIFF}" != "" ]
-  then
-    echo "Backing up ${LDAP_CONF}/slapd.conf to ${LDAP_CONF}/slapd.conf.${LONG_DATE}"
+  if [ "${SLAPD_DIFF}" != "" ]; then
+    log "Backing up ${LDAP_CONF}/slapd.conf to ${LDAP_CONF}/slapd.conf.${LONG_DATE}"
     mv ${LDAP_CONF}/slapd.conf ${LDAP_CONF}/slapd.conf.${LONG_DATE}
   fi
 fi
-echo "Copying slapd.conf to ${LDAP_CONF}/"
+log "Copying slapd.conf to ${LDAP_CONF}/"
 cp ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/
 
-## TODO: configure the file with correct values (passwords)
-echo "YOU MUST EDIT THE CONFIGURATION FILE: ${LDAP_CONF}/slapd.conf"
+## Configure the slapd.conf file with correct values
+if [ -e ${LDAP_CONF}/slapd.conf ]; then
+    # Fetch the ldap rootpw from the debconf database
+    db_get dataone-cn-os-core/cn.openldap.password
+    LDAP_PASS=${RET}
+    sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
+    db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
+    
+    # Set up sychronization across the listed servers
+    let count=0
+    SYNC_SETTINGS="\n"; # synchronization definitions and settings
+    db_get dataone-cn-os-core/cn.openldap.synchronized
+    if [ "${RET}" = "true" ]; then
+        db_get dataone-cn-os-core/cn.${CONTEXT,,}.iplist
+        for address in ${RET}; 
+            do
+                let count=${count}+1
+                log "Adding LDAP sync config for ${address}"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncRepl rid=${count}"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap://${address}:389"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbinddn=\"cn=admin,dc=dataone,dc=org\""
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbindmethod=simple"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tsearchbase=\"dc=org\""
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttype=refreshAndPersist"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
+            done
+        SYNC_SETTINGS="${SYNC_SETTINGS}\n\nmirrormode on"
+        SYNC_SETTINGS="${SYNC_SETTINGS}\noverlay syncprov"
+        SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncprov-checkpoint 100 10"
+        SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncprov-sessionlog 100\n"
+        
+        # Fetch the ldap serverID from the debconf database
+        db_get dataone-cn-os-core/cn.openldap.serverID
+        SYNC_CONF="${RET}${SYNC_SETTINGS}"
+        log ${SYNC_CONF}
+        sed -i.bak "s/^\(serverID *\).*/\1${SYNC_CONF}/" ${LDAP_CONF}/slapd.conf
+    
+    else
+        # Fetch the ldap serverID from the debconf database
+        db_get dataone-cn-os-core/cn.openldap.serverID
+        log "No LDAP replication selected. Setting serverID only."
+        sed -i.bak "s/^\(serverID *\).*/\1           ${RET}/" ${LDAP_CONF}/slapd.conf
+        
+    fi
+    
+else
+    log "Couldn't set LDAP configuration correctly. Configure ${LDAP_CONF}/slapd.conf manually."
+fi
 
 ## set permissions 
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
@@ -308,11 +395,11 @@ chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
 
 
 ## stop the default service
-echo "Stopping slapd"
+log "Stopping slapd"
 /etc/init.d/slapd stop
 
 ## start, using slapd.conf file
-echo "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
+log "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
 #slapd -h 'ldap:/// ldapi:///' -g ${LDAP_USER} -u ${LDAP_USER} -f /etc/ldap/slapd.conf
 
 rm -rf /etc/ldap/slapd.d/*
@@ -324,29 +411,28 @@ then
 fi
 chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d
 
-echo "Starting slapd"
+log "Starting slapd"
 /etc/init.d/slapd start
 
 
 # XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
 #      we need a way to switch which nodeList file we load
-if [ $POPULATE -ne 0 ]
-then
-	echo "Adding all dataone schema specific entries"
-	ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/devNodeList.ldif
-fi
-if [ $MIGRATE -ne 0 ]
-then
-	${SCRIPT_DIR}/ldap/migrateLdap.pl
+db_get dataone-cn-os-core/cn.openldap.populated
+if [ "${RET}" = "false" ]; then
+    log "Adding all dataone schema specific entries"
+    ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif
+else
+    log "Migrating all dataone schema specific entries"
+    ${SCRIPT_DIR}/ldap/migrateLdap.pl
 fi
 ## list the entries
-echo "Listing LDAP entries for: dc=dataone,dc=org"
+log "Listing LDAP entries for: dc=dataone,dc=org"
 ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -b 'dc=dataone,dc=org'		
 
 ## done with OpenLDAP
-echo "LDAP configuration complete"
+log "LDAP configuration complete"
 
-echo "ETC configuration"
+log "ETC configuration"
 ## replace the token NODEIDENTIFIER in the properties file to a nodeId as deduced from this perl script
 # XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
 #   this is due to the needing to determine which ldif file 
@@ -358,10 +444,10 @@ then
 	sed -i.bak  's/\(cn\.nodeId\=\)NODEIDENTIFIER/\1'${NODEIDENTIFIER}'/;' /etc/dataone/node.properties
 	rm /etc/dataone/node.properties.bak
 else
-	echo "ERROR: NODE ID can not be set in /etc/dataone/node.properties cn.nodeId must be manually set"
+	log "ERROR: NODE ID can not be set in /etc/dataone/node.properties cn.nodeId must be manually set"
 fi
 ## Start Tomcat
-echo "starting Tomcat server"
+log "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
 
@@ -369,4 +455,5 @@ echo "starting Tomcat server"
 ufw allow 389 
 
 ######################################
-echo "Configuration of OS complete."
+db_stop
+log "Configuration of OS complete."
