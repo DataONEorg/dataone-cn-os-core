@@ -7,6 +7,11 @@
 
 # functions to echo to STDERR or the install log instead of STDOUT
 D1_LOG_DIR=/var/log/dataone
+
+if [ !-e $D!_LOG_DIR ]; then
+    mkdir -p $D1_LOG_DIR
+fi
+
 logError () {
     echo "$@" 1>&2;
 }
