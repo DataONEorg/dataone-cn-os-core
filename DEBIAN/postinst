@@ -100,7 +100,7 @@ fi
 log "Start configuration of public CA store"
 if [ ! -d ${CA_CERT_DIR} ]; then
 	mkdir -p ${CA_CERT_DIR}
-	chdir 750 ${CA_CERT_DIR}
+	chmod 750 ${CA_CERT_DIR}
 	chown -R ${TOMCAT_USER}:${TOMCAT_USER} ${CA_CERT_DIR}
 fi
 
@@ -126,7 +126,7 @@ log "Stopping Apache"
 ## make certain we have a directory for the JKMount directives of our apps
 if [ ! -d ${APACHE_CONF}/jk_mount ]; then
 	mkdir -p ${APACHE_CONF}/jk_mount
-	chdir 750 ${APACHE_CONF}/jk_mount
+	chmod 750 ${APACHE_CONF}/jk_mount
 fi
 
 ## copy in jk.conf file
@@ -420,14 +420,15 @@ log "Starting slapd"
 db_get dataone-cn-os-core/cn.openldap.populated
 if [ "${RET}" = "false" ]; then
     log "Adding all dataone schema specific entries"
-    ldapadd -c -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif
+    ldapadd -c -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif
 else
     log "Migrating all dataone schema specific entries"
     ${SCRIPT_DIR}/ldap/migrateLdap.pl
 fi
 ## list the entries
 log "Listing LDAP entries for: dc=dataone,dc=org"
-ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://localhost:389 -x -b 'dc=dataone,dc=org'		
+db_get dataone-cn-os-core/cn.openldap.password
+ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -b 'dc=dataone,dc=org'		
 
 ## done with OpenLDAP
 log "LDAP configuration complete"
