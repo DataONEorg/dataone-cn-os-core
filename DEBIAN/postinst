@@ -54,9 +54,7 @@ log () {
 db_get dataone-cn-os-core/cn.context.label
 CONTEXT=${RET}
 # Set the pre-configured selection values
-debconf-set-selections "${D1_CONF_DIR}/d1-${CONTEXT,,}-environment.conf"
-
-log "Context is: ${CONTEXT}"
+debconf-set-selections "${D1_CONF}/d1-${CONTEXT,,}-environment.conf"
 
 ##################################################################
 # Set the context of the deployment (DEV, STAGE, SANDBOX, PRODUCTION)
@@ -354,7 +352,7 @@ if [ -e ${LDAP_CONF}/slapd.conf ]; then
                 let count=${count}+1
                 log "Adding LDAP sync config for ${address}"
                 SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncRepl rid=${count}"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap://${address}:389"
+                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap:\/\/${address}:389"
                 SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbinddn=\"cn=admin,dc=dataone,dc=org\""
                 SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbindmethod=simple"
                 SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
