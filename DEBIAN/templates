@@ -37,6 +37,15 @@ Description: List the IP adresses:
 Default: 128.111.220.50 129.24.0.48 160.36.13.153
 Type: string
 
+Template: dataone-cn-os-core/cn.openldap.firstcn
+Description: Is this the first CN in the environment to be deployed?
+ The first CN in the deployed environment needs to have its LDAP database 
+ populated with the appropriate entries.  If other CNs are later configured
+ and will be synchronized, their LDAP database will be populated via LDAP
+ replication.
+Default: false
+Type: boolean
+
 Template: dataone-cn-os-core/cn.openldap.populated
 Description: Is the LDAP database populated?
   The LDAP database should only be populated on the first run of the

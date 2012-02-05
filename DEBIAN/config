@@ -35,10 +35,12 @@ db_input high dataone-cn-os-core/cn.openldap.password
 db_input high dataone-cn-os-core/cn.openldap.synchronized
 db_go
 
-# If we intend to synchronize, get the unique serverID for LDAP
+# If we intend to synchronize, get the unique serverID for LDAP and whether
+# or not this is the first CN to be configured in the environment
 db_get dataone-cn-os-core/cn.openldap.synchronized
 if [ ${RET} = "true" ]; then
     db_input high dataone-cn-os-core/cn.openldap.serverID
+    db_input high dataone-cn-os-core/cn.openldap.firstcn
 fi
 
 db_go
