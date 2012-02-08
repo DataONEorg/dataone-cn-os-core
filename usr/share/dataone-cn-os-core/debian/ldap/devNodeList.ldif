@@ -1,7 +1,7 @@
-dn: cn=c3p0,dc=dataone,dc=org
-cn: c3p0
-d1NodeId: c3p0
-d1NodeName: cn_dev
+dn: cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+cn: urn:node:cnDevUCSB1
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeName: cn-dev
 d1NodeDescription: Development Protocol Coordinating Node
 d1NodeBaseURL: https://cn-dev.dataone.org/cn
 d1NodeReplicate: FALSE
@@ -14,59 +14,59 @@ d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=c3p0,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: c3p0
+d1NodeId: urn:node:cnDevUCSB1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
-dn: cn=c0t2,dc=dataone,dc=org
-cn: c0t2
-d1NodeId: c0t2
-d1NodeName: cn_dev_2
+dn: cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+cn: urn:node:cnDevUNM1
+d1NodeId: urn:node:cnDevUNM1
+d1NodeName: cn-dev-2
 d1NodeDescription: Development Protocol Coordinating Node 2
 d1NodeBaseURL: https://cn-dev-2.dataone.org/cn
 d1NodeReplicate: FALSE
@@ -79,49 +79,49 @@ d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=c0t2,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: c0t2
+d1NodeId: urn:node:cnDevUNM1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
@@ -129,10 +129,10 @@ objectclass: d1NodeService
 
 
 
-dn: cn=c0t3,dc=dataone,dc=org
-cn: c0t3
-d1NodeId: c0t3
-d1NodeName: cn_dev_3
+dn: cn=urn:node:cnDevORC1,dc=dataone,dc=org
+cn: urn:node:cnDevORC1
+d1NodeId: urn:node:cnDevORC1
+d1NodeName: cn-dev-3
 d1NodeDescription: Development Protocol Coordinating Node Number 3
 d1NodeBaseURL: https://cn-dev-3.dataone.org/cn
 d1NodeReplicate: FALSE
@@ -145,49 +145,49 @@ d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=c0t3,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnDevORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: c0t3
+d1NodeId: urn:node:cnDevORC1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE

@@ -1,5 +1,5 @@
-dn: d1NodeId=st03,dc=dataone,dc=org
-d1NodeId: st03
+dn: d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeId: urn:node:cnStageUNM1
 d1NodeName: cn-stage-unm-1
 d1NodeDescription: University of New Mexico Staging Coordinating Node
 d1NodeBaseURL: https://cn-stage-unm-1.dataone.org/cn
@@ -9,57 +9,57 @@ d1NodeState: up
 d1NodeType: cn
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,d1NodeId=st03,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: st03
+d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=st02,dc=dataone,dc=org
-d1NodeId: st02
+dn: d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeName: cn-stage-ucsb-1
 d1NodeDescription: University of California Santa Barbara Staging Coordinating Node
 d1NodeBaseURL: https://cn-stage-ucsb-1.dataone.org/cn
@@ -69,57 +69,57 @@ d1NodeState: up
 d1NodeType: cn
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,d1NodeId=st02,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: st02
+d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=st01,dc=dataone,dc=org
-d1NodeId: st01
+dn: d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeId: urn:node:cnStageORC1
 d1NodeName: cn-stage-orc-1
 d1NodeDescription: Oak Ridge National Laboratory Staging Coordinating Node
 d1NodeBaseURL: https://cn-stage-orc-1.dataone.org/cn
@@ -129,49 +129,49 @@ d1NodeState: up
 d1NodeType: cn
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,d1NodeId=st01,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: st01
+d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
