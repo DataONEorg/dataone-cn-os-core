@@ -30,6 +30,8 @@ db_go
 
 db_get dataone-cn-os-core/cn.context.label
 CONTEXT=${RET}
+# we can't use [while read line/do/done < file] here because of conflicts
+# with read in the db_set and db_fset commands.
 OLDIFS=$IFS
 IFS=$'\n';
 lines=$(cat "${D1_CONF}/d1-${CONTEXT,,}-environment.conf")
