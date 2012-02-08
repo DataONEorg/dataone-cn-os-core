@@ -5,36 +5,24 @@ Default: DEV
 Type: select
 Choices: DEV, STAGE, SANDBOX, PRODUCTION
 
-Template: dataone-cn-os-core/cn.dev.iplist
-Description: List the IP adresses:
- The IP addresses for each Coordinating Node in the environment are needed to
- configure LDAP, Hazelcast, and other services. Provide a space-separated list
- of IP addresses.
-Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Template: dataone-cn-os-core/cn.nodeid
+Description: What is the unique node id of this CN?
+ Enter the unique node id for the CN currently being installed.
 Type: string
 
-Template: dataone-cn-os-core/cn.stage.iplist
+Template: dataone-cn-os-core/cn.iplist
 Description: List the IP adresses:
  The IP addresses for each Coordinating Node in the environment are needed to
  configure LDAP, Hazelcast, and other services. Provide a space-separated list
  of IP addresses.
-Default: 128.111.220.50 129.24.0.48 160.36.13.153
 Type: string
 
-Template: dataone-cn-os-core/cn.sandbox.iplist
-Description: List the IP adresses:
- The IP addresses for each Coordinating Node in the environment are needed to
- configure LDAP, Hazelcast, and other services. Provide a space-separated list
- of IP addresses.
-Default: 128.111.220.50 129.24.0.48 160.36.13.153
-Type: string
-
-Template: dataone-cn-os-core/cn.production.iplist
-Description: List the IP adresses:
- The IP addresses for each Coordinating Node in the environment are needed to
- configure LDAP, Hazelcast, and other services. Provide a space-separated list
- of IP addresses.
-Default: 128.111.220.50 129.24.0.48 160.36.13.153
+Template: dataone-cn-os-core/cn.nodeids
+Description: List the Node IDs:
+ The node IDs for each Coordinating Node in the environment are needed to
+ configure CN services. Provide a space-separated list
+ of Node IDs. The list must correspond with the IP address list in both
+ number and order.
 Type: string
 
 Template: dataone-cn-os-core/cn.openldap.firstcn
