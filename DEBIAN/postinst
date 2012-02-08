@@ -53,9 +53,7 @@ log () {
 # Fetch the cn.context.label from the debconf database and set the per-environment variables
 db_get dataone-cn-os-core/cn.context.label
 CONTEXT=${RET}
-# Set the pre-configured selection values
-debconf-set-selections "${D1_CONF}/d1-${CONTEXT,,}-environment.conf"
-
+    
 ##################################################################
 # Set the context of the deployment (DEV, STAGE, SANDBOX, PRODUCTION)
 ##################################################################
@@ -70,15 +68,26 @@ else
 fi
 
 # set the properties associated with this context
-IPLIST_LABEL="cn.${CONTEXT,,}.iplist"
+IPLIST_LABEL="cn.iplist"
 
 if [ -e ${NODE_PROPS} ]; then
     # Fetch the context's ip list from the debconf database
-    db_get dataone-cn-os-core/cn.${CONTEXT,,}.iplist
+    db_get dataone-cn-os-core/${IPLIST_LABEL}
     sed -i.bak "s/\(${IPLIST_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
 else
     log "Couldn't set the IP list correctly."
 fi
+
+NODEIDS_LABEL="cn.nodeids"
+
+if [ -e ${NODE_PROPS} ]; then
+    # Fetch the context's node id list from the debconf database
+    db_get dataone-cn-os-core/${NODEIDS_LABEL}
+    sed -i.bak "s/\(${NODEIDS_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+else
+    log "Couldn't set the node id list correctly."
+fi
+
 ##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
@@ -291,22 +300,42 @@ log "Configuring OpenLDAP"
 
 ## place schema extension
 db_get dataone-cn-os-core/cn.openldap.populated
-if [ "$RET" = "false" ]; then
-    log "Populating the LDAP database for the first time"
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+POPULATED=${RET}
+db_get dataone-cn-os-core/cn.openldap.firstcn
+FIRSTCN=${RET}
+
+if [ "${FIRSTCN}" == "true" ]; then
+    log "This is the first CN to be installed in the environment"
     
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
-    log "Adding non dataone schema specific entries"
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
-    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
-    # Update the debconf database
-    db_set dataone-cn-os-core/cn.openldap.populated true
-    db_fset dataone-cn-os-core/cn.openldap.populated seen true
+    if [ "${POPULATED}" == "false" ]; then
+        log "Populating the LDAP database for the first time"
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
+        log "Adding non dataone schema specific entries"
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
+        sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
+        # Update the debconf database
+        db_set dataone-cn-os-core/cn.openldap.populated true
+        db_fset dataone-cn-os-core/cn.openldap.populated seen true
+        
+    else
+        log "LDAP database has been populated. Evaluating migration."
+        if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
+            SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
+            if [ "${SCHEMA_DIFF}" != "" ]; then
+                log "Schema changing: Run the pre migration script"
+                ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
+                log "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
+                mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
+            fi
+        fi
+    fi
 else
-    log "LDAP database has been populated. Evaluating migration."
+    log "This is not the first CN to be installed in the environment. Checking LDAP migration."
     if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
         SCHEMA_DIFF=`diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema`
         if [ "${SCHEMA_DIFF}" != "" ]; then
@@ -324,11 +353,11 @@ chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema
 
 ## place slapd.conf template
 if [ -e ${LDAP_CONF}/slapd.conf ]; then 
-  SLAPD_DIFF=`diff ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/slapd.conf`
-  if [ "${SLAPD_DIFF}" != "" ]; then
-    log "Backing up ${LDAP_CONF}/slapd.conf to ${LDAP_CONF}/slapd.conf.${LONG_DATE}"
-    mv ${LDAP_CONF}/slapd.conf ${LDAP_CONF}/slapd.conf.${LONG_DATE}
-  fi
+    SLAPD_DIFF=`diff ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/slapd.conf`
+    if [ "${SLAPD_DIFF}" != "" ]; then
+        log "Backing up ${LDAP_CONF}/slapd.conf to ${LDAP_CONF}/slapd.conf.${LONG_DATE}"
+        mv ${LDAP_CONF}/slapd.conf ${LDAP_CONF}/slapd.conf.${LONG_DATE}
+    fi
 fi
 log "Copying slapd.conf to ${LDAP_CONF}/"
 cp ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/
@@ -341,26 +370,40 @@ if [ -e ${LDAP_CONF}/slapd.conf ]; then
     sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
     db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
     
+    db_get dataone-cn-os-core/cn.nodeid
+    NODEID=${RET}
     # Set up sychronization across the listed servers
     let count=0
     SYNC_SETTINGS="\n"; # synchronization definitions and settings
     db_get dataone-cn-os-core/cn.openldap.synchronized
     if [ "${RET}" = "true" ]; then
-        db_get dataone-cn-os-core/cn.${CONTEXT,,}.iplist
-        for address in ${RET}; 
+        db_get dataone-cn-os-core/cn.iplist
+        ADDRESSES=${RET}
+        db_get dataone-cn-os-core/cn.nodeids
+        NODEIDS=( ${RET} ) # node ids array
+        
+        for address in ${ADDRESSES}; 
             do
-                let count=${count}+1
-                log "Adding LDAP sync config for ${address}"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncRepl rid=${count}"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap:\/\/${address}:389"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbinddn=\"cn=admin,dc=dataone,dc=org\""
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbindmethod=simple"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tsearchbase=\"dc=org\""
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttype=refreshAndPersist"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
-                SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
+                # only create a replica entry for servers others than this server
+                CURRENTNODEID=${NODEIDS[$count]}
+                log "Node id in the list is ${CURRENTNODEID}"
+                if [ "${NODEID}" == "${CURRENTNODEID}" ]; then
+                    let count=${count}+1
+                    continue
+                else
+                    let count=${count}+1
+                    log "Adding LDAP sync config for ${address}"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncRepl rid=${count}"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap:\/\/${address}:389"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbinddn=\"cn=admin,dc=dataone,dc=org\""
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbindmethod=simple"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tsearchbase=\"dc=org\""
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttype=refreshAndPersist"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
+                    SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
+                fi
             done
         SYNC_SETTINGS="${SYNC_SETTINGS}\n\nmirrormode on"
         SYNC_SETTINGS="${SYNC_SETTINGS}\noverlay syncprov"
