@@ -378,7 +378,6 @@ if [ -e ${LDAP_CONF}/slapd.conf ]; then
     db_get dataone-cn-os-core/cn.openldap.password
     LDAP_PASS=${RET}
     sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
-    db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
     
     db_get dataone-cn-os-core/cn.nodeid
     NODEID=${RET}
@@ -437,6 +436,9 @@ if [ -e ${LDAP_CONF}/slapd.conf ]; then
 else
     log "Couldn't set LDAP configuration correctly. Configure ${LDAP_CONF}/slapd.conf manually."
 fi
+
+# Always clear the cached LDAP password
+db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
 
 ## set permissions 
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
