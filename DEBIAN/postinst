@@ -88,6 +88,16 @@ else
     log "Couldn't set the node id list correctly."
 fi
 
+NODEID_LABEL="cn.nodeid"
+
+if [ -e ${NODE_PROPS} ]; then
+    # Fetch the context's node id from the debconf database
+    db_get dataone-cn-os-core/${NODEID_LABEL}
+    sed -i.bak "s/\(${NODEIDS_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+else
+    log "Couldn't set the node id correctly."
+fi
+
 ##################################################################
 # Install the dataone private key provided by the user
 # This key can not be added to the SVN repository because it is not
