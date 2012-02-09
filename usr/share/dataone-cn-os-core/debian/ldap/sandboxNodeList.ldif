@@ -1,4 +1,5 @@
 dn: d1NodeId=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+cn: urn:node:cnSandboxUNM1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeName: cn-sandbox-unm-1
 d1NodeDescription: University of New Mexico Sandbox Coordinating Node
@@ -7,6 +8,10 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-sandbox-unm-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnSandboxUNM1,dc=dataone,dc=org
@@ -59,6 +64,7 @@ objectclass: d1NodeService
 
 
 dn: d1NodeId=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+cn: urn:node:cnSandboxUCSB1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeName: cn-sandbox-ucsb-1
 d1NodeDescription: University of California Santa Barbara Sandbox Coordinating Node
@@ -67,6 +73,10 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-sandbox-ucsb-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
@@ -119,6 +129,7 @@ objectclass: d1NodeService
 
 
 dn: d1NodeId=urn:node:cnSandboxORC1,dc=dataone,dc=org
+cn: urn:node:cnSandboxORC1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeName: cn-sandbox-orc-1
 d1NodeDescription: Oak Ridge National Laboratory Sandbox Coordinating Node
@@ -127,6 +138,10 @@ d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-sandbox-orc-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnSandboxORC1,dc=dataone,dc=org
