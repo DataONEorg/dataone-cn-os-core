@@ -492,18 +492,9 @@ log ${LDAPSEARCH_RESULT}
 log "LDAP configuration complete"
 
 log "ETC configuration"
-## replace the token NODEIDENTIFIER in the properties file to a nodeId as deduced from this perl script
-# XXX NOTE: we need to determine what environment this is being executed in, currently it only works in DEVELOPMENT environment
-#   this is due to the needing to determine which ldif file 
+
 sleep 5
 
-NODEIDENTIFIER=$(/usr/bin/perl  /usr/share/dataone-cn-os-core/debian/getD1NodeId.pl)
-if [ "$NODEIDENTIFIER" != "ERROR" ]; then
-	sed -i.bak  's/\(cn\.nodeId\=\)NODEIDENTIFIER/\1'${NODEIDENTIFIER}'/;' /etc/dataone/node.properties
-	rm /etc/dataone/node.properties.bak
-else
-	log "ERROR: NODE ID can not be set in /etc/dataone/node.properties cn.nodeId must be manually set"
-fi
 ## Start Tomcat
 log "starting Tomcat server"
 
