@@ -382,7 +382,7 @@ if [ -e ${LDAP_CONF}/slapd.conf ]; then
     let count=0
     SYNC_SETTINGS="\n"; # synchronization definitions and settings
     db_get dataone-cn-os-core/cn.openldap.synchronized
-    if [ "${RET}" = "true" ]; then
+    if [ "${RET}" == "true" ]; then
         db_get dataone-cn-os-core/cn.iplist
         ADDRESSES=${RET}
         db_get dataone-cn-os-core/cn.nodeids
@@ -467,7 +467,7 @@ sleep 5 # openldap doesn't seem to come up quickly enough
 
 # populate or migrate the LDAP database with the LDIF file for the chosen context
 db_get dataone-cn-os-core/cn.openldap.populated
-if [ "${RET}" = "false" ]; then
+if [ "${RET}" == "false" ]; then
     log "Adding all dataone schema specific entries"
     LDAPADD_RESULT="$(ldapadd -v -c -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif)"
     log ${LDAPADD_RESULT}
