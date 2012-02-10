@@ -1,4 +1,4 @@
-dn: d1NodeId=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
 cn: urn:node:cnSandboxUNM1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeName: cn-sandbox-unm-1
@@ -63,7 +63,7 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
 cn: urn:node:cnSandboxUCSB1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeName: cn-sandbox-ucsb-1
@@ -128,7 +128,7 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
 cn: urn:node:cnSandboxORC1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeName: cn-sandbox-orc-1

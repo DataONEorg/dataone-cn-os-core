@@ -1,12 +1,17 @@
-dn: d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
+dn: cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+cn: urn:node:cnStageUNM1
 d1NodeId: urn:node:cnStageUNM1
 d1NodeName: cn-stage-unm-1
-d1NodeDescription: University of New Mexico Staging Coordinating Node
+d1NodeDescription: University of New Mexico Stage Coordinating Node
 d1NodeBaseURL: https://cn-stage-unm-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-stage-unm-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageUNM1,dc=dataone,dc=org
@@ -58,15 +63,20 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
+dn: cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+cn: urn:node:cnStageUCSB1
 d1NodeId: urn:node:cnStageUCSB1
 d1NodeName: cn-stage-ucsb-1
-d1NodeDescription: University of California Santa Barbara Staging Coordinating Node
+d1NodeDescription: University of California Santa Barbara Stage Coordinating Node
 d1NodeBaseURL: https://cn-stage-ucsb-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-stage-ucsb-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageUCSB1,dc=dataone,dc=org
@@ -118,15 +128,20 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
+dn: cn=urn:node:cnStageORC1,dc=dataone,dc=org
+cn: urn:node:cnStageORC1
 d1NodeId: urn:node:cnStageORC1
 d1NodeName: cn-stage-orc-1
-d1NodeDescription: Oak Ridge National Laboratory Staging Coordinating Node
+d1NodeDescription: Oak Ridge National Laboratory Stage Coordinating Node
 d1NodeBaseURL: https://cn-stage-orc-1.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-stage-orc-1.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
 objectclass: d1Node
 
 dn: d1NodeServiceId=CNCore-v1,d1NodeId=urn:node:cnStageORC1,dc=dataone,dc=org
