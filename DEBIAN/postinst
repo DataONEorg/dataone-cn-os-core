@@ -468,12 +468,17 @@ sleep 5 # openldap doesn't seem to come up quickly enough
 # populate or migrate the LDAP database with the LDIF file for the chosen context
 db_get dataone-cn-os-core/cn.openldap.populated
 if [ "${RET}" == "false" ]; then
-    log "Adding all dataone schema specific entries"
-    LDAPADD_RESULT="$(ldapadd -v -c -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif)"
-    log ${LDAPADD_RESULT}
-    # Update the debconf database
-    db_set dataone-cn-os-core/cn.openldap.populated true
-    db_fset dataone-cn-os-core/cn.openldap.populated seen true
+    db_get dataone-cn-os-core/cn.openldap.firstcn
+    if [ "${RET}" == "true" ]; then
+        log "Adding all dataone schema specific entries"
+        LDAPADD_RESULT="$(ldapadd -v -c -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif)"
+        log ${LDAPADD_RESULT}
+        # Update the debconf database
+        db_set dataone-cn-os-core/cn.openldap.populated true
+        db_fset dataone-cn-os-core/cn.openldap.populated seen true
+    else
+        log "Not the first CN in the environment. Skipping LDAP population."
+    fi
     
 else
     log "Migrating all dataone schema specific entries"
