@@ -14,7 +14,11 @@
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On
 	AcceptPathInfo On
-	
+	<Location /knb/servlet/replication>
+      SSLVerifyClient require
+      SSLVerifyDepth  10
+    </Location>
+
         #   SSL Engine Switch:
         #   Enable/Disable SSL for this virtual host.
         SSLEngine on
