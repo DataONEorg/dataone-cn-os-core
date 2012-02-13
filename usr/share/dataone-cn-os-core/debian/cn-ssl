@@ -10,6 +10,9 @@
 		Order allow,deny
 		allow from all
 	</Directory>
+	
+	RewriteEngine On
+    RewriteOptions Inherit
 
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On
