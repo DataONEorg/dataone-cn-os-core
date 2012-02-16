@@ -144,7 +144,7 @@ if [[ "${RET}" == "" ]]; then
             log "Completed configuration of CN client certificate file."
         fi
     else
-        log "Key file is missing.  Please provide it as ${KEY_FILE}. Without
+        log "Client cert file is missing.  Please provide it as ${CERT_FILE}. Without
         this, SSL will not function properly."
     fi
     
