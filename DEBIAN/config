@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Source the debconf library
 . /usr/share/debconf/confmodule
@@ -22,47 +22,60 @@ log () {
 }
 
 log "dataone-cn-os-core/config called."
-# Ask the person installing what environment should be installed
-db_input high dataone-cn-os-core/cn.context.label
-# What is the node id of this CN?
-db_input high dataone-cn-os-core/cn.nodeid
-db_go
 
-db_get dataone-cn-os-core/cn.context.label
-CONTEXT=${RET}
-# we can't use [while read line/do/done < file] here because of conflicts
-# with read in the db_set and db_fset commands.
-OLDIFS=$IFS
-IFS=$'\n';
-lines=$(cat "${D1_CONF}/d1-${CONTEXT,,}-environment.conf")
-for line in $lines; 
-    do 
-        if [[ $line == dataone* ]]; then
-            if [[ $line == dataone*seen* ]]; then
-                db_fset $line
-                log "Called db_fset $line"
-            else
-                db_set $line
-                log "Called db_set $line"
+# Upgrade or install: check for previous values
+db_get dataone-cn-os-core/cn.installed
+if [[ "${RET}" == "" ]]; then
+    
+    # Ask the person installing what environment should be installed
+    db_input high dataone-cn-os-core/cn.context.label
+    # What is the node id of this CN?
+    db_input high dataone-cn-os-core/cn.nodeid
+    db_go
+    
+    db_get dataone-cn-os-core/cn.context.label
+    CONTEXT=${RET}
+    
+    # we can't use [while read line/do/done < file] here because of conflicts
+    # with read in the db_set and db_fset commands.    
+    OLDIFS=$IFS
+    IFS=$'\n';
+    lines=$(cat "${D1_CONF}/d1-${CONTEXT,,}-environment.conf")
+    for line in $lines; 
+        do 
+            if [[ $line == dataone* ]]; then
+                if [[ $line == dataone*seen* ]]; then
+                    db_fset $line
+                    log "Called db_fset $line"
+                else
+                    db_set $line
+                    log "Called db_set $line"
+                fi
             fi
-        fi
-    done
-IFS=$OLDIFS
-
-# Ask for the LDAP database admin password
-db_input high dataone-cn-os-core/cn.openldap.password
-
-# Ask if the CNs should be sync'd
-db_input high dataone-cn-os-core/cn.openldap.synchronized
-db_go
-
-# If we intend to synchronize, get the unique serverID for LDAP and whether
-# or not this is the first CN to be configured in the environment
-db_get dataone-cn-os-core/cn.openldap.synchronized
-if [ ${RET} = "true" ]; then
-    db_input high dataone-cn-os-core/cn.openldap.serverID
-    db_input high dataone-cn-os-core/cn.openldap.firstcn
+        done
+    IFS=$OLDIFS
+    
+    # Ask for the D1 public cert and private key locations
+    db_input high dataone-cn-os-core/cn.client.certificate.filepath
+    db_input high dataone-cn-os-core/cn.server.privatekey.filepath
+    
+    # Ask for the LDAP database admin password
+    db_input high dataone-cn-os-core/cn.openldap.password
+    
+    # Ask if the CNs should be sync'd
+    db_input high dataone-cn-os-core/cn.openldap.synchronized
+    db_go
+    
+    # If we intend to synchronize, get the unique serverID for LDAP and whether
+    # or not this is the first CN to be configured in the environment
+    db_get dataone-cn-os-core/cn.openldap.synchronized
+    if [ ${RET} = "true" ]; then
+        db_input high dataone-cn-os-core/cn.openldap.serverID
+        db_input high dataone-cn-os-core/cn.openldap.firstcn
+        db_go
+    fi
+else
+    log "Upgrading the package. No configuration questions asked."
 fi
 
-db_go
 exit 0
