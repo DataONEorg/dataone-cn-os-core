@@ -7,7 +7,9 @@ Choices: DEV, STAGE, SANDBOX, PRODUCTION
 
 Template: dataone-cn-os-core/cn.nodeid
 Description: What is the unique node id of this CN?
- Enter the unique node id for the CN currently being installed.
+ Enter the unique node id for the CN currently being installed. For example,
+ for the UC Santa Barbara Sandbox Coordinating Node, the unique id is 
+ urn:node:cnSandboxUCSB1
 Type: string
 
 Template: dataone-cn-os-core/cn.iplist
@@ -62,3 +64,22 @@ Default: 1
 Type: select
 Choices: 1, 2, 3
 
+Template: dataone-cn-os-core/cn.client.certificate.filepath
+Description: What is the path to the CN client certificate file?
+ At times the CN communicates over HTTPS with other nodes as a client 
+ to those nodes. Provide the path to the SSL certificate generated for this CN.
+Default: /etc/dataone/client/certs/cnEnvUCSB1.crt
+Type: string
+
+Template: dataone-cn-os-core/cn.server.privatekey.filepath
+Description: What is the path to the CN server private SSL key file?
+ The CN communicates over HTTPS with other clients and nodes. Provide the path 
+ to the SSL private key created for this CN.
+Default: /etc/ssl/private/dataone_org.key
+Type: string
+
+Template: dataone-cn-os-core/cn.installed
+Description: Has the Coordinating Node stack been installed previously?
+ If the Coordination Node software has already been installed, certain
+ configuration questions will be skipped.
+Type: boolean
