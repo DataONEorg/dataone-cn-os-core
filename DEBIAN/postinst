@@ -239,7 +239,12 @@ if [[ "${RET}" == "" ]]; then
             log "Enabling ${SITE} site"
             a2dissite ${SITE}
             a2ensite ${SITE}
+            
         done
+
+    # be sure mod_proxy and mod_rewrite are enabled
+    a2enmod proxy
+    a2enmod rewrite
     
     # Turn on the ssl module
     log "Refreshing Mod SSL"
