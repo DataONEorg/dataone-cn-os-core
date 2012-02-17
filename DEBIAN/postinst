@@ -243,9 +243,19 @@ if [[ "${RET}" == "" ]]; then
         done
 
     # be sure mod_proxy and mod_rewrite are enabled
-    a2enmod proxy
-    a2enmod rewrite
+	log "Refreshing Proxy"
+	
+	a2dismod proxy_http
+	a2dismod proxy
+	
+	a2enmod proxy
+	a2enmod proxy_http
     
+	## disable and then re-enable mod rewrite  to pick up changes
+	log "Refreshing Rewrite"
+	a2dismod rewrite
+	a2enmod rewrite
+
     # Turn on the ssl module
     log "Refreshing Mod SSL"
     a2dismod ssl
