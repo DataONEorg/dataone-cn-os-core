@@ -100,6 +100,16 @@ if [[ "${RET}" == "" ]]; then
     else
         log "Couldn't set the node id correctly."
     fi
+    
+    CLIENTCERT_FILENAME_LABEL="D1Client.certificate.filename"
+    
+    if [ -e ${NODE_PROPS} ]; then
+        # Fetch the context's node id from the debconf database
+        db_get dataone-cn-os-core/cn.nodeid
+        sed -i.bak "s/\(${CLIENTCERT_FILENAME_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+    else
+        log "Couldn't set the node id correctly."
+    fi
 else
     log "Upgrading the package. No configuration properties reset."
 fi

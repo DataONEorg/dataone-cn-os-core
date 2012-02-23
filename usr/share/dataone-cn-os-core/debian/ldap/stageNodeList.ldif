@@ -1,3 +1,67 @@
+dn: cn=urn:node:cnStage,dc=dataone,dc=org
+cn: urn:node:cnStage
+d1NodeId: urn:node:cnStage
+d1NodeName: cn-stage
+d1NodeDescription: Round Robin staging router of Coordinating Nodes
+d1NodeBaseURL: https://cn-stage.dataone.org/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=cn-stage.dataone.org,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
 dn: cn=urn:node:cnStageUNM1,dc=dataone,dc=org
 cn: urn:node:cnStageUNM1
 d1NodeId: urn:node:cnStageUNM1
@@ -51,7 +115,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
@@ -59,7 +123,7 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnStageUNM1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
@@ -116,7 +180,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
@@ -124,7 +188,7 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnStageUCSB1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
@@ -181,7 +245,7 @@ d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
@@ -189,5 +253,5 @@ d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnStageORC1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
-d1NodeServiceAvailable: FALSE
+d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService

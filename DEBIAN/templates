@@ -12,6 +12,12 @@ Description: What is the unique node id of this CN?
  urn:node:cnSandboxUCSB1
 Type: string
 
+Template: dataone-cn-os-core/cn.certificate.filename
+Description: What is the filename of the client certificate to be used for this CN?
+ Enter the x509 certificate's filename for the CN currently being installed. It 
+ will be one of the following file names: ${certificateFilenames}
+Type: string
+
 Template: dataone-cn-os-core/cn.iplist
 Description: List the IP adresses:
  The IP addresses for each Coordinating Node in the environment are needed to
