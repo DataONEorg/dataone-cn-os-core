@@ -31,12 +31,13 @@ db_get dataone-cn-os-core/cn.installed
 if [[ "${RET}" == "" ]]; then
    # populate the x509 certificate filenames from /etc/dataone/client/certs
    # and substitute them into a parameter in the description
-    if [ -d ${D1_CLIENTCERT_DIR} ] then
+    if [ -d ${D1_CLIENTCERT_DIR} ]; then
         clientcert_dir_contents=(`ls ${D1_CLIENTCERT_DIR}| xargs`)
 	
         clientcert_file_count=${#clientcert_dir_contents[*]}
-        if [ ${clientcert_file_count} > 0 ] then
-            db_subst dataone-cn-os-core/cn.certificate.filename certificateFilenames ${dir_contents[@]}
+        if [ ${clientcert_file_count} > 0 ]; then
+        	filename_listing=${dir_contents[@]}
+            db_subst dataone-cn-os-core/cn.certificate.filename certificateFilenames $filename_listing
         else
             db_subst dataone-cn-os-core/cn.certificate.filename certificateFilenames "Unable to locate certificates. Please type in the certificate filename you plan to install in ${D1_CLIENTCERT_DIR}"
         fi

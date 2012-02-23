@@ -105,7 +105,7 @@ if [[ "${RET}" == "" ]]; then
     
     if [ -e ${NODE_PROPS} ]; then
         # Fetch the context's node id from the debconf database
-        db_get dataone-cn-os-core/cn.nodeid
+        db_get dataone-cn-os-core/cn.certificate.filename
         sed -i.bak "s/\(${CLIENTCERT_FILENAME_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
     else
         log "Couldn't set the node id correctly."
