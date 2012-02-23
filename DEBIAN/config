@@ -36,7 +36,7 @@ if [[ "${RET}" == "" ]]; then
 	
         clientcert_file_count=${#clientcert_dir_contents[*]}
         if [ ${clientcert_file_count} > 0 ]; then
-        	filename_listing=${dir_contents[@]}
+        	filename_listing=${clientcert_dir_contents[@]}
             db_subst dataone-cn-os-core/cn.certificate.filename certificateFilenames $filename_listing
         else
             db_subst dataone-cn-os-core/cn.certificate.filename certificateFilenames "Unable to locate certificates. Please type in the certificate filename you plan to install in ${D1_CLIENTCERT_DIR}"
