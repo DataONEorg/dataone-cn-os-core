@@ -100,15 +100,42 @@ if [[ "${RET}" == "" ]]; then
     else
         log "Couldn't set the node id correctly."
     fi
+ 
+    
+    log "Start configuration of DataONE CN client certificate"
+
+    db_get dataone-cn-os-core/cn.client.certificate.filepath
+    CERT_FILE=${RET}
+    CERT_DIR=/etc/dataone/client/certs
+    if [ ${CERT_FILE} != "false" ] && [ -e ${CERT_FILE} ];then
+        if [[ "${CERT_FILE}" == ${CERT_DIR}* ]]; then
+            log "No need to copy certificate file, it's already in place."
+        else
+            log "Copying certificate file: ${CERT_FILE}."
+            cp ${CERT_FILE} ${CERT_DIR}
+            log "Completed configuration of CN client certificate file."
+        fi
+        # get the filename from end of the path and assign it to cn.client.certificate.filename
+        certFilename=$(basename $CERT_FILE)
+        db_set dataone-cn-os-core/cn.client.certificate.filename $certFilename
+    else
+    	if [ ${CERT_FILE} != "false" ]; then
+            log "Client cert file is missing.  Please provide it as ${CERT_FILE}. 
+            Without this, SSL will not function properly."
+        fi
+    fi
+    
     
     CLIENTCERT_FILENAME_LABEL="D1Client.certificate.filename"
-    
-    if [ -e ${NODE_PROPS} ]; then
+    db_get dataone-cn-os-core/cn.client.certificate.filename
+    CLIENTCERT_FILENAME=${RET}
+    if [ ${CLIENTCERT_FILENAME} != "false" ] && [ -e ${NODE_PROPS} ]; then
         # Fetch the context's node id from the debconf database
-        db_get dataone-cn-os-core/cn.certificate.filename
+        db_get dataone-cn-os-core/cn.client.certificate.filename
         sed -i.bak "s/\(${CLIENTCERT_FILENAME_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
     else
-        log "Couldn't set the node id correctly."
+        log "Client cert filename is missing. Must set ${CLIENTCERT_FILENAME_LABEL} 
+          in ${NODE_PROPS} for SSL to function properly"
     fi
 else
     log "Upgrading the package. No configuration properties reset."
@@ -140,23 +167,6 @@ if [[ "${RET}" == "" ]]; then
         this, SSL will not function properly."
     fi
 
-    log "Start configuration of DataONE CN client certificate"
-
-    db_get dataone-cn-os-core/cn.client.certificate.filepath
-    CERT_FILE=${RET}
-    CERT_DIR=/etc/dataone/client/certs
-    if [ -e ${CERT_FILE} ];then
-        if [[ "${CERT_FILE}" == ${CERT_DIR}* ]]; then
-            log "No need to copy certificate file, it's already in place."
-        else
-            log "Copying certificate file: ${CERT_FILE}."
-            cp ${CERT_FILE} ${CERT_DIR}
-            log "Completed configuration of CN client certificate file."
-        fi
-    else
-        log "Client cert file is missing.  Please provide it as ${CERT_FILE}. Without
-        this, SSL will not function properly."
-    fi
     
     log "Start configuration of public CA store"
     

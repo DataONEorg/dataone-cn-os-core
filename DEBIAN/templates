@@ -12,7 +12,7 @@ Description: What is the unique node id of this CN?
  urn:node:cnSandboxUCSB1
 Type: string
 
-Template: dataone-cn-os-core/cn.certificate.filename
+Template: dataone-cn-os-core/cn.client.certificate.filename
 Description: What is the filename of the client certificate to be used for this CN?
  Enter the x509 certificate's filename for the CN currently being installed. It 
  will be one of the following file names: ${certificateFilenames}
@@ -31,6 +31,11 @@ Description: List the Node IDs:
  configure CN services. Provide a space-separated list
  of Node IDs. The list must correspond with the IP address list in both
  number and order.
+Type: string
+
+Template: dataone-cn-os-core/cn.router.nodeId
+Description: List the Node IDs:
+ The node ID the round robin router to be set in node.properties
 Type: string
 
 Template: dataone-cn-os-core/cn.openldap.firstcn
