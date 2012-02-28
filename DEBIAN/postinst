@@ -101,6 +101,15 @@ if [[ "${RET}" == "" ]]; then
         log "Couldn't set the node id correctly."
     fi
  
+    NODE_RR_LABEL="cn.router.nodeId"
+    
+    if [ -e ${NODE_PROPS} ]; then
+        # Fetch the context's node round robin id from the debconf database
+        db_get dataone-cn-os-core/cn.router.nodeId
+        sed -i.bak "s/\(${NODE_RR_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+    else
+        log "Couldn't set the round robin node id correctly."
+    fi
     
     log "Start configuration of DataONE CN client certificate"
 
