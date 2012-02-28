@@ -34,6 +34,11 @@ if [ ! -e ${D1_LOG_DIR} ]; then
 fi
 
 ##################################################################
+# Create a difficult to guess token to pass for Solr auth
+##################################################################
+SOLR_TOKEN=`date +%m%s%Y%N%d | sed 's/0//g'`
+
+##################################################################
 # Set up logging for background processes
 ##################################################################
 if [ ! -e "/var/log/dataone" ]; then
@@ -146,6 +151,10 @@ if [[ "${RET}" == "" ]]; then
         log "Client cert filename is missing. Must set ${CLIENTCERT_FILENAME_LABEL} 
           in ${NODE_PROPS} for SSL to function properly"
     fi
+    
+ 
+    sed -i.bak "s/SOLRTOKEN/${SOLR_TOKEN}/" ${NODE_PROPS}
+
 else
     log "Upgrading the package. No configuration properties reset."
 fi
