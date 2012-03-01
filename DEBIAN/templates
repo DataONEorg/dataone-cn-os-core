@@ -33,6 +33,11 @@ Description: List the Node IDs:
  number and order.
 Type: string
 
+Template: dataone-cn-os-core/cn.router.hostname
+Description: The CN hostname (round robin):
+ The CN hostname for all requests, or the round robin DNS entry.
+Type: string
+
 Template: dataone-cn-os-core/cn.router.nodeId
 Description: List the Node IDs:
  The node ID the round robin router to be set in node.properties
