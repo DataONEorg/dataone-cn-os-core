@@ -80,8 +80,19 @@ if [[ "${RET}" == "" ]]; then
     
     if [ -e ${NODE_PROPS} ]; then
         # Fetch the context's ip list from the debconf database
-        db_get dataone-cn-os-core/${IPLIST_LABEL}
-        sed -i.bak "s/\(${IPLIST_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+        IPLIST="127.0.0.1"
+        # if the cn.openldap.synchronized is false then the 
+        # CN will be running in standalone mode
+        # no synchronization, no other hazelcast cluster members
+        
+        db_get dataone-cn-os-core/cn.openldap.synchronized
+        SYNCHRONIZED=${RET}
+        
+        if [ ${SYNCHRONIZED} != "false" ];then
+        	db_get dataone-cn-os-core/${IPLIST_LABEL}
+        	IPLIST=${RET}
+        fi
+        sed -i.bak "s/\(${IPLIST_LABEL} *=\).*/\1${IPLIST}/" ${NODE_PROPS}
     else
         log "Couldn't set the IP list correctly."
     fi
