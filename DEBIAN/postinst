@@ -127,6 +127,16 @@ if [[ "${RET}" == "" ]]; then
         log "Couldn't set the round robin node id correctly."
     fi
     
+    NODE_RR_HOSTNAME="cn.router.hostname"
+    
+    if [ -e ${NODE_PROPS} ]; then
+        # Fetch the context's node round robin hostname from the debconf database
+        db_get dataone-cn-os-core/cn.router.hostname
+        sed -i.bak "s/\(${NODE_RR_HOSTNAME} *=\).*/\1${RET}/" ${NODE_PROPS}
+    else
+        log "Couldn't set the round robin hostname correctly."
+    fi
+    
     log "Start configuration of DataONE CN client certificate"
 
     db_get dataone-cn-os-core/cn.client.certificate.filepath
