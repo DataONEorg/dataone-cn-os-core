@@ -23,7 +23,8 @@ MOD_JK_CONF=/etc/libapache2-mod-jk
 D1_CONF=/etc/dataone
 LDAP_CONF=/etc/ldap
 SITES="cn cn-ssl"
-
+JAVA_SECURITY=/usr/lib/jvm/java-6-sun/jre/lib/security/java.security
+JAVA_SECURITY_EXT=/usr/lib/jvm/java-6-sun/jre/lib/ext
 LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem dataone-ca.crt"
 CA_CERT_DIR=/var/local/dataone/ca
@@ -623,10 +624,49 @@ log "ETC configuration"
 
 sleep 5
 
-## Start Tomcat
+###############################################################################
+# Configure BouncyCastle for Java Security (before starting tomcat)
+###############################################################################
+
+
+
+CONTAINS_BOUNCYCASTLE=$(grep -P '=org\.bouncycastle\.jce\.provider\.BouncyCastleProvider' ${JAVA_SECURITY})
+
+if [ "${CONTAINS_BOUNCYCASTLE}" == "" ]; then
+
+    cp ${SOURCE_DIR}/bcprov-jdk16-1.46.jar ${JAVA_SECURITY_EXT}
+    cp ${SOURCE_DIR}/bcmail-jdk16-1.46.jar ${JAVA_SECURITY_EXT}
+
+    SECURITY_PROVIDERS=`grep -P 'security\.provider\.\d' ${JAVA_SECURITY} | awk 'BEGIN { FS = "[.=]" } ; { print $3 }'`
+    MAXSECURITY_PROVIDERS=(
+    $(for i in ${SECURITY_PROVIDERS[*]}
+        do
+            echo "$i"
+            done | sort -nr )
+        )
+    MAX_PROVIDER_ORDER=${MAXSECURITY_PROVIDERS[0]}
+    BOUNCY_CASTLE_ORDER=`expr ${MAX_PROVIDER_ORDER} + 1`
+
+    BOUNCY_CASTLE_PROVIDER="\nsecurity.provider."${BOUNCY_CASTLE_ORDER}"=org.bouncycastle.jce.provider.BouncyCastleProvider"
+
+    sed -i.bak --regexp-extended "s/(^security\.provider\.${MAX_PROVIDER_ORDER}.+$)/\1${BOUNCY_CASTLE_PROVIDER}/;" ${JAVA_SECURITY}
+
+else
+    echo "bouncycastle security provider was previously installed "
+fi
+
+
+
+###############################################################################
+# Start Tomcat
+###############################################################################
 log "starting Tomcat server"
 
 /etc/init.d/${TOMCAT} start
+
+###############################################################################
+# Configure UFW
+###############################################################################
 
 db_get dataone-cn-os-core/cn.installed # check if this is a new install
 if [[ "${RET}" == "" ]]; then
