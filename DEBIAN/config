@@ -24,8 +24,6 @@ log () {
 
 log "dataone-cn-os-core/config called."
 
-
-
 # Upgrade or install: check for previous values
 db_get dataone-cn-os-core/cn.installed
 if [[ "${RET}" == "" ]]; then
@@ -39,17 +37,17 @@ if [[ "${RET}" == "" ]]; then
    # and substitute them into a parameter in the description
     if [ -d ${D1_CLIENTCERT_DIR} ]; then
         clientcert_dir_contents=(`ls ${D1_CLIENTCERT_DIR}| xargs`)
-	
+    
         clientcert_file_count=${#clientcert_dir_contents[*]}
         if [ ${clientcert_file_count} > 0 ]; then
-        	# the certificate has already been set once
-        	# pull out the names and get the correct filename
-        	filename_listing=${clientcert_dir_contents[@]}
+            # the certificate has already been set once
+            # pull out the names and get the correct filename
+            filename_listing=${clientcert_dir_contents[@]}
             db_subst dataone-cn-os-core/cn.client.certificate.filename certificateFilenames $filename_listing
             db_input high dataone-cn-os-core/cn.client.certificate.filename
             db_set dataone-cn-os-core/cn.client.certificate.filepath "false"
         else
-        	db_input high dataone-cn-os-core/cn.client.certificate.filepath
+            db_input high dataone-cn-os-core/cn.client.certificate.filepath
             db_set dataone-cn-os-core/cn.client.certificate.filename "false"
         fi
     else
