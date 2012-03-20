@@ -22,7 +22,7 @@ APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
 D1_CONF=/etc/dataone
 LDAP_CONF=/etc/ldap
-SITES="cn cn-ssl"
+SSL_SITE=cn-ssl
 JAVA_SECURITY=/usr/lib/jvm/java-6-sun/jre/lib/security/java.security
 JAVA_SECURITY_EXT=/usr/lib/jvm/java-6-sun/jre/lib/ext
 LDAP_USER=openldap
@@ -271,45 +271,45 @@ if [[ "${RET}" == "" ]]; then
     cp ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/
     
     ## copy in site configuration files
-    for SITE in ${SITES}
-        do
-            if [ -e ${APACHE_CONF}/sites-available/${SITE} ]
-            then 
-              SITE_DIFF=$(diff ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/${SITE})
-              if [ "${SITE_DIFF}" != "" ]
-              then
-                log "Backing up ${APACHE_CONF}/sites-available/${SITE} to ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}"
-                mv ${APACHE_CONF}/sites-available/${SITE} ${APACHE_CONF}/sites-available/${SITE}.${LONG_DATE}
-              fi
-            fi
-            log "Copying ${SITE} site file to ${APACHE_CONF}/sites-available/"
-            cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF}/sites-available/
-            ## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
-            # HOSTNAME=$(perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts)
-            
-            ## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
-            HOSTNAME=$(/bin/hostname -f)
-            if [ "$HOSTNAME" != "" ]
-            then
-              sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
-            else
-              log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
-            fi
-            ## enable ${SITE} site
-            log "Enabling ${SITE} site"
-            a2dissite ${SITE}
-            a2ensite ${SITE}
-            
-        done
+
+	if [ -e ${APACHE_CONF}/sites-available/${SSL_SITE} ]
+	then 
+	  SITE_DIFF=$(diff ${SCRIPT_DIR}/${SSL_SITE} ${APACHE_CONF}/sites-available/${SSL_SITE})
+	  if [ "${SITE_DIFF}" != "" ]
+	  then
+		log "Backing up ${APACHE_CONF}/sites-available/${SSL_SITE} to ${APACHE_CONF}/sites-available/${SSL_SITE}.${LONG_DATE}"
+		mv ${APACHE_CONF}/sites-available/${SSL_SITE} ${APACHE_CONF}/sites-available/${SSL_SITE}.${LONG_DATE}
+	  fi
+	fi
+	log "Copying ${SSL_SITE} site file to ${APACHE_CONF}/sites-available/"
+	cp ${SCRIPT_DIR}/${SSL_SITE} ${APACHE_CONF}/sites-available/
+	## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
+	# HOSTNAME=$(perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts)
+	
+	## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
+	HOSTNAME=$(/bin/hostname -f)
+	if [ "$HOSTNAME" != "" ]
+	then
+	  sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SSL_SITE}
+	else
+	  log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SSL_SITE}"
+	fi
+	## enable ${SSL_SITE} site
+	log "Enabling ${SSL_SITE} site"
+	a2dissite ${SSL_SITE}
+	a2ensite ${SSL_SITE}
+
 
     # be sure mod_proxy and mod_rewrite are enabled
 	log "Refreshing Proxy"
 	
+	a2dismod proxy_ajp
 	a2dismod proxy_http
 	a2dismod proxy
 	
 	a2enmod proxy
 	a2enmod proxy_http
+    a2enmod proxy_ajp
     
 	## disable and then re-enable mod rewrite  to pick up changes
 	log "Refreshing Rewrite"

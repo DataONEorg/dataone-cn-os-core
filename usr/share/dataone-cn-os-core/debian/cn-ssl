@@ -1,7 +1,7 @@
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
-        DocumentRoot /var/www
-        ServerName SERVER_NAME
+	DocumentRoot /var/www
+	ServerName SERVER_NAME
 	DirectoryIndex listObjects.xml
 
 	<Directory /var/www/>
@@ -12,28 +12,29 @@
 	</Directory>
 	
 	RewriteEngine On
+	SSLProxyEngine On
     RewriteOptions Inherit
 
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On
 	AcceptPathInfo On
 	<Location /knb/servlet/replication>
-      SSLVerifyClient require
-      SSLVerifyDepth  10
-    </Location>
+	  SSLVerifyClient require
+	  SSLVerifyDepth  10
+	</Location>
 
-        #   SSL Engine Switch:
-        #   Enable/Disable SSL for this virtual host.
-        SSLEngine on
-        SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
-        SSLVerifyClient optional
-        SSLVerifyDepth 10
+	#   SSL Engine Switch:
+	#   Enable/Disable SSL for this virtual host.
+	SSLEngine on
+	SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
+	SSLVerifyClient optional
+	SSLVerifyDepth 10
 
-        SSLCertificateFile /etc/ssl/certs/_.dataone.org.crt
-        SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
-        SSLCertificateChainFile /etc/ssl/certs/gd_intermediate_bundle.crt
-        
-        SSLCACertificatePath /var/local/dataone/ca
+	SSLCertificateFile /etc/ssl/certs/_.dataone.org.crt
+	SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
+	SSLCertificateChainFile /etc/ssl/certs/gd_intermediate_bundle.crt
+	
+	SSLCACertificatePath /var/local/dataone/ca
 
 </VirtualHost>
 </IfModule>
