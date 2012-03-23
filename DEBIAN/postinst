@@ -247,7 +247,7 @@ if [[ "${RET}" == "" ]]; then
         ## has it already been changed?
 		CONTAINS_STAR80_PORT=$(egrep 'NameVirtualHost[[:space:]]+\*:80' ${APACHE_CONF}/ports.conf)
 		if [ "${CONTAINS_STAR80_PORT}" != "" ]; then
-		   sed -i.bak --regexp-extended 's/(NameVirtualHost[[:space:]]+)\*:80/\1localhost:80/;' ${APACHE_CONF}/ports.conf
+		   sed -i.bak --regexp-extended 's/(NameVirtualHost[[:space:]]+)\*:80/\1127.0.0.1:80/;' ${APACHE_CONF}/ports.conf
 		fi
     fi
     ## make certain we have a directory for the JKMount directives of our apps
