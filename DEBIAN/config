@@ -96,6 +96,10 @@ if [[ "${RET}" == "" ]]; then
         db_input high dataone-cn-os-core/cn.openldap.serverID
         db_input high dataone-cn-os-core/cn.openldap.firstcn
         db_go
+    else
+    	### this is a standalone CN, it still needs to be configured
+    	### as the first CN
+    	db_set dataone-cn-os-core/cn.openldap.firstcn "true"
     fi
 else
     log "Upgrading the package. No configuration questions asked."

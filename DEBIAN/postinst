@@ -468,30 +468,23 @@ if [ "${FIRSTCN}" == "true" ]; then
         sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
         
     else
-        log "LDAP database has been populated. Evaluating migration."
-        if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
-            SCHEMA_DIFF=$(diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema)
-            if [ "${SCHEMA_DIFF}" != "" ]; then
-                log "Schema changing: Run the pre migration script"
-                ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
-                log "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
-                mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
-            fi
-        fi
-    fi
+        log "LDAP database has been populated."
+	fi
 else
-    log "This is not the first CN to be installed in the environment. Checking LDAP migration."
-    if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
-        SCHEMA_DIFF=$(diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema)
-        if [ "${SCHEMA_DIFF}" != "" ]; then
-            log "Schema changing: Run the pre migration script"
-            ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
-            log "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
-            mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
-        fi
-    fi
-fi
+    log "This is not the first CN to be installed in the environment."
 
+fi
+log "Checking LDAP migration."
+if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
+	SCHEMA_DIFF=$(diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/dataone.schema)
+	if [ "${SCHEMA_DIFF}" != "" ]; then
+		log "Schema changing: Run the pre migration script"
+		${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
+		log "Backing up ${LDAP_CONF}/schema/dataone.schema to ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}"
+		mv ${LDAP_CONF}/schema/dataone.schema ${LDAP_CONF}/schema/dataone.schema.${LONG_DATE}
+	fi
+fi
+    
 log "Copying dataone.schema to ${LDAP_CONF}/schema/"
 cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF}/schema/
 chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/schema/dataone.schema 
@@ -605,10 +598,9 @@ log "Starting slapd"
 sleep 5 # openldap doesn't seem to come up quickly enough
 
 # populate or migrate the LDAP database with the LDIF file for the chosen context
-db_get dataone-cn-os-core/cn.openldap.populated
-if [ "${RET}" == "false" ]; then
-    db_get dataone-cn-os-core/cn.openldap.firstcn
-    if [ "${RET}" == "true" ]; then
+
+if [ "${POPULATED}" == "false" ]; then
+    if [ "${FIRSTCN}" == "true" ]; then
         log "Adding all dataone schema specific entries"
         LDAPADD_RESULT="$(ldapadd -v -c -D cn=admin,dc=dataone,dc=org -w ${LDAP_PASS} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif)"
         log ${LDAPADD_RESULT}
