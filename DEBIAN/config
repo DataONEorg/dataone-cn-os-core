@@ -82,6 +82,9 @@ if [[ "${RET}" == "" ]]; then
     # Ask for the D1 public cert and private key locations
     db_input high dataone-cn-os-core/cn.server.privatekey.filepath
     
+    # Ask for the Java keystore password
+    db_input high dataone-cn-os-core/cn.keystore.password
+    
     # Ask for the LDAP database admin password
     db_input high dataone-cn-os-core/cn.openldap.password
     

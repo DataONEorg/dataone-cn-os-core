@@ -94,6 +94,11 @@ Description: What is the path to the CN server private SSL key file?
 Default: /etc/ssl/private/dataone_org.key
 Type: string
 
+Template: dataone-cn-os-core/cn.keystore.password
+Description: What is the Java keystore password?
+  Provide the Java keystore password for the default Java keystore.
+Type: password
+
 Template: dataone-cn-os-core/cn.installed
 Description: Has the Coordinating Node stack been installed previously?
  If the Coordination Node software has already been installed, certain
