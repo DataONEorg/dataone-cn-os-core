@@ -239,7 +239,7 @@ fi
 db_get dataone-cn-os-core/cn.keystore.password
 JAVA_KEYSTORE_PASSWORD=${RET}
 log "Adding ${SSL_CERT_DIR}/gd_intermediate_bundle.crt to Java keystore: ${JAVA_KEYSTORE}"
-keytool -import -alias godaddy -file ${SSL_CERT_DIR}/gd_intermediate_bundle.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/gd_intermediate_bundle.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
 
 # Always clear the cached keystore password
 db_set dataone-cn-os-core/cn.keystore.password "" # clear the cached pw
