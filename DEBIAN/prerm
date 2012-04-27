@@ -30,8 +30,8 @@ echo "Stopping Apache"
 #echo "Removing Mod JK"
 #a2dismod jk
 
-echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
-rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
+#echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
+#rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
 
 ## remove workers.properties file for mod-jk
 if [ -e ${MOD_JK_CONF}/workers.properties ]
