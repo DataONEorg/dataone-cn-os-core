@@ -23,12 +23,12 @@ echo "Stopping Apache"
 /etc/init.d/apache2 stop
 
 # Turn off the ssl module
-echo "Removing Mod SSL"
-a2dismod ssl
+#echo "Removing Mod SSL"
+#a2dismod ssl
 
 ## disable  mod jk 
-echo "Removing Mod JK"
-a2dismod jk
+#echo "Removing Mod JK"
+#a2dismod jk
 
 echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
 rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
@@ -87,5 +87,8 @@ echo "starting Tomcat server"
 # Remove OpenLDAP
 ###############################################################################
 ## TODO: remove config, schema, and data
-
+if [ -e "/usr/share/debconf/confmodule" ]; then
+    . /usr/share/debconf/confmodule
+    db_purge
+fi
 echo "Removal of CN OS CORE complete."
