@@ -308,20 +308,6 @@ if [[ "${RET}" == "" ]]; then
 	## replace the token HOSTNAME in the site file to a hostname beginning with cn in the /etc/hosts file
 	# HOSTNAME=$(perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts)
 	
-	## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
-	HOSTNAME=$(/bin/hostname -f)
-	if [ "$HOSTNAME" != "" ]
-	then
-              sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
-	else
-              log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
-	fi
-            ## enable ${SITE} site
-            log "Enabling ${SITE} site"
-            a2dissite ${SITE}
-            a2ensite ${SITE}
-
-        done
 
     # be sure mod_proxy and mod_rewrite are enabled
 	log "Refreshing Proxy"
@@ -356,6 +342,21 @@ if [[ "${RET}" == "" ]]; then
 else
     log "Upgrading the package. No new configuration of apache needed."
 fi
+
+## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
+HOSTNAME=$(/bin/hostname -f)
+if [ "$HOSTNAME" != "" ]
+then
+		  sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
+else
+		  log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
+fi
+		## enable ${SITE} site
+		log "Enabling ${SITE} site"
+		a2dissite ${SITE}
+		a2ensite ${SITE}
+
+done
 
 ## Start Apache
 /etc/init.d/apache2 start
