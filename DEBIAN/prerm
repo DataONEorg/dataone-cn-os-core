@@ -51,10 +51,11 @@ rm -rf ${SOURCE_DIR}
 ## copy in site configuration files
 for SITE in ${SITES}
 do
-    a2dissite ${SITE}
-
-    rm -f  ${APACHE_CONF}/sites-available/${SITE}*
-
+	if [ -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
+		a2dissite ${SITE}
+	
+		rm -f  ${APACHE_CONF}/sites-available/${SITE}*
+    fi
 done
 
 ## enable the default apache site
@@ -86,9 +87,5 @@ echo "starting Tomcat server"
 ###############################################################################
 # Remove OpenLDAP
 ###############################################################################
-## TODO: remove config, schema, and data
-if [ -e "/usr/share/debconf/confmodule" ]; then
-    . /usr/share/debconf/confmodule
-    db_purge
-fi
+
 echo "Removal of CN OS CORE complete."
