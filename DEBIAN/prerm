@@ -10,7 +10,7 @@ SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
-SITES="cn cn-ssl"
+SITES="cn-ssl"
 
 
 
@@ -51,7 +51,9 @@ rm -rf ${SOURCE_DIR}
 ## copy in site configuration files
 for SITE in ${SITES}
 do
-	if [ -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
+	
+	if [ ${SITE} != "" -a -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
+		echo "Revoving ${SITE}"
 		a2dissite ${SITE}
 	
 		rm -f  ${APACHE_CONF}/sites-available/${SITE}*
