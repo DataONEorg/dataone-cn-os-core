@@ -22,7 +22,7 @@ logError () {
 }
 
 log () {
-    echo -e "$@" >> ${D1_LOG_DIR}/dataone-cn-metacat.install.log
+    echo -e "$@" >> ${D1_LOG_DIR}/dataone-cn-os-core.install.log
 }
 
 log "dataone-cn-os-core.postinst called"
@@ -69,8 +69,8 @@ case "${ACTION}" in
     configure)
     log "Configure called."
     
-    db_get dataone-cn-metacat/cn.metacat.replication.certificate.filepath
-    if [[ ${RET} == "" ]]; then
+    db_get dataone-cn-os-core/cn.installed
+    if [[ "${RET}" != *true* ]]; then
     
         # Fetch the cn.context.label from the debconf database and set the per-environment variables
         db_get dataone-cn-os-core/cn.context.label
