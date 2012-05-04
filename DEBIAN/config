@@ -31,7 +31,7 @@ log "dataone-cn-metacat.config script called with action: ${ACTION}"
 
 # Upgrade or install: check for previous values
 db_get dataone-cn-os-core/cn.installed
-if [[ "${RET}" == "" ]]; then
+if [[ "${RET}" != *true* ]]; then
 	
    # Ask the person installing what environment should be installed
    db_input high dataone-cn-os-core/cn.context.label

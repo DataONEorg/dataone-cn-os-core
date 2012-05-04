@@ -80,7 +80,7 @@ case "${ACTION}" in
         # Set the context of the deployment (DEV, STAGE, SANDBOX, PRODUCTION)
         ##################################################################
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
-        if [[ "${RET}" == "" ]]; then
+        if [[ "${RET}" != *true* ]]; then
         
             CONTEXT_LABEL="cn.context.label"
             NODE_PROPS="$D1_CONF/node.properties"
@@ -203,7 +203,7 @@ case "${ACTION}" in
         # secure to do so -- access to the file must be restricted
         ##################################################################
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
-        if [[ "${RET}" == "" ]]; then
+        if [[ "${RET}" != *true* ]]; then
             
             log "Start configuration of DataONE private key"
             
@@ -268,7 +268,7 @@ case "${ACTION}" in
         /etc/init.d/apache2 stop
         
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
-        if [[ "${RET}" == "" ]]; then
+        if [[ "${RET}" != *true* ]]; then
         
             ## change the available port 80 only to localhost
             if [ -e ${APACHE_CONF}/ports.conf ]; then 
@@ -380,7 +380,7 @@ case "${ACTION}" in
         /etc/init.d/${TOMCAT} stop
         
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
-        if [[ "${RET}" == "" ]]; then
+        if [[ "${RET}" != *true* ]]; then
         
             # determine if the tomcat init script has a sufficient heap size
             # XXX the below configuration needs to be altered per environment
@@ -696,7 +696,7 @@ case "${ACTION}" in
         ###############################################################################
         
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
-        if [[ "${RET}" == "" ]]; then
+        if [[ "${RET}" != *true* ]]; then
         
             #open up the correct port for ldap, ssh, and enable ufw
             db_get dataone-cn-os-core/cn.iplist
