@@ -77,7 +77,7 @@ case "${ACTION}" in
         CONTEXT=${RET}
             
         ##################################################################
-        # Set the context of the deployment (DEV, STAGE, SANDBOX, PRODUCTION)
+        # Set the context of the deployment (LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION)
         ##################################################################
         db_get dataone-cn-os-core/cn.installed # check if this is a new install
         if [[ "${RET}" != *true* ]]; then

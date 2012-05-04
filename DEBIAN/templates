@@ -3,7 +3,7 @@ Description: Which deployment environment?
  Choose a deployment environment to install from the list
 Default: DEV
 Type: select
-Choices: DEV, STAGE, SANDBOX, PRODUCTION
+Choices: LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION
 
 Template: dataone-cn-os-core/cn.nodeid
 Description: What is the unique node id of this CN?
