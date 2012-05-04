@@ -34,11 +34,9 @@ echo "Stopping Apache"
 #rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
 
 ## remove workers.properties file for mod-jk
-if [ -e ${MOD_JK_CONF}/workers.properties ]
-then 
+if [ -e ${MOD_JK_CONF}/workers.properties ]; then 
   WORKERS_PROPS_DIFF=`diff ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/workers.properties`
-  if [ "${WORKERS_PROPS_DIFF}" != "" ]
-  then
+  if [ "${WORKERS_PROPS_DIFF}" != "" ]; then
     echo "Backing up ${MOD_JK_CONF}/workers.properties to ${MOD_JK_CONF}/workers.properties.${LONG_DATE}"
     mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
   fi
