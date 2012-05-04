@@ -105,7 +105,7 @@ case "${ACTION}" in
                 db_get dataone-cn-os-core/cn.openldap.synchronized
                 SYNCHRONIZED=${RET}
                 
-                if [ ${SYNCHRONIZED} != "false" ];then
+                if [[ ${SYNCHRONIZED} != *false* ]];then
                     db_get dataone-cn-os-core/${IPLIST_LABEL}
                     IPLIST=${RET}
                 fi
@@ -720,7 +720,83 @@ case "${ACTION}" in
         
         log "Configuration of dataone-cn-os-core complete."
     else
-        log "Already configured, skipping postinst."
+        log "Already configured, just setting pre-seeded node properties."
+        
+        NODE_PROPS="$D1_CONF/node.properties"
+        
+        # set the environment context in node.properties
+        CONTEXT_LABEL="cn.context.label"
+        db_get dataone-cn-os-core/cn.context.label
+        CONTEXT=${RET}
+        if [ -e ${NODE_PROPS} ]; then
+            sed -i.bak "s/\(${CONTEXT_LABEL} *=\).*/\1${CONTEXT}/" ${NODE_PROPS}
+        else
+            log "The file ${NODE_PROPS} must be in place to proceed."
+            exit 1;
+        fi
+        
+        # set the IP address list in node.properties
+        IPLIST_LABEL="cn.iplist"        
+        if [ -e ${NODE_PROPS} ]; then
+            # Fetch the context's ip list from the debconf database
+            IPLIST="127.0.0.1"
+            # if the cn.openldap.synchronized is false then the 
+            # CN will be running in standalone mode
+            # no synchronization, no other hazelcast cluster members
+            
+            db_get dataone-cn-os-core/cn.openldap.synchronized
+            SYNCHRONIZED=${RET}
+            
+            if [[ ${SYNCHRONIZED} != *false* ]];then
+                db_get dataone-cn-os-core/${IPLIST_LABEL}
+                IPLIST=${RET}
+            fi
+            sed -i.bak "s/\(${IPLIST_LABEL} *=\).*/\1${IPLIST}/" ${NODE_PROPS}
+        else
+            log "Couldn't set the IP list correctly."
+        fi
+        
+        
+        # set the environment node id list in node.properties
+        NODEIDS_LABEL="cn.nodeIds"        
+        if [ -e ${NODE_PROPS} ]; then
+            # Fetch the context's node id list from the debconf database
+            db_get dataone-cn-os-core/cn.nodeids
+            sed -i.bak "s/\(${NODEIDS_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+        else
+            log "Couldn't set the node id list correctly."
+        fi
+        
+        # set the environment node id in node.properties
+        NODEID_LABEL="cn.nodeId"        
+        if [ -e ${NODE_PROPS} ]; then
+            # Fetch the context's node id from the debconf database
+            db_get dataone-cn-os-core/cn.nodeid
+            sed -i.bak "s/\(${NODEID_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+        else
+            log "Couldn't set the node id correctly."
+        fi
+     
+        # set the environment round robin id in node.properties
+        NODE_RR_LABEL="cn.router.nodeId"        
+        if [ -e ${NODE_PROPS} ]; then
+            # Fetch the context's node round robin id from the debconf database
+            db_get dataone-cn-os-core/cn.router.nodeId
+            sed -i.bak "s/\(${NODE_RR_LABEL} *=\).*/\1${RET}/" ${NODE_PROPS}
+        else
+            log "Couldn't set the round robin node id correctly."
+        fi
+        
+        # set the environment round robin hostname in node.properties
+        NODE_RR_HOSTNAME="cn.router.hostname"        
+        if [ -e ${NODE_PROPS} ]; then
+            # Fetch the context's node round robin hostname from the debconf database
+            db_get dataone-cn-os-core/cn.router.hostname
+            sed -i.bak "s/\(${NODE_RR_HOSTNAME} *=\).*/\1${RET}/" ${NODE_PROPS}
+        else
+            log "Couldn't set the round robin hostname correctly."
+        fi
+        
     fi
     ;;
 esac
