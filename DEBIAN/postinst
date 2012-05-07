@@ -636,6 +636,9 @@ case "${ACTION}" in
         log "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
         #slapd -h 'ldap:/// ldapi:///' -g ${LDAP_USER} -u ${LDAP_USER} -f /etc/ldap/slapd.conf
         
+        ## make sure we own the storage folder
+        chown -R ${LDAP_USER}.${LDAP_USER} /var/lib/ldap
+        
         rm -rf ${LDAP_CONF}/slapd.d/*
         slaptest -f ${LDAP_CONF}/slapd.conf -F ${LDAP_CONF}/slapd.d
         if [ -e ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif ]; then
