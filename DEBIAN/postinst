@@ -622,6 +622,7 @@ case "${ACTION}" in
         
         ## set permissions 
         chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
+        chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/ldap.conf
         
         # try to add the dc=org before going through the rest of the routine
         # the worst that could happen is a denied message
