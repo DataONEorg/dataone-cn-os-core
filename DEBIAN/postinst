@@ -566,6 +566,7 @@ case "${ACTION}" in
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tsearchbase=\"dc=org\""
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttype=refreshAndPersist"
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\tstarttls=yes"                            
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
