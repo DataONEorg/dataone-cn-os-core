@@ -529,12 +529,33 @@ case "${ACTION}" in
         log "Copying slapd.conf to ${LDAP_CONF}/"
         cp ${SCRIPT_DIR}/ldap/slapd.conf ${LDAP_CONF}/
         
+        ## place ldap.conf template
+        if [ -e ${LDAP_CONF}/ldap.conf ]; then 
+            LDAP_DIFF=$(diff ${SCRIPT_DIR}/ldap/ldap.conf ${LDAP_CONF}/ldap.conf)
+            if [ "${LDAP_DIFF}" != "" ]; then
+                log "Backing up ${LDAP_CONF}/ldap.conf to ${LDAP_CONF}/ldap.conf.${LONG_DATE}"
+                mv ${LDAP_CONF}/ldap.conf ${LDAP_CONF}/ldap.conf.${LONG_DATE}
+            fi
+        fi
+        log "Copying ldap.conf to ${LDAP_CONF}/"
+        cp ${SCRIPT_DIR}/ldap/ldap.conf ${LDAP_CONF}/
+        
         ## Configure the slapd.conf file with correct values
         if [ -e ${LDAP_CONF}/slapd.conf ]; then
             # Fetch the ldap rootpw from the debconf database
             db_get dataone-cn-os-core/cn.openldap.password
             LDAP_PASS=${RET}
             sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
+            
+            ## TODO: Fetch the server certificate location if not default
+            #db_get dataone-cn-os-core/cn.client.certificate.filename
+            #LDAP_CERTIFICATE=${RET}
+            #sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF}/slapd.conf
+            
+            # Fetch the server private key location
+            db_get dataone-cn-os-core/cn.server.privatekey.filepath
+            LDAP_PRIVATEKEY=${RET}
+            sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF}/slapd.conf
             
             db_get dataone-cn-os-core/cn.nodeid
             NODEID=${RET}
