@@ -48,7 +48,7 @@ JAVA_SECURITY=/usr/lib/jvm/java-6-sun/jre/lib/security/java.security
 JAVA_SECURITY_EXT=/usr/lib/jvm/java-6-sun/jre/lib/ext
 JAVA_KEYSTORE=/usr/lib/jvm/java-6-sun/jre/lib/security/cacerts
 LDAP_USER=openldap
-CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem DataONETestCA.pem"
+CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
 
@@ -223,6 +223,12 @@ case "${ACTION}" in
                 this, SSL will not function properly."
             fi
         
+        	# get the DataONE CA
+            db_get dataone-cn-os-core/cn.dataone.ca.filename
+            DATAONE_CA_FILE=${RET}
+            
+            # add the DataONE CA to the list
+            CILOGON_CERTS="${CILOGON_CERTS} ${DATAONE_CA_FILE}"
             
             log "Start configuration of public CA store"
             
@@ -248,7 +254,7 @@ case "${ACTION}" in
         fi
         
         ###############################################################################
-        # Configure Java keystore with GoDaddy CA
+        # Configure Java keystore with GoDaddy and DataONE CA
         ###############################################################################
         # Get the password
         db_get dataone-cn-os-core/cn.keystore.password
@@ -256,9 +262,11 @@ case "${ACTION}" in
         log "Adding ${SSL_CERT_DIR}/gd_intermediate_bundle.crt to Java keystore: ${JAVA_KEYSTORE}"
         keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/gd_intermediate_bundle.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
         
-        # TODO: configurable D1 CA cert
-        log "Adding ${SSL_CERT_DIR}/DataONETestCA.pem to Java keystore: ${JAVA_KEYSTORE}"
-        keytool -import -noprompt -alias DataONETestCA -file ${SSL_CERT_DIR}/DataONETestCA.pem -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        # get the DataONE CA
+		db_get dataone-cn-os-core/cn.dataone.ca.filename
+		DATAONE_CA_FILE=${RET}
+        log "Adding ${SSL_CERT_DIR}/${DATAONE_CA_FILE} to Java keystore: ${JAVA_KEYSTORE}"
+        keytool -import -noprompt -alias DataONECA -file ${SSL_CERT_DIR}/${DATAONE_CA_FILE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
         
         # Always clear the cached keystore password
         db_set dataone-cn-os-core/cn.keystore.password "" # clear the cached pw
@@ -542,6 +550,16 @@ case "${ACTION}" in
         fi
         log "Copying ldap.conf to ${LDAP_CONF}/"
         cp ${SCRIPT_DIR}/ldap/ldap.conf ${LDAP_CONF}/
+        
+        ## Configure the ldap.conf file with correct value for the CA cert
+        if [ -e ${LDAP_CONF}/ldap.conf ]; then
+            # Fetch the DataONE CA
+            db_get dataone-cn-os-core/cn.dataone.ca.filename
+            DATAONE_CA_FILENAME=${RET}
+            DATAONE_CA_FILENAME="${SSL_CERT_DIR}/${DATAONE_CA_FILENAME}"
+            DATAONE_CA_FILENAME=${DATAONE_CA_FILENAME//\//\\\/}
+            sed -i.bak "s/^\(TLS_CACERT *\).*/\1           ${DATAONE_CA_FILENAME}/" ${LDAP_CONF}/ldap.conf
+        fi    
         
         ## Configure the slapd.conf file with correct values
         if [ -e ${LDAP_CONF}/slapd.conf ]; then
