@@ -629,6 +629,9 @@ case "${ACTION}" in
         chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/slapd.conf
         chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF}/ldap.conf
         
+        # add to ssl-cert group so it can read private keys
+        adduser ${LDAP_USER} ssl-cert
+        
         # try to add the dc=org before going through the rest of the routine
         # the worst that could happen is a denied message
         
