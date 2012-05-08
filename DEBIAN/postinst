@@ -550,11 +550,13 @@ case "${ACTION}" in
             # Fetch the replicaiton certificate location
             db_get dataone-cn-os-core/cn.replication.certificate.filename
             LDAP_CERTIFICATE=${RET}
+            LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
             sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF}/slapd.conf
             
             # Fetch the replication private key location
             db_get dataone-cn-os-core/cn.replication.privatekey.filename
             LDAP_PRIVATEKEY=${RET}
+            LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}            
             sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF}/slapd.conf
             
             # Allow us to use non-standard cert/key locations for slapd
