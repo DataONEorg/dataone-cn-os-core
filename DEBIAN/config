@@ -31,8 +31,7 @@ log () {
 log "dataone-cn-os-core.config script called with action: ${ACTION}"
 
 # Upgrade or install: check for previous values
-db_get dataone-cn-os-core/cn.installed
-if [[ "${RET}" != *true* ]]; then
+if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
 	
    # Ask the person installing what environment should be installed
    db_input high dataone-cn-os-core/cn.context.label
