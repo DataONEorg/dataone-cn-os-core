@@ -87,6 +87,20 @@ Description: What is the path to the CN client certificate file?
 Default: /etc/dataone/client/certs/cnEnvUCSB1.crt
 Type: string
 
+Template: dataone-cn-os-core/cn.replication.certificate.filename
+Description: What is the path to the CN replication certificate file?
+ At times the CN communicates over HTTPS with other CNs.
+ Provide the path to the SSL certificate generated for this CN.
+Default: /etc/dataone/client/certs/cn-dev.dataone.org.pem
+Type: string
+
+Template: dataone-cn-os-core/cn.replication.privatekey.filename
+Description: What is the path to the CN replication privatekey file?
+ At times the CN communicates over HTTPS with other CNs.
+ Provide the path to the SSL private key generated for this CN.
+Default: /etc/dataone/client/private/cn-dev.dataone.org.key
+Type: string
+
 Template: dataone-cn-os-core/cn.server.privatekey.filepath
 Description: What is the path to the CN server private SSL key file?
  The CN communicates over HTTPS with other clients and nodes. Provide the path 

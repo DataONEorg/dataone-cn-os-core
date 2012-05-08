@@ -88,6 +88,10 @@ if [[ "${RET}" != *true* ]]; then
     # Ask for the D1 public cert and private key locations
     db_input high dataone-cn-os-core/cn.server.privatekey.filepath
     
+    # Ask for the replication cert and private key locations
+    db_input high dataone-cn-os-core/cn.replication.certificate.filename
+    db_input high dataone-cn-os-core/cn.replication.privatekey.filename  
+    
     # Ask for the Java keystore password
     db_input high dataone-cn-os-core/cn.keystore.password
     

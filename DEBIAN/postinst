@@ -547,15 +547,20 @@ case "${ACTION}" in
             LDAP_PASS=${RET}
             sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
             
-            ## TODO: Fetch the server certificate location if not default
-            #db_get dataone-cn-os-core/cn.client.certificate.filename
-            #LDAP_CERTIFICATE=${RET}
-            #sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF}/slapd.conf
+            # Fetch the replicaiton certificate location
+            db_get dataone-cn-os-core/cn.replication.certificate.filename
+            LDAP_CERTIFICATE=${RET}
+            sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF}/slapd.conf
             
-            # Fetch the server private key location
-            db_get dataone-cn-os-core/cn.server.privatekey.filepath
+            # Fetch the replication private key location
+            db_get dataone-cn-os-core/cn.replication.privatekey.filename
             LDAP_PRIVATEKEY=${RET}
             sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF}/slapd.conf
+            
+            # Allow us to use non-standard cert/key locations for slapd
+            aa-complain /etc/apparmor.d/usr.sbin.slapd
+            # TODO: instead of disabling apparmor, add exceptions to the config
+            # file located here: /etc/apparmor.d/usr.sbin.slapd
             
             db_get dataone-cn-os-core/cn.nodeid
             NODEID=${RET}
