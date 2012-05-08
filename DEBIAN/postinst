@@ -256,6 +256,10 @@ case "${ACTION}" in
         log "Adding ${SSL_CERT_DIR}/gd_intermediate_bundle.crt to Java keystore: ${JAVA_KEYSTORE}"
         keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/gd_intermediate_bundle.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
         
+        # TODO: configurable D1 CA cert
+        log "Adding ${SSL_CERT_DIR}/DataONETestCA.pem to Java keystore: ${JAVA_KEYSTORE}"
+        keytool -import -noprompt -alias DataONETestCA -file ${SSL_CERT_DIR}/DataONETestCA.pem -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        
         # Always clear the cached keystore password
         db_set dataone-cn-os-core/cn.keystore.password "" # clear the cached pw
         
