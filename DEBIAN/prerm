@@ -27,8 +27,8 @@ echo "Stopping Apache"
 #a2dismod ssl
 
 ## disable  mod jk 
-#echo "Removing Mod JK"
-#a2dismod jk
+echo "Disabling Mod JK"
+a2dismod jk
 
 #echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
 #rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
@@ -41,17 +41,17 @@ if [ -e ${MOD_JK_CONF}/workers.properties ]; then
     mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
   fi
 fi
-echo "Copying workers.properties to ${MOD_JK_CONF}/"
+echo "Removing workers.properties from ${MOD_JK_CONF}/"
 rm -f ${MOD_JK_CONF}/workers.properties*
 
 rm -rf ${SOURCE_DIR}
 
-## copy in site configuration files
+## disable site configuration files
 for SITE in ${SITES}
 do
 	
 	if [ ${SITE} != "" -a -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
-		echo "Revoving ${SITE}"
+		echo "Disabling and removing ${SITE}"
 		a2dissite ${SITE}
 	
 		rm -f  ${APACHE_CONF}/sites-available/${SITE}*
