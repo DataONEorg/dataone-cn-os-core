@@ -70,7 +70,7 @@ case "${ACTION}" in
     configure)
     log "Configure called."
     
-    if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+    if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
     
         # Fetch the cn.context.label from the debconf database and set the per-environment variables
         db_get dataone-cn-os-core/cn.context.label
@@ -80,7 +80,7 @@ case "${ACTION}" in
         # Set the context of the deployment (LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION)
         ##################################################################
         # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
         
             CONTEXT_LABEL="cn.context.label"
             NODE_PROPS="$D1_CONF/node.properties"
@@ -203,7 +203,7 @@ case "${ACTION}" in
         # secure to do so -- access to the file must be restricted
         ##################################################################
         # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
             
             log "Start configuration of DataONE private key"
             
@@ -280,7 +280,7 @@ case "${ACTION}" in
         /etc/init.d/apache2 stop
         
         # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
         
             ## change the available port 80 only to localhost
             if [ -e ${APACHE_CONF}/ports.conf ]; then 
@@ -392,7 +392,7 @@ case "${ACTION}" in
         /etc/init.d/${TOMCAT} stop
         
         # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
         
             # determine if the tomcat init script has a sufficient heap size
             # XXX the below configuration needs to be altered per environment
@@ -754,7 +754,7 @@ case "${ACTION}" in
         ###############################################################################
         
         # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-metacat | grep Status | cut -d" " -f4) != "installed" ]]; then
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
         
             #open up the correct port for ldap, ssh, and enable ufw
             db_get dataone-cn-os-core/cn.iplist
