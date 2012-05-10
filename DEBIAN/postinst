@@ -51,6 +51,8 @@ LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
+CLIENT_CERT_DIR=/etc/dataone/client/certs
+CLIENT_PRIVATE_DIR=/etc/dataone/client/private
 
 ##################################################################
 # Create a difficult to guess token to pass for Solr auth
@@ -158,13 +160,12 @@ case "${ACTION}" in
         
             db_get dataone-cn-os-core/cn.client.certificate.filepath
             CERT_FILE=${RET}
-            CERT_DIR=/etc/dataone/client/certs
             if [ ${CERT_FILE} != "false" ] && [ -e ${CERT_FILE} ];then
-                if [[ "${CERT_FILE}" == ${CERT_DIR}* ]]; then
+                if [[ "${CERT_FILE}" == ${CLIENT_PRIVATE_DIR}* ]]; then
                     log "No need to copy certificate file, it's already in place."
                 else
                     log "Copying certificate file: ${CERT_FILE}."
-                    cp ${CERT_FILE} ${CERT_DIR}
+                    cp ${CERT_FILE} ${CLIENT_PRIVATE_DIR}
                     log "Completed configuration of CN client certificate file."
                 fi
                 # get the filename from end of the path and assign it to cn.client.certificate.filename
@@ -177,6 +178,9 @@ case "${ACTION}" in
                 fi
             fi
             
+            # set permissions correctly for the certs and private dirs
+            chown -R ${TOMCAT_USER}.ssl-cert ${CLIENT_CERT_DIR}            
+            chown -R ${TOMCAT_USER}.ssl-cert ${CLIENT_PRIVATE_DIR}
             
             CLIENTCERT_FILENAME_LABEL="D1Client.certificate.filename"
             db_get dataone-cn-os-core/cn.client.certificate.filename
@@ -574,11 +578,17 @@ case "${ACTION}" in
             LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
             sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF}/slapd.conf
             
+            # make sure we have the correct ownership
+            chown ${TOMCAT_USER}.ssl-cert ${LDAP_CERTIFICATE}
+            
             # Fetch the replication private key location
             db_get dataone-cn-os-core/cn.replication.privatekey.filename
             LDAP_PRIVATEKEY=${RET}
             LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}            
             sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF}/slapd.conf
+            
+            # make sure we have the correct ownership for the key
+            chown ${TOMCAT_USER}.ssl-cert ${LDAP_PRIVATEKEY}
             
             # Allow us to use non-standard cert/key locations for slapd
             aa-complain /etc/apparmor.d/usr.sbin.slapd

@@ -38,7 +38,7 @@ if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed"
    # What is the node id of this CN?
    db_input high dataone-cn-os-core/cn.nodeid
     
-   # populate the x509 certificate filenames from /etc/dataone/client/certs
+   # populate the x509 certificate/privatekey filenames from /etc/dataone/client/private
    # and substitute them into a parameter in the description
     if [ -d ${D1_CLIENTCERT_DIR} ]; then
         clientcert_dir_contents=(`ls ${D1_CLIENTCERT_DIR}| xargs`)
