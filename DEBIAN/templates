@@ -12,6 +12,10 @@ Description: What is the unique node id of this CN?
  urn:node:cnSandboxUCSB1
 Type: string
 
+Template: dataone-cn-os-core/cn.dataone.ca.filename
+Description: What is the DataONE CA filename?
+Type: string
+
 Template: dataone-cn-os-core/cn.client.certificate.filename
 Description: What is the filename of the client certificate to be used for this CN?
  Enter the x509 certificate's filename for the CN currently being installed. It 
