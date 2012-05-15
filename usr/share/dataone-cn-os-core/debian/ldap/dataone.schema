@@ -305,6 +305,13 @@ attributetype (
     EQUALITY caseExactMatch
     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
     )
+attributetype ( 
+	d1NodeListAttributeType:24
+	NAME 'd1NodeAdministrativeSubject'
+	DESC 'Identity responsible for Administrative functions of the Node'
+	EQUALITY distinguishedNameMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	)
 objectclass (
     d1NodeListObjectClass:1
     NAME 'd1Node'
@@ -318,7 +325,7 @@ objectclass (
         d1NodeSynSchdSec $ d1NodeSynSchdMin  $ d1NodeSynSchdHour $  
         d1NodeSynSchdMday $ d1NodeSynSchdMon $ d1NodeSynSchdWday $  
         d1NodeSynSchdYear $ d1NodePingSuccess $ d1NodePingDateChecked $
-        d1NodeLogLastAggregated $ d1NodeProcessingState )
+        d1NodeLogLastAggregated $ d1NodeProcessingState $ d1NodeAdministrativeSubject)
     )
 objectclass (
     d1NodeListObjectClass:2

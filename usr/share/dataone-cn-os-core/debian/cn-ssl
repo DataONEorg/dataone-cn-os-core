@@ -14,6 +14,20 @@
 	RewriteEngine On
 	SSLProxyEngine On
     RewriteOptions Inherit
+    
+   <Location /knb/metacat>
+        Order allow,deny
+        Allow from 127.0.0.0/8 ::1
+    </Location>
+    <Location /knb/servlet/metacat>
+        Order allow,deny
+        Allow from 127.0.0.0/8 ::1
+    </Location>
+    <Location /knb/d1/mn>
+        Order allow,deny
+        Allow from 127.0.0.0/8 ::1
+    </Location>
+
 
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On
