@@ -306,7 +306,7 @@ attributetype (
     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
     )
 attributetype ( 
-	d1NodeListAttributeType:24
+	d1NodeListAttributeType:30
 	NAME 'd1NodeAdministrativeSubject'
 	DESC 'Identity responsible for Administrative functions of the Node'
 	EQUALITY distinguishedNameMatch
