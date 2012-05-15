@@ -13,7 +13,7 @@ fi
 # functions to echo to STDERR or the install log instead of STDOUT
 D1_LOG_DIR=/var/log/dataone
 D1_CONF=/etc/dataone
-D1_CLIENTCERT_DIR=${D1_CONF}/client/certs
+D1_CLIENTCERT_DIR=${D1_CONF}/client/private
 
 if [ ! -e $D1_LOG_DIR ]; then
     mkdir -p $D1_LOG_DIR
