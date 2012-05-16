@@ -29,6 +29,13 @@ Description: List the IP adresses:
  of IP addresses.
 Type: string
 
+Template: dataone-cn-os-core/cn.hostnamelist
+Description: List the hostnames:
+ The hostnames for each Coordinating Node in the environment are needed to
+ configure LDAP, Hazelcast, and other services. Provide a space-separated list
+ of hostnames.
+Type: string
+
 Template: dataone-cn-os-core/cn.nodeids
 Description: List the Node IDs:
  The node IDs for each Coordinating Node in the environment are needed to

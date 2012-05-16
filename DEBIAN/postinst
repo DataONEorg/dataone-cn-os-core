@@ -602,7 +602,7 @@ case "${ACTION}" in
             SYNC_SETTINGS="\n"; # synchronization definitions and settings
             db_get dataone-cn-os-core/cn.openldap.synchronized
             if [ "${RET}" == "true" ]; then
-                db_get dataone-cn-os-core/cn.iplist
+                db_get dataone-cn-os-core/cn.hostnamelist
                 ADDRESSES=${RET}
                 db_get dataone-cn-os-core/cn.nodeids
                 NODEIDS=( ${RET} ) # node ids array
