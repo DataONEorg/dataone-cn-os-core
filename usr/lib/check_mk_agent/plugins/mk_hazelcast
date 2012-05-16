@@ -1,0 +1,17 @@
+#!/bin/sh
+
+PATH=${PATH}:/sbin:/usr/lib/nagios/plugins
+export PATH
+
+host=`hostname -f`
+ports='5701 5702 5703'
+
+echo "<<<hazelcast>>>"
+
+for port in ${ports}; do
+    result="`check_tcp -H ${host} -p ${port}`"
+    if [ "X${result}" = "XConnection refused" ]; then
+        result="TCP CRIT - ${result}"
+    fi
+    echo "${port} : ${result}"
+done
