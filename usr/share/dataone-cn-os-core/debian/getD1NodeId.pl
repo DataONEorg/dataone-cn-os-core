@@ -1,25 +1,32 @@
 #!/usr/bin/perl
+
+use Getopt::Long();
 use Net::LDAP::LDIF;
 use Net::LDAP::Entry;
 use strict;
 
+my $environment;
+my $help;
+
+Getopt::Long::GetOptions(
+   'env=s' => \$environment,
+   'help' => \$help
+) or usage("Invalid commmand line options.");
+ 
+usage() if (defined $help);
+
+usage() if (!defined $environment);
+
+   
 my $cnNodeReference = "ERROR";
-my $hostname;
-open(HOSTS, '/etc/hosts');
+my $hostname = `/bin/hostname -f`;
+chomp($hostname);
+print "'${hostname}'\n";
+my $cnUrl = "NOOP";
 
-while (<HOSTS>) 
-	{
-	if ($_ =~ /^(?:[\d\.]+)\s+(cn[^\s]+)\s*/) 
-		{
-		$hostname= $1;
-		last;	
-		}
-	}
-close(HOSTS);
+my $ldif = Net::LDAP::LDIF->new( "/usr/share/dataone-cn-os-core/debian/ldap/${environment}NodeList.ldif", "r") || die;
 
-my $ldif = Net::LDAP::LDIF->new( "/usr/share/dataone-cn-os-core/debian/ldap/devNodeList.ldif", "r") || die;
-
-while( not $ldif->eof ( ) ) 
+while( not $ldif->eof ( ) )
 	{
 	my $entry = $ldif->read_entry ( );
 	if ( $ldif->error ( ) ) 
@@ -30,14 +37,22 @@ while( not $ldif->eof ( ) )
 	else 
 		{
 		my $isCn = $entry->get_value("d1NodeType");
+		print "$isCn\n";
 		if ($isCn eq "cn") 
 			{
-			my $cnUrl = $entry->get_value("d1NodeBaseURL");
-			$cnNodeReference = $entry->get_value("d1NodeId") if ($cnUrl =~ /$hostname/);
+			$cnUrl = $entry->get_value("d1NodeBaseURL");
+			print "'${cnUrl}'\n";
+			if ($cnUrl =~ /$hostname/) 
+				{
+				$cnNodeReference = $entry->get_value("d1NodeId");
+				last;
+				} else {
+				$cnUrl = "NOOP";
+				}
 			}
 		}
 	}
-$ldif->done ( );
-print "$cnNodeReference";
+$ldif->done ();
+print "$cnNodeReference,$cnUrl";
 exit(0);
 
