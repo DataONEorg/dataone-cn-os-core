@@ -555,13 +555,14 @@ case "${ACTION}" in
         log "Copying ldap.conf to ${LDAP_CONF}/"
         cp ${SCRIPT_DIR}/ldap/ldap.conf ${LDAP_CONF}/
         
+        # Fetch the DataONE CA
+        db_get dataone-cn-os-core/cn.dataone.ca.filename
+        DATAONE_CA_FILENAME=${RET}
+        DATAONE_CA_FILENAME="${SSL_CERT_DIR}/${DATAONE_CA_FILENAME}"
+        DATAONE_CA_FILENAME=${DATAONE_CA_FILENAME//\//\\\/}
+            
         ## Configure the ldap.conf file with correct value for the CA cert
         if [ -e ${LDAP_CONF}/ldap.conf ]; then
-            # Fetch the DataONE CA
-            db_get dataone-cn-os-core/cn.dataone.ca.filename
-            DATAONE_CA_FILENAME=${RET}
-            DATAONE_CA_FILENAME="${SSL_CERT_DIR}/${DATAONE_CA_FILENAME}"
-            DATAONE_CA_FILENAME=${DATAONE_CA_FILENAME//\//\\\/}
             sed -i.bak "s/^\(TLS_CACERT *\).*/\1           ${DATAONE_CA_FILENAME}/" ${LDAP_CONF}/ldap.conf
         fi    
         
@@ -586,6 +587,9 @@ case "${ACTION}" in
             LDAP_PRIVATEKEY=${RET}
             LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}            
             sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF}/slapd.conf
+            
+            # Set the DataONE CA
+            sed -i.bak "s/^\(TLSCACertificateFile *\).*/\1           ${DATAONE_CA_FILENAME}/" ${LDAP_CONF}/slapd.conf
             
             # make sure we have the correct ownership for the key
             chown ${TOMCAT_USER}.ssl-cert ${LDAP_PRIVATEKEY}
@@ -625,7 +629,10 @@ case "${ACTION}" in
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tsearchbase=\"dc=org\""
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttype=refreshAndPersist"
-                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\tstarttls=yes"                            
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\tstarttls=yes"   
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttls_cert=${LDAP_CERTIFICATE}"                            
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttls_key=${LDAP_PRIVATEKEY}"
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttls_cacert=${DATAONE_CA_FILENAME}"                            
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
