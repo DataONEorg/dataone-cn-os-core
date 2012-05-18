@@ -804,7 +804,7 @@ case "${ACTION}" in
         ######################################
         db_set dataone-cn-os-core/cn.installed true
         db_fset dataone-cn-os-core/cn.installed seen true
-        db_stop
+        
         
         log "Configuration of dataone-cn-os-core complete."
     else
@@ -906,6 +906,7 @@ case "${ACTION}" in
 	
 	# root should be owner, make certain only root has permission to execute
 	chmod 700 
+	db_stop
     ;;
 esac
 exit 0
