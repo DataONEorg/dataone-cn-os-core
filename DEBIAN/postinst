@@ -905,7 +905,7 @@ case "${ACTION}" in
 	rm /usr/local/bin/ldapDeleteNode.pl.bak
 	
 	# root should be owner, make certain only root has permission to execute
-	chmod 700 
+	chmod 700 /usr/local/bin/ldapDeleteNode.pl
 	db_stop
     ;;
 esac
