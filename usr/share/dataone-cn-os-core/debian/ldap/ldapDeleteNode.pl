@@ -47,7 +47,7 @@ my $ldap = Net::LDAP->new("localhost");
 
 my $mesg = $ldap->start_tls(verify => 'none',
     clientcert => 'REPLICATION_CERTIFICATE',
-    clientkey => 'REPLICATION_CERTIFICATE_KEY'
+    clientkey => 'REPLICATION_KEY'
 );
 
 my $mesg = $ldap->bind("cn=admin,dc=dataone,dc=org", password=>${password});

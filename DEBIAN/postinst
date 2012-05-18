@@ -902,6 +902,7 @@ case "${ACTION}" in
 	#substitute the cert/key in the scripts
 
 	sed -i.bak  's/REPLICATION_CERTIFICATE/'${LDAP_CERTIFICATE}'/' /usr/local/bin/ldapDeleteNode.pl
+	sed -i.bak  's/REPLICATION_KEY/'${LDAP_PRIVATEKEY}'/' /usr/local/bin/ldapDeleteNode.pl
 	rm /usr/local/bin/ldapDeleteNode.pl.bak
 	
 	# root should be owner, make certain only root has permission to execute
