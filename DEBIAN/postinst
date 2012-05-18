@@ -886,6 +886,26 @@ case "${ACTION}" in
         fi
         
     fi
+	# Fetch the replicaiton certificate location
+	db_get dataone-cn-os-core/cn.replication.certificate.filename
+	LDAP_CERTIFICATE=${RET}
+	LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
+	
+	# Fetch the replication private key location
+	db_get dataone-cn-os-core/cn.replication.privatekey.filename
+	LDAP_PRIVATEKEY=${RET}
+	LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}
+	
+	# copy the perl scripts to /usr/local/bin
+	cp ${SCRIPT_DIR}/ldap/ldapDeleteNode.pl /usr/local/bin/ldapDeleteNode.pl
+	
+	#substitute the cert/key in the scripts
+
+	sed -i.bak  's/REPLICATION_CERTIFICATE/'${LDAP_CERTIFICATE}'/' /usr/local/bin/ldapDeleteNode.pl
+	rm /usr/local/bin/ldapDeleteNode.pl.bak
+	
+	# root should be owner, make certain only root has permission to execute
+	chmod 700 
     ;;
 esac
 exit 0
