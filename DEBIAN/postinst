@@ -194,12 +194,13 @@ case "${ACTION}" in
                   in ${NODE_PROPS} for SSL to function properly"
             fi
             
-            CLIENT_CN_URL="D1Client.CN_URL"
-            HOSTNAME=$(/bin/hostname -f)
-            if [ ${HOSTNAME} != "" ] && [ -e ${NODE_PROPS} ]; then
-                # use the hostname for the CN_URL
-                sed -i.bak "s/\(${CLIENT_CN_URL} *=\).*/\1https\:\/\/${HOSTNAME}\/cn/" ${NODE_PROPS}
-            fi
+            # not convinced we need a global D1Client.CN_URL yet
+            # CLIENT_CN_URL="D1Client.CN_URL"
+            # HOSTNAME=$(/bin/hostname -f)
+            # if [ ${HOSTNAME} != "" ] && [ -e ${NODE_PROPS} ]; then
+            #    # use the hostname for the CN_URL
+            #    sed -i.bak "s/\(${CLIENT_CN_URL} *=\).*/\1https\:\/\/${HOSTNAME}\/cn/" ${NODE_PROPS}
+            # fi
 
             sed -i.bak "s/SOLRTOKEN/${SOLR_TOKEN}/" ${NODE_PROPS}
         
