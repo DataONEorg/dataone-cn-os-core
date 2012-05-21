@@ -54,6 +54,8 @@ SSL_CERT_DIR=/etc/ssl/certs
 CLIENT_CERT_DIR=/etc/dataone/client/certs
 CLIENT_PRIVATE_DIR=/etc/dataone/client/private
 
+HOSTNAME=$(/bin/hostname -f)
+	
 ##################################################################
 # Create a difficult to guess token to pass for Solr auth
 ##################################################################
@@ -203,7 +205,14 @@ case "${ACTION}" in
             # fi
 
             sed -i.bak "s/SOLRTOKEN/${SOLR_TOKEN}/" ${NODE_PROPS}
-        
+            
+            # set the FQDN of the machine
+            if [ "$HOSTNAME" != "" ]
+            then
+              sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${NODE_PROPS}
+            else
+              log "HOSTNAME can not be set in ${NODE_PROPS}"
+            fi
         else
             log "Upgrading the package. No configuration properties reset."
         fi
@@ -382,7 +391,7 @@ case "${ACTION}" in
             # HOSTNAME=$(perl -nle 'if (/^([\d\.]+)\s+(cn[^\s]+)\s*/) {$hostname= $2;} END{print $hostname}' /etc/hosts)
             
             ## replace the token HOSTNAME in the site file to a hostname as found by issuing a hostname -f
-            HOSTNAME=$(/bin/hostname -f)
+            
             if [ "$HOSTNAME" != "" ]
             then
               sed -i.bak  's/SERVER_NAME/'${HOSTNAME}'/' ${APACHE_CONF}/sites-available/${SITE}
