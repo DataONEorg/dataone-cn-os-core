@@ -894,7 +894,7 @@ case "${ACTION}" in
             log "Couldn't set the round robin hostname correctly."
         fi
         
-    
+    fi
     cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java
     chown -R tomcat6.tomcat6 /usr/share/java/d1_cn_approve_node.jar
     
