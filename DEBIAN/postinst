@@ -895,8 +895,14 @@ case "${ACTION}" in
         fi
         
     fi
+    
+    ### the following lines until the db_stop should
+    ### be placed in a separate package that has to do with
+    ### CN specific tools
+    
     cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java
-    chown -R tomcat6.tomcat6 /usr/share/java/d1_cn_approve_node.jar
+    chmod 700 /usr/share/java/d1_cn_approve_node.jar
+    chmod 700 /usr/local/bin/dataone-approve-node
     
 	# Fetch the replicaiton certificate location
 	db_get dataone-cn-os-core/cn.replication.certificate.filename
