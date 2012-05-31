@@ -10,7 +10,7 @@ d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
 subject: cn=urn:node:cnStage,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -74,7 +74,7 @@ d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
 subject: cn=urn:node:cnStageUNM1,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -139,7 +139,7 @@ d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
 subject: cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -204,7 +204,7 @@ d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
 subject: cn=urn:node:cnStageORC1,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 

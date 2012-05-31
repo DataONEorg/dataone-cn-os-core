@@ -10,7 +10,7 @@ d1NodeApproved: TRUE
 d1NodeState: up
 d1NodeType: cn
 subject: cn=localhost,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
@@ -76,7 +76,7 @@ d1NodeState: up
 d1NodeType: mn
 d1NodeApproved: TRUE
 subject: cn=localhost,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert Waltz A610,o=Google,c=US,dc=cilogon,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 d1NodeLastHarvested: 1900-01-01T00:00:00Z
 d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
 d1NodeSynSchdSec: 0
