@@ -1,5 +1,5 @@
 Package: dataone-cn-os-core
-Version: 1.0.0
+Version: 1.0.0-RC6
 Section: utils
 Priority: optional
 Architecture: amd64
