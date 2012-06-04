@@ -63,9 +63,9 @@ d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnUNM1,dc=dataone,dc=org
-cn: urn:node:cnUNM1
-d1NodeId: urn:node:cnUNM1
+dn: cn=urn:node:CNUNM1,dc=dataone,dc=org
+cn: urn:node:CNUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeName: cn-unm-1
 d1NodeDescription: University of New Mexico Coordinating Node
 d1NodeBaseURL: https://cn-unm-1.dataone.org/cn
@@ -74,63 +74,63 @@ d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnUNM1,dc=dataone,dc=org
+subject: cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNUNM1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: urn:node:cnUNM1
+d1NodeId: urn:node:CNUNM1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnUCSB1,dc=dataone,dc=org
-cn: urn:node:cnUCSB1
-d1NodeId: urn:node:cnUCSB1
+dn: cn=urn:node:CNUCSB1,dc=dataone,dc=org
+cn: urn:node:CNUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeName: cn-ucsb-1
 d1NodeDescription: University of California Santa Barbara Coordinating Node
 d1NodeBaseURL: https://cn-ucsb-1.dataone.org/cn
@@ -139,63 +139,63 @@ d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnUCSB1,dc=dataone,dc=org
+subject: cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNUCSB1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: urn:node:cnUCSB1
+d1NodeId: urn:node:CNUCSB1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnORC1,dc=dataone,dc=org
-cn: urn:node:cnORC1
-d1NodeId: urn:node:cnORC1
+dn: cn=urn:node:CNORC1,dc=dataone,dc=org
+cn: urn:node:CNORC1
+d1NodeId: urn:node:CNORC1
 d1NodeName: cn-orc-1
 d1NodeDescription: Oak Ridge National Laboratory Coordinating Node
 d1NodeBaseURL: https://cn-orc-1.dataone.org/cn
@@ -204,54 +204,54 @@ d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnORC1,dc=dataone,dc=org
+subject: cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNCore
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNRead
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNAuthorization
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNIdentity
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNReplication
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNORC1,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
-d1NodeId: urn:node:cnORC1
+d1NodeId: urn:node:CNORC1
 d1NodeServiceName: CNRegister
 d1NodeServiceVersion: v1
 d1NodeServiceAvailable: FALSE
