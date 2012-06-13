@@ -53,7 +53,7 @@ CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
 CLIENT_CERT_DIR=/etc/dataone/client/certs
 CLIENT_PRIVATE_DIR=/etc/dataone/client/private
-
+PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
 HOSTNAME=$(/bin/hostname -f)
 	
 ##################################################################
@@ -248,7 +248,13 @@ case "${ACTION}" in
             DATAONE_CA_FILE=${RET}
             
             # add the DataONE CA to the list
-            CILOGON_CERTS="${CILOGON_CERTS} ${DATAONE_CA_FILE}"
+            # this may change if we move to a chainfile for apache
+            if [ "${CONTEXT}" == "production" ]; then
+            	
+            	CILOGON_CERTS="${CILOGON_CERTS} ${PROD_CERTS}"
+            else
+            	CILOGON_CERTS="${CILOGON_CERTS} ${DATAONE_CA_FILE}"
+            fi
             
             log "Start configuration of public CA store"
             
@@ -279,8 +285,8 @@ case "${ACTION}" in
         # Get the password
         db_get dataone-cn-os-core/cn.keystore.password
         JAVA_KEYSTORE_PASSWORD=${RET}
-        log "Adding ${SSL_CERT_DIR}/gd_intermediate_bundle.crt to Java keystore: ${JAVA_KEYSTORE}"
-        keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/gd_intermediate_bundle.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        log "Adding ${SSL_CERT_DIR}/geotrust_intermediate.crt to Java keystore: ${JAVA_KEYSTORE}"
+        keytool -import -noprompt -alias geotrust -file ${SSL_CERT_DIR}/geotrust_intermediate.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
         
         # get the DataONE CA
 		db_get dataone-cn-os-core/cn.dataone.ca.filename
@@ -512,27 +518,29 @@ case "${ACTION}" in
         db_get dataone-cn-os-core/cn.openldap.firstcn
         FIRSTCN=${RET}
         
-        if [ "${FIRSTCN}" == "true" ]; then
-            log "This is the first CN to be installed in the environment"
+
             
-            if [ "${POPULATED}" == "false" ]; then
-                log "Populating the LDAP database for the first time"
-                sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
-                sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
-                sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
-        
+        if [ "${POPULATED}" == "false" ]; then
+			log "Populating the LDAP database for the first time"
+			log "Adding non dataone schema specific entries"
+			sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+			sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+			sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+			
+            if [ "${FIRSTCN}" == "true" ]; then
+            	log "This is the first CN to be installed in the environment"
+                log "Adding dataone schema specific entries"
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif
-                log "Adding non dataone schema specific entries"
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
                 
             else
-                log "LDAP database has been populated."
+            	log "This is not the first CN to be installed in the environment."
+                
             fi
         else
-            log "This is not the first CN to be installed in the environment."
-        
+            log "LDAP database has already been populated."
         fi
         log "Checking LDAP migration."
         if [ -e ${LDAP_CONF}/schema/dataone.schema ]; then 
@@ -581,12 +589,12 @@ case "${ACTION}" in
         if [ -e ${LDAP_CONF}/ldap.conf ]; then
             sed -i.bak "s/^\(TLS_CACERT *\).*/\1           ${DATAONE_CA_FILENAME}/" ${LDAP_CONF}/ldap.conf
         fi    
-        
+        db_get dataone-cn-os-core/cn.openldap.password
+        LDAP_PASS=${RET}
         ## Configure the slapd.conf file with correct values
         if [ -e ${LDAP_CONF}/slapd.conf ]; then
             # Fetch the ldap rootpw from the debconf database
-            db_get dataone-cn-os-core/cn.openldap.password
-            LDAP_PASS=${RET}
+
             sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_PASS}/" ${LDAP_CONF}/slapd.conf
             
             # Fetch the replicaiton certificate location
@@ -677,6 +685,12 @@ case "${ACTION}" in
         else
             log "Couldn't set LDAP configuration correctly. Configure ${LDAP_CONF}/slapd.conf manually."
         fi
+        #  CN Service and D1-Processing needs the ldap password in a properties
+        # file so that they may connect to ldap to retrieve information
+        cp ${SCRIPT_DIR}/ldapService.properties ${LDAP_CONF}/ldapService.properties
+        sed -i.bak "s/PASSWORD/${LDAP_PASS}/" ${LDAP_CONF}/ldapService.properties
+        chown ${TOMCAT_USER}.${TOMCAT_USER} ${LDAP_CONF}/ldapService.properties
+        chmod -R 640 ${LDAP_CONF}/ldapService.properties
         
         # Always clear the cached LDAP password
         db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
@@ -700,8 +714,7 @@ case "${ACTION}" in
         log "Generating ldif config using: ${LDAP_CONF}/slapd.conf"
         #slapd -h 'ldap:/// ldapi:///' -g ${LDAP_USER} -u ${LDAP_USER} -f /etc/ldap/slapd.conf
         
-        ## make sure we own the storage folder
-        chown -R ${LDAP_USER}.${LDAP_USER} /var/lib/ldap
+
         
         rm -rf ${LDAP_CONF}/slapd.d/*
         slaptest -f ${LDAP_CONF}/slapd.conf -F ${LDAP_CONF}/slapd.d
@@ -710,7 +723,8 @@ case "${ACTION}" in
              rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
         fi
         chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d
-        
+        ## make sure we own the storage folder
+        chown -R ${LDAP_USER}.${LDAP_USER} /var/lib/ldap 
         log "Starting slapd"
         /etc/init.d/slapd start
         sleep 5 # openldap doesn't seem to come up quickly enough
