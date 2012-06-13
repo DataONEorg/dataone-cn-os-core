@@ -15,5 +15,5 @@ for host in ${hosts}; do
     if [ "X${result}" = "XConnection refused" ]; then
         result="TCP CRIT - ${result}"
     fi
-    echo "${host}/${port} : ${result}"
+    echo "${host} : ${result}"
 done
