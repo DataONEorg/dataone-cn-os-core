@@ -1,0 +1,19 @@
+#!/bin/sh
+
+PATH=${PATH}:/sbin:/usr/lib/nagios/plugins
+export PATH
+
+hosts='cn-ucsb-1 cn-unm-1 cn-orc-1'
+domain=.dataone.org
+name=ldap
+port=389
+
+echo "<<<${name}>>>"
+
+for host in ${hosts}; do
+    result="`check_tcp -H ${host}${domain} -p ${port}`"
+    if [ "X${result}" = "XConnection refused" ]; then
+        result="TCP CRIT - ${result}"
+    fi
+    echo "${host}/${port} : ${result}"
+done
