@@ -687,10 +687,10 @@ case "${ACTION}" in
         fi
         #  CN Service and D1-Processing needs the ldap password in a properties
         # file so that they may connect to ldap to retrieve information
-        cp ${SCRIPT_DIR}/ldapService.properties ${LDAP_CONF}/ldapService.properties
-        sed -i.bak "s/PASSWORD/${LDAP_PASS}/" ${LDAP_CONF}/ldapService.properties
-        chown ${TOMCAT_USER}.${TOMCAT_USER} ${LDAP_CONF}/ldapService.properties
-        chmod -R 640 ${LDAP_CONF}/ldapService.properties
+        cp ${SCRIPT_DIR}/ldapService.properties ${D1_CONF}/ldapService.properties
+        sed -i.bak "s/PASSWORD/${LDAP_PASS}/" ${D1_CONF}/ldapService.properties
+        chown ${TOMCAT_USER}.${TOMCAT_USER} ${D1_CONF}/ldapService.properties
+        chmod -R 640 ${D1_CONF}/ldapService.properties
         
         # Always clear the cached LDAP password
         db_set dataone-cn-os-core/cn.openldap.password "" # clear the cached pw
