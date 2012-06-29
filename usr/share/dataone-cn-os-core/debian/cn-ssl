@@ -46,7 +46,7 @@
 
 	SSLCertificateFile /etc/ssl/certs/_.dataone.org.crt
 	SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
-	SSLCertificateChainFile /etc/ssl/certs/gd_intermediate_bundle.crt
+	SSLCertificateChainFile /etc/ssl/certs/INTERMEDIATE_BUNDLE
 	
 	SSLCACertificatePath /var/local/dataone/ca
 

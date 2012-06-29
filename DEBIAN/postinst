@@ -53,9 +53,17 @@ CA_CERT_DIR=/var/local/dataone/ca
 SSL_CERT_DIR=/etc/ssl/certs
 CLIENT_CERT_DIR=/etc/dataone/client/certs
 CLIENT_PRIVATE_DIR=/etc/dataone/client/private
-PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
+
 HOSTNAME=$(/bin/hostname -f)
-	
+
+# these settings can probably go in the environmental specific 
+# properties in /etc/dataone
+TESTING_PUBLIC_SERVER_CERT="test.dataone.org.crt"
+TESTING_INTERMEDIATE_BUNDLE="gd_intermediate_bundle.crt"
+PROD_PUBLIC_SERVER_CERT="prod.dataone.org.crt"
+PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
+PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
+
 ##################################################################
 # Create a difficult to guess token to pass for Solr auth
 ##################################################################
@@ -285,8 +293,13 @@ case "${ACTION}" in
         # Get the password
         db_get dataone-cn-os-core/cn.keystore.password
         JAVA_KEYSTORE_PASSWORD=${RET}
+        if [ "${CONTEXT}" == "production" ]; then
+        	keytool -import -noprompt -alias geotrust -file ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        else
+            keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        fi
         log "Adding ${SSL_CERT_DIR}/geotrust_intermediate.crt to Java keystore: ${JAVA_KEYSTORE}"
-        keytool -import -noprompt -alias geotrust -file ${SSL_CERT_DIR}/geotrust_intermediate.crt -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        
         
         # get the DataONE CA
 		db_get dataone-cn-os-core/cn.dataone.ca.filename
@@ -307,7 +320,12 @@ case "${ACTION}" in
         
         # check if this is a new install
         if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
-        
+        	# copy the correct public server certificate for this environment
+            if [ "${CONTEXT}" == "production" ]; then
+        	   cp ${SCRIPT_DIR}/${PROD_PUBLIC_SERVER_CERT} ${SSL_CERT_DIR}/_.dataone.org.crt
+            else
+               cp ${SCRIPT_DIR}/${TESTING_PUBLIC_SERVER_CERT} ${SSL_CERT_DIR}/_.dataone.org.crt
+            fi
             ## change the available port 80 only to localhost
             if [ -e ${APACHE_CONF}/ports.conf ]; then 
                 ## has it already been changed?
@@ -404,7 +422,13 @@ case "${ACTION}" in
             else
               log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
             fi
-                    ## enable ${SITE} site
+            
+            if [ "${CONTEXT}" == "production" ]; then
+        	  sed -i.bak  's/INTERMEDIATE_BUNDLE/'${PROD_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
+            else
+        	  sed -i.bak  's/INTERMEDIATE_BUNDLE/'${TESTING_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
+            fi
+           ## enable ${SITE} site
            log "Enabling ${SITE} site"
            a2dissite ${SITE}
            a2ensite ${SITE}
