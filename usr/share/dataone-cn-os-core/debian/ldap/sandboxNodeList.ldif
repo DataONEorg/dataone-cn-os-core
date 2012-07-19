@@ -1,20 +1,20 @@
-dn: cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 cn: urn:node:cnSandbox
 d1NodeId: urn:node:cnSandbox
 d1NodeName: cn-sandbox
-d1NodeDescription:  Round Robin Sandbox router of Coordinating Nodes
-d1NodeBaseURL: https://cn-sandbox-unm-1.dataone.org/cn
+d1NodeDescription:  Round Robin Sandbox Router of Coordinating Nodes
+d1NodeBaseURL: https://cn-sandbox-unm-1.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnSandbox,dc=dataone,dc=org
+subject: cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNCore
@@ -22,7 +22,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNRead
@@ -30,7 +30,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNAuthorization
@@ -38,7 +38,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNIdentity
@@ -46,7 +46,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNReplication
@@ -54,7 +54,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandbox,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandbox,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnSandbox
 d1NodeServiceName: CNRegister
@@ -63,23 +63,23 @@ d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 cn: urn:node:cnSandboxUNM1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeName: cn-sandbox-unm-1
 d1NodeDescription: University of New Mexico Sandbox Coordinating Node
-d1NodeBaseURL: https://cn-sandbox-unm-1.dataone.org/cn
+d1NodeBaseURL: https://cn-sandbox-unm-1.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+subject: cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNCore
@@ -87,7 +87,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNRead
@@ -95,7 +95,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNAuthorization
@@ -103,7 +103,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNIdentity
@@ -111,7 +111,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNReplication
@@ -119,7 +119,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxUNM1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxUNM1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnSandboxUNM1
 d1NodeServiceName: CNRegister
@@ -128,23 +128,23 @@ d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 cn: urn:node:cnSandboxUCSB1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeName: cn-sandbox-ucsb-1
 d1NodeDescription: University of California Santa Barbara Sandbox Coordinating Node
-d1NodeBaseURL: https://cn-sandbox-ucsb-1.dataone.org/cn
+d1NodeBaseURL: https://cn-sandbox-ucsb-1.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+subject: cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNCore
@@ -152,7 +152,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNRead
@@ -160,7 +160,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNAuthorization
@@ -168,7 +168,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNIdentity
@@ -176,7 +176,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNReplication
@@ -184,7 +184,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxUCSB1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxUCSB1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnSandboxUCSB1
 d1NodeServiceName: CNRegister
@@ -193,23 +193,23 @@ d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
 
-dn: cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 cn: urn:node:cnSandboxORC1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeName: cn-sandbox-orc-1
 d1NodeDescription: Oak Ridge National Laboratory Sandbox Coordinating Node
-d1NodeBaseURL: https://cn-sandbox-orc-1.dataone.org/cn
+d1NodeBaseURL: https://cn-sandbox-orc-1.test.dataone.org/cn
 d1NodeReplicate: FALSE
 d1NodeSynchronize: FALSE
 d1NodeState: up
 d1NodeType: cn
 d1NodeApproved: TRUE
-subject: cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+subject: cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
 objectclass: device
 objectclass: d1Node
 
-dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNCore-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNCore
@@ -217,7 +217,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRead-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNRead
@@ -225,7 +225,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNAuthorization-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNAuthorization
@@ -233,7 +233,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNIdentity-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNIdentity
@@ -241,7 +241,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNReplication-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNReplication
@@ -249,7 +249,7 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxORC1,dc=dataone,dc=org
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxORC1,dc=test,dc=dataone,dc=org
 d1NodeServiceId: CNRegister-v1
 d1NodeId: urn:node:cnSandboxORC1
 d1NodeServiceName: CNRegister
