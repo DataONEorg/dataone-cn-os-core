@@ -558,10 +558,6 @@ case "${ACTION}" in
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif
                 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif
-                if [ "${CONTEXT}" != "production" ]; then
-                    sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/test.dataone.ldif
-                    
-                fi
             else
             	log "This is not the first CN to be installed in the environment."
                 
