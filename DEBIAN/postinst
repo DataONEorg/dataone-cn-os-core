@@ -843,7 +843,7 @@ case "${ACTION}" in
             if [[ "${IP_LIST}" == [1-9]* ]]; then
                 for IP in ${IP_LIST}
                     do
-                        if [[ "${IP}" != "${THIS_IP}"]]; then
+                        if [[ "${IP}" != "${THIS_IP}" ]]; then
                             # ldap syncrepl
                             ufw allow to any port 389 from ${IP}
                             log "Added 'ufw allow to any port 389 from ${IP}' rule"
