@@ -423,11 +423,18 @@ case "${ACTION}" in
               log "HOSTNAME can not be set in ${APACHE_CONF}/sites-available/${SITE}"
             fi
             
+            # Set the server side SSL CA bundle
             if [ "${CONTEXT}" == "production" ]; then
-        	  sed -i.bak  's/INTERMEDIATE_BUNDLE/'${PROD_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
+                sed -i.bak  's/INTERMEDIATE_BUNDLE/'${PROD_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
             else
-        	  sed -i.bak  's/INTERMEDIATE_BUNDLE/'${TESTING_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
+                sed -i.bak  's/INTERMEDIATE_BUNDLE/'${TESTING_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
             fi
+            
+            # Set the client side SSL CA chain file            
+            db_get dataone-cn-os-core/cn.dataone.ca.filename
+            DATAONE_CA_FILENAME=${RET}
+            sed -i.bak  's/D1_CHAIN_FILE/'${DATAONE_CA_FILENAME}'/' ${APACHE_CONF}/sites-available/${SITE}
+            
            ## enable ${SITE} site
            log "Enabling ${SITE} site"
            a2dissite ${SITE}
