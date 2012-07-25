@@ -48,7 +48,7 @@
 	SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
 	SSLCertificateChainFile /etc/ssl/certs/INTERMEDIATE_BUNDLE
 	
-	SSLCACertificatePath /var/local/dataone/ca
+	SSLCACertificateFile /etc/ssl/certs/D1_CHAIN_FILE
 
 </VirtualHost>
 
