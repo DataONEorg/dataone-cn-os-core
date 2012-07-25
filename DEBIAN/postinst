@@ -58,8 +58,8 @@ HOSTNAME=$(/bin/hostname -f)
 
 # these settings can probably go in the environmental specific 
 # properties in /etc/dataone
-TESTING_PUBLIC_SERVER_CERT="test.dataone.org.crt"
-TESTING_INTERMEDIATE_BUNDLE="gd_intermediate_bundle.crt"
+TESTING_PUBLIC_SERVER_CERT="_.test.dataone.org.crt"
+TESTING_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_PUBLIC_SERVER_CERT="prod.dataone.org.crt"
 PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
