@@ -288,6 +288,45 @@ case "${ACTION}" in
         fi
         
         ###############################################################################
+        # Configure UFW
+        ###############################################################################
+        
+        # check if this is a new install
+        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
+        
+            #open up the correct ports
+            db_get dataone-cn-os-core/cn.iplist
+            IP_LIST=${RET}
+            THIS_IP=$(hostname -i)
+            THIS_HOST=$(hostname | cut -d"-" -f3)
+            # get the correct openvpn p2p ports from the conf files
+            VPN_PORTS=$(grep "^lport" /etc/openvpn/conf/*conf | \
+            grep "${CONTEXT,,}.*-${THIS_HOST}" | cut -d" " -f2 | tr "\n" " ")
+            if [[ "${IP_LIST}" == [1-9]* ]]; then
+                for IP in ${IP_LIST}
+                    do
+                        if [[ "${IP}" != "${THIS_IP}" ]]; then
+                            # ldap syncrepl
+                            ufw allow to any port 389 from ${IP}
+                            log "Added 'ufw allow to any port 389 from ${IP}' rule"
+                            # openvpn ports 
+                            for VPN_PORT in ${VPN_PORTS}
+                                do
+                                    ufw allow to any port ${VPN_PORT} from ${IP}
+                                    log "Added 'ufw allow to any port ${VPN_PORT} from ${IP}' rule"
+                                done
+                        fi
+                    done
+            fi
+            ufw allow ssh # critical for remote management, don't remove
+            ufw allow http
+            ufw allow https
+            #ufw enable
+        else
+            log "Upgrading the package.  No firewall rules need to be added."
+        fi
+        
+        ###############################################################################
         # Configure Java keystore with GoDaddy and DataONE CA
         ###############################################################################
         # Get the password
@@ -817,6 +856,9 @@ case "${ACTION}" in
             echo "bouncycastle security provider was previously installed "
         fi
         
+        ###############################################################################
+        # Restart OpenVPN after configuration files are in place
+        ###############################################################################
         
         
         ###############################################################################
@@ -829,51 +871,11 @@ case "${ACTION}" in
         ###############################################################################
         # Configure check_mk
         ###############################################################################
-	chown -R root:root /usr/lib/check_mk_agent
-	chmod -R 755 /usr/lib/check_mk_agent
-        
-        ###############################################################################
-        # Configure UFW
-        ###############################################################################
-        
-        # check if this is a new install
-        if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
-        
-            #open up the correct ports
-            db_get dataone-cn-os-core/cn.iplist
-            IP_LIST=${RET}
-            THIS_IP=$(hostname -i)
-            THIS_HOST=$(hostname | cut -d"-" -f3)
-            # get the correct openvpn p2p ports from the conf files
-            VPN_PORTS=$(grep "^lport" /etc/openvpn/conf/*conf | \
-            grep "${CONTEXT,,}.*-${THIS_HOST}" | cut -d" " -f2 | tr "\n" " ")
-            if [[ "${IP_LIST}" == [1-9]* ]]; then
-                for IP in ${IP_LIST}
-                    do
-                        if [[ "${IP}" != "${THIS_IP}" ]]; then
-                            # ldap syncrepl
-                            ufw allow to any port 389 from ${IP}
-                            log "Added 'ufw allow to any port 389 from ${IP}' rule"
-                            # openvpn ports 
-                            for VPN_PORT in ${VPN_PORTS}
-                                do
-                                    ufw allow to any port ${VPN_PORT} from ${IP}
-                                    log "Added 'ufw allow to any port ${VPN_PORT} from ${IP}' rule"
-                                done
-                        fi
-                    done
-            fi
-            ufw allow ssh # critical for remote management, don't remove
-            ufw allow http
-            ufw allow https
-            #ufw enable
-        else
-            log "Upgrading the package.  No firewall rules need to be added."
-        fi
+        chown -R root:root /usr/lib/check_mk_agent
+        chmod -R 755 /usr/lib/check_mk_agent
         ######################################
         db_set dataone-cn-os-core/cn.installed true
         db_fset dataone-cn-os-core/cn.installed seen true
-        
         
         log "Configuration of dataone-cn-os-core complete."
     else
