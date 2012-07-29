@@ -44,8 +44,8 @@
 	SSLVerifyClient optional
 	SSLVerifyDepth 10
 
-	SSLCertificateFile /etc/ssl/certs/_.dataone.org.crt
-	SSLCertificateKeyFile /etc/ssl/private/dataone_org.key
+	SSLCertificateFile /etc/ssl/certs/PUBLIC_SERVER_CERT
+	SSLCertificateKeyFile /etc/ssl/private/D1_PRIVATEKEY_FILE
 	SSLCertificateChainFile /etc/ssl/certs/INTERMEDIATE_BUNDLE
 	
 	SSLCACertificateFile /etc/ssl/certs/D1_CHAIN_FILE
