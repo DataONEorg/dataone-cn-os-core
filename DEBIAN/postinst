@@ -63,6 +63,9 @@ TESTING_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_PUBLIC_SERVER_CERT="_.dataone.org.crt"
 PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
+#will update later in script
+PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
+KEY_FILE="tbd"
 
 ##################################################################
 # Create a difficult to guess token to pass for Solr auth
