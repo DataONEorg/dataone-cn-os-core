@@ -493,7 +493,7 @@ case "${ACTION}" in
             db_get dataone-cn-os-core/cn.server.privatekey.filepath
             D1_PRIVATEKEY_FILE=${RET}
             D1_PRIVATEKEY_FILE=$(basename ${D1_PRIVATEKEY_FILE})        
-            sed -i.bak  's/D1_PRIVATEKEY_FILE/'${KEY_FILE}'/' ${APACHE_CONF}/sites-available/${SITE}
+            sed -i.bak  's/D1_PRIVATEKEY_FILE/'${D1_PRIVATEKEY_FILE}'/' ${APACHE_CONF}/sites-available/${SITE}
             
            ## enable ${SITE} site
            log "Enabling ${SITE} site"
