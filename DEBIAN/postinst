@@ -347,11 +347,13 @@ case "${ACTION}" in
         log "Adding ${SSL_CERT_DIR}/geotrust_intermediate.crt to Java keystore: ${JAVA_KEYSTORE}"
         
         # set the correct public server value for the context
+        log "Initial PUBLIC_SERVER_CERT: ${PUBLIC_SERVER_CERT}"
         if [ "${CONTEXT}" == "production" ]; then
         	PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
         else
         	PUBLIC_SERVER_CERT=${TEST_PUBLIC_SERVER_CERT}	        	
         fi
+        log "Final PUBLIC_SERVER_CERT: ${PUBLIC_SERVER_CERT}"
         
         # get the DataONE CA
 		db_get dataone-cn-os-core/cn.dataone.ca.filename
