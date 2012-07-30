@@ -259,7 +259,7 @@ case "${ACTION}" in
             
             # add the DataONE CA to the list
             # this may change if we move to a chainfile for apache
-            if [ "${CONTEXT}" == "production" ]; then
+            if [ "${CONTEXT}" == "PRODUCTION" ]; then
             	
             	CILOGON_CERTS="${CILOGON_CERTS} ${PROD_CERTS}"
             else
@@ -339,7 +339,7 @@ case "${ACTION}" in
         # Get the password
         db_get dataone-cn-os-core/cn.keystore.password
         JAVA_KEYSTORE_PASSWORD=${RET}
-        if [ "${CONTEXT}" == "production" ]; then
+        if [ "${CONTEXT}" == "PRODUCTION" ]; then
         	keytool -import -noprompt -alias geotrust -file ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
         else
             keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
@@ -348,7 +348,7 @@ case "${ACTION}" in
         
         # set the correct public server value for the context
         log "Initial PUBLIC_SERVER_CERT: ${PUBLIC_SERVER_CERT}"
-        if [ "${CONTEXT}" == "production" ]; then
+        if [ "${CONTEXT}" == "PRODUCTION" ]; then
         	PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
         else
         	PUBLIC_SERVER_CERT=${TESTING_PUBLIC_SERVER_CERT}	        	
@@ -475,7 +475,7 @@ case "${ACTION}" in
             fi
             
             # Set the server side SSL CA bundle
-            if [ "${CONTEXT}" == "production" ]; then
+            if [ "${CONTEXT}" == "PRODUCTION" ]; then
                 sed -i.bak  's/INTERMEDIATE_BUNDLE/'${PROD_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
             else
                 sed -i.bak  's/INTERMEDIATE_BUNDLE/'${TESTING_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF}/sites-available/${SITE}
