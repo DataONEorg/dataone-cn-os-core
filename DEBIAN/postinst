@@ -65,7 +65,6 @@ PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
 #will update later in script
 PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
-KEY_FILE="tbd"
 
 ##################################################################
 # Create a difficult to guess token to pass for Solr auth
@@ -90,6 +89,13 @@ case "${ACTION}" in
         # Fetch the cn.context.label from the debconf database and set the per-environment variables
         db_get dataone-cn-os-core/cn.context.label
         CONTEXT=${RET}
+        
+        # set the correct public server value for the context
+        if [ "${CONTEXT}" == "production" ]; then
+        	PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
+        else
+        	PUBLIC_SERVER_CERT=${TEST_PUBLIC_SERVER_CERT}	        	
+        fi
             
         ##################################################################
         # Set the context of the deployment (LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION)
@@ -368,11 +374,6 @@ case "${ACTION}" in
         # check if this is a new install
         if [[ $(dpkg -s dataone-cn-os-core | grep Status | cut -d" " -f4) != "installed" ]]; then
         	# copy the correct public server certificate for this environment
-            if [ "${CONTEXT}" == "production" ]; then
-            	PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
-            else
-            	PUBLIC_SERVER_CERT=${TEST_PUBLIC_SERVER_CERT}	        	
-            fi
             cp ${SCRIPT_DIR}/${PUBLIC_SERVER_CERT} ${SSL_CERT_DIR}/${PUBLIC_SERVER_CERT}
             
             ## change the available port 80 only to localhost
@@ -487,7 +488,10 @@ case "${ACTION}" in
             # Set the client side SSL certificate file            
             sed -i.bak  's/PUBLIC_SERVER_CERT/'${PUBLIC_SERVER_CERT}'/' ${APACHE_CONF}/sites-available/${SITE}
             
-            # Set the client side SSL private key file            
+            # Set the client side SSL private key file
+            db_get dataone-cn-os-core/cn.server.privatekey.filepath
+            D1_PRIVATEKEY_FILE=${RET}
+            D1_PRIVATEKEY_FILE=$(basename ${D1_PRIVATEKEY_FILE})        
             sed -i.bak  's/D1_PRIVATEKEY_FILE/'${KEY_FILE}'/' ${APACHE_CONF}/sites-available/${SITE}
             
            ## enable ${SITE} site
