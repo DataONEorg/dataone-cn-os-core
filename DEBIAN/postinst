@@ -738,6 +738,7 @@ case "${ACTION}" in
                             log "Adding LDAP sync config for ${address}"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncRepl rid=${count}"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tprovider=ldap:\/\/${address}:389"
+                            SYNC_SETTINGS="${SYNC_SETTINGS}\n\turi=ldap:\/\/${address}:389"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbinddn=\"cn=admin,dc=dataone,dc=org\""
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tbindmethod=simple"
                             SYNC_SETTINGS="${SYNC_SETTINGS}\n\tcredentials=${LDAP_PASS}"
@@ -809,6 +810,8 @@ case "${ACTION}" in
         rm -rf ${LDAP_CONF}/slapd.d/*
         slaptest -f ${LDAP_CONF}/slapd.conf -F ${LDAP_CONF}/slapd.d
         if [ -e ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif ]; then
+        	# NOTE: I see this being broken across a linebreak now with version 2.4.21 (BRL 20120731)
+        	# This should actually be fixed since we are now including a value for the uri attribute
              sed -i.bak  's/uri=\"\"//' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
              rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
         fi
