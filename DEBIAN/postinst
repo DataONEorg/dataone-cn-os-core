@@ -58,9 +58,7 @@ HOSTNAME=$(/bin/hostname -f)
 
 # these settings can probably go in the environmental specific 
 # properties in /etc/dataone
-TESTING_PUBLIC_SERVER_CERT="_.test.dataone.org.crt"
 TESTING_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
-PROD_PUBLIC_SERVER_CERT="_.dataone.org.crt"
 PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
 PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
 #will update later in script
@@ -346,13 +344,11 @@ case "${ACTION}" in
         fi
         log "Adding ${SSL_CERT_DIR}/geotrust_intermediate.crt to Java keystore: ${JAVA_KEYSTORE}"
         
-        # set the correct public server value for the context
+        # set the correct public server value for the env
+        db_get dataone-cn-os-core/cn.server.publiccert.filepath
+		PUBLIC_SERVER_CERT=${RET}
         log "Initial PUBLIC_SERVER_CERT: ${PUBLIC_SERVER_CERT}"
-        if [ "${CONTEXT}" == "PRODUCTION" ]; then
-        	PUBLIC_SERVER_CERT=${PROD_PUBLIC_SERVER_CERT}
-        else
-        	PUBLIC_SERVER_CERT=${TESTING_PUBLIC_SERVER_CERT}	        	
-        fi
+        PUBLIC_SERVER_CERT=$(basename ${PUBLIC_SERVER_CERT})
         log "Final PUBLIC_SERVER_CERT: ${PUBLIC_SERVER_CERT}"
         
         # get the DataONE CA

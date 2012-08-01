@@ -119,6 +119,13 @@ Description: What is the path to the CN server private SSL key file?
 Default: /etc/ssl/private/_.test.dataone.org.key
 Type: string
 
+Template: dataone-cn-os-core/cn.server.publiccert.filepath
+Description: What is the path to the CN server certificate file?
+ The CN communicates over HTTPS with other clients and nodes. Provide the path 
+ to the SSL certificate created for this CN.
+Default: /etc/ssl/certs/_.test.dataone.org.crt
+Type: string
+
 Template: dataone-cn-os-core/cn.keystore.password
 Description: What is the Java keystore password?
   Provide the Java keystore password for the default Java keystore.
