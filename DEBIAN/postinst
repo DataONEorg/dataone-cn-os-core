@@ -817,7 +817,9 @@ case "${ACTION}" in
         	# and ensure the line afterwards starts with a space.
         	# otherwise remove the string, guaranteeing only a single space separates
         	# previous setting string to the next setting string 
-        	perl -pi.bak -e 'BEGIN{undef $/;} s/\h*u(\n?)\h*r(\n?)\h*i(\n)?\h*\=(\n?)\h*\"(\n?)\h*\"(\n?)/$1$2$3$4$5$6/mg' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
+        	
+        	perl -pi.bak -e 'BEGIN{undef $/;} s/\hu(\s*)r(\s*)i(\s*)\=(\s*)\"(\s*)\"(\n?)/$1$2$3$4$5$6/mg' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
+        	
             rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
         fi
         chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d
