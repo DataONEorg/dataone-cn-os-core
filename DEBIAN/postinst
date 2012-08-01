@@ -807,9 +807,18 @@ case "${ACTION}" in
         slaptest -f ${LDAP_CONF}/slapd.conf -F ${LDAP_CONF}/slapd.d
         if [ -e ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif ]; then
         	# NOTE: I see this being broken across a linebreak now with version 2.4.21 (BRL 20120731)
-        	# This should actually be fixed since we are now including a value for the uri attribute
-             sed -i.bak  's/uri=\"\"//' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
-             rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
+        	# http://www.openldap.org/its/index.cgi/Software%20Bugs?id=6465
+        	# (if i read the bug report correctly it is fixed starting at 2.4.24)
+        	# the string uri="" finds its way into olcDatabase={1}hdb.ldif file 
+        	# into the olcSyncrepl directive and breaks OpenLDAP
+        	# the string uri="" may be found at the beginning of a line, end of a line,
+        	# middle of the line, or breaking across lines.
+        	# if it breaks across lines, we need to preserve the newline,
+        	# and ensure the line afterwards starts with a space.
+        	# otherwise remove the string, guaranteeing only a single space separates
+        	# previous setting string to the next setting string 
+        	perl -pi.bak -e 'BEGIN{undef $/;} s/\h*u(\n?)\h*r(\n?)\h*i(\n)?\h*\=(\n?)\h*\"(\n?)\h*\"(\n?)/$1$2$3$4$5$6/mg' ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif
+            rm ${LDAP_CONF}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak
         fi
         chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d
         ## make sure we own the storage folder
