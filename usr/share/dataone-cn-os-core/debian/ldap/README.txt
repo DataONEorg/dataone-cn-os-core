@@ -18,5 +18,5 @@ Configuring OpenLDAP
 -Populate the root of the dataone.org tree by adding the ldif:
 	ldapadd -D cn=admin,dc=dataone,dc=org -W -H ldap://<YOUR_HOST_NAME>:389 -x -f dataone.ldif
 -Check the entries for the dataone.org tree:
-	ldapsearch -LLL -D cn=admin,dc=dataone,dc=org -W -H ldap://<YOUR_HOST_NAME:389 -x -b 'dc=dataone,dc=org'		
+	ldapsearch -LLL -ZZ -D cn=admin,dc=dataone,dc=org -W -H ldap://<YOUR_HOST_NAME:389 -x -b 'dc=dataone,dc=org'
 	
