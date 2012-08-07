@@ -338,11 +338,12 @@ case "${ACTION}" in
         db_get dataone-cn-os-core/cn.keystore.password
         JAVA_KEYSTORE_PASSWORD=${RET}
         if [ "${CONTEXT}" == "PRODUCTION" ]; then
-        	keytool -import -noprompt -alias geotrust -file ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        	keytool -import -noprompt -alias ${PROD_INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+        	log "Adding ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
         else
-            keytool -import -noprompt -alias godaddy -file ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+            keytool -import -noprompt -alias ${TESTING_INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}
+            log "Adding ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
         fi
-        log "Adding ${SSL_CERT_DIR}/geotrust_intermediate.crt to Java keystore: ${JAVA_KEYSTORE}"
         
         # set the correct public server value for the env
         db_get dataone-cn-os-core/cn.server.publiccert.filepath
