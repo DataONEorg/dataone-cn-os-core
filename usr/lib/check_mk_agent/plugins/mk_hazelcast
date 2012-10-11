@@ -3,7 +3,7 @@
 PATH=${PATH}:/sbin:/usr/lib/nagios/plugins
 export PATH
 
-host=`hostname -f`
+thishost=`hostname -f`
 hosts='UCSB UNM ORC'
 ports='5701 5702 5703'
 
@@ -11,10 +11,11 @@ echo "<<<hazelcast>>>"
 
 for port in ${ports}; do
   for host in ${hosts}; do
-    result="`check_tcp -H cn-${host}-1.dataone.org -p ${port}`"
+    testhost=$(echo $thishost | sed s/-[a-z]*-1)/-${host}-1/)
+    result="$(check_tcp -H ${testhost} -p ${port})"
     if [ "X${result}" = "XConnection refused" ]; then
         result="TCP CRIT - ${result}"
     fi
-    echo "${host}/${port} : ${result}"
+    echo "${testhost}/${port} : ${result}"
   done
 done

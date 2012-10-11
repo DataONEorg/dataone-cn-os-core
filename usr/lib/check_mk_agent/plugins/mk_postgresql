@@ -3,17 +3,19 @@
 PATH=${PATH}:/sbin:/usr/lib/nagios/plugins
 export PATH
 
-hosts='cn-ucsb-1 cn-unm-1 cn-orc-1'
-domain=.dataone.org
-name=postgres
-port=5432
+thishost=`hostname -f`
+hosts='UCSB UNM ORC'
+ports='5432'
+name="postgres"
 
 echo "<<<${name}>>>"
-
-for host in ${hosts}; do
-    result="`check_tcp -H ${host}${domain} -p ${port}`"
+for port in ${ports}; do
+  for host in ${hosts}; do
+    testhost=$(echo ${thishost} | sed s/-[a-z]*-1/-${host}-1/)
+    result="$(check_tcp -H ${testhost} -p ${port})"
     if [ "X${result}" = "XConnection refused" ]; then
-        result="TCP CRIT - ${result}"
+      result="TCP CRIT - ${result}"
     fi
-    echo "${host} : ${result}"
+    echo "${testhost}/${port} : ${result}"
+  done
 done
