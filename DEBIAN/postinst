@@ -300,7 +300,7 @@ case "${ACTION}" in
             THIS_IP=$(hostname -i)
             THIS_HOST=$(hostname | cut -d"-" -f3)
             # get the correct openvpn p2p ports from the conf files
-            VPN_PORTS=$(grep "^lport" /etc/openvpn/conf/*conf | \
+            #VPN_PORTS=$(grep "^lport" /etc/openvpn/conf/*conf | \
             grep "${CONTEXT,,}.*-${THIS_HOST}" | cut -d" " -f2 | tr "\n" " ")
             if [[ "${IP_LIST}" == [1-9]* ]]; then
                 for IP in ${IP_LIST}
@@ -310,17 +310,19 @@ case "${ACTION}" in
                             ufw allow to any port 389 from ${IP}
                             log "Added 'ufw allow to any port 389 from ${IP}' rule"
                             # openvpn ports 
-                            for VPN_PORT in ${VPN_PORTS}
-                                do
-                                    ufw allow to any port ${VPN_PORT} from ${IP}
-                                    log "Added 'ufw allow to any port ${VPN_PORT} from ${IP}' rule"
-                                done
+                            #for VPN_PORT in ${VPN_PORTS}
+                            #    do
+                            #        ufw allow to any port ${VPN_PORT} from ${IP}
+                            #        log "Added 'ufw allow to any port ${VPN_PORT} from ${IP}' rule"
+                            #    done
                         fi
                     done
             fi
             ufw allow ssh # critical for remote management, don't remove
             ufw allow http
             ufw allow https
+            MONITOR_HOST=$(nslookup monitor.dataone.org | grep Add | grep -v '#' | cut -f 2 -d ' ')
+            ufw allow from ${MONITOR_HOST} to any port 6556
             #ufw enable
         else
             log "Upgrading the package.  No firewall rules need to be added."
@@ -329,7 +331,7 @@ case "${ACTION}" in
         ###############################################################################
         # Restart OpenVPN after configuration files are in place
         ###############################################################################
-        /etc/init.d/openvpn restart
+        #/etc/init.d/openvpn restart
         
         ###############################################################################
         # Configure Java keystore with GoDaddy and DataONE CA
