@@ -301,7 +301,7 @@ case "${ACTION}" in
             THIS_HOST=$(hostname | cut -d"-" -f3)
             # get the correct openvpn p2p ports from the conf files
             #VPN_PORTS=$(grep "^lport" /etc/openvpn/conf/*conf | \
-            grep "${CONTEXT,,}.*-${THIS_HOST}" | cut -d" " -f2 | tr "\n" " ")
+            #grep "${CONTEXT,,}.*-${THIS_HOST}" | cut -d" " -f2 | tr "\n" " ")
             if [[ "${IP_LIST}" == [1-9]* ]]; then
                 for IP in ${IP_LIST}
                     do
