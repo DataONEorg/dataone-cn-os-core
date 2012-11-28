@@ -11,7 +11,7 @@ echo "<<<hazelcast>>>"
 
 for port in ${ports}; do
   for host in ${hosts}; do
-    testhost=$(echo $thishost | sed s/-[a-z]*-1)/-${host}-1/)
+    testhost=$(echo $thishost | sed s/-[a-z]*-1/-${host}-1/)
     result="$(check_tcp -H ${testhost} -p ${port})"
     if [ "X${result}" = "XConnection refused" ]; then
         result="TCP CRIT - ${result}"
