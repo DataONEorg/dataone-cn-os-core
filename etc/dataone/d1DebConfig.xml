@@ -1,0 +1,582 @@
+<?xml version="1.0" ?>
+<dpc:debconf xmlns:dpc="http://ns.dataone.org/debian/conf/types/v1"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ns.dataone.org/debian/conf/types/v1 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneDebPkgConfigTypes.xsd">
+    <templates>
+        <template key="dataone-cn-os-core/cn.context.label">
+            <description>Which deployment environment?
+                Choose a deployment environment to install from the list</description>
+            <type>select</type>
+            <choices>LOCALHOST, DEV, SANDBOX, STAGE, STAGE2, PRODUCTION</choices>
+            <default>DEV</default>
+            <flag name="seen">false</flag>
+            <!-- derived from the environment context attribute -->
+            <flag name="derived-value">true</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.hostname">
+            <description>What is the fully qualified domain name of this CN?
+                Enter the hostname for the CN currently being installed. </description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.nodeid">
+            <description>What is the unique node id of this CN?
+                Enter the unique node id for the CN currently being installed. For example,
+                for the UC Santa Barbara Sandbox Coordinating Node, the unique id is 
+                urn:node:CnSandboxUCSB1</description>
+            <type>string</type>
+              <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.iplist">
+            <description>List the IP adresses:
+                The IP addresses for each Coordinating Node in the environment are needed to
+                configure LDAP, Hazelcast, and other services. Provide a space-separated list
+                of IP addresses.</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+            <flag name="derived-value">true</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.hostnamelist">
+            <description>List the hostnames:
+                The hostnames for each Coordinating Node in the environment are needed to
+                configure LDAP, Hazelcast, and other services. Provide a space-separated list
+                of hostnames.</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+            <flag name="derived-value">true</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.nodeids">
+            <description>List the Node IDs:
+                The node IDs for each Coordinating Node in the environment are needed to
+                configure CN services. Provide a space-separated list
+                of Node IDs. The list must correspond with the IP address list in both
+                number and order.</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+            <flag name="derived-value">true</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.router.hostname">
+            <description>The CN hostname (round robin):
+                The CN hostname for all requests, or the round robin DNS entry.</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.router.nodeId">
+            <description>The CN Node ID (round robin):
+                The node ID the round robin router to be set in node.properties</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>           
+        </template>
+        <template key="dataone-cn-os-core/cn.dataone.ca.filename">
+            <description>What is the DataONE CA filename?</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.server.publiccert.filename">
+            <description>What is the name of the CN server certificate file?
+                The CN communicates over HTTPS with other clients and nodes. Provide the path 
+                to the SSL certificate created for this CN.</description>
+            <type>string</type>
+            <default>_.test.dataone.org.crt</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.server.privatekey.filename">
+            <description>What is the name of the CN server private SSL key file?
+                The CN communicates over HTTPS with other clients and nodes. Provide the path 
+                to the SSL private key created for this CN.</description>
+            <type>string</type>
+            <default>_.test.dataone.org.key</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.client.certificate.dir">
+            <description>What is the path to the directory of the client certificates?
+                At times the CN communicates over HTTPS with other nodes as a client 
+                to those nodes. Provide the path to the SSL certificate generated for this CN.</description>
+            <type>string</type>
+            <default> /etc/dataone/client/certs</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.client.key.dir">
+            <description>What is the path to the directory of the client key?
+                At times the CN communicates over HTTPS with other nodes as a client 
+                to those nodes. Provide the path to the SSL certificate key generated for this CN.</description>
+            <type>string</type>
+            <default> /etc/dataone/client/private</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.client.certificate.filename">
+            <description>What is the name of the client certificate to be used for this CN?
+                Enter the x509 certificate's filename for the CN currently being installed. </description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.replication.certificate.filename">
+            <description>What is the path to the CN replication certificate file?
+                At times the CN communicates over HTTPS with other CNs.
+                Provide the path to the SSL certificate generated for this CN.</description>
+            <type>string</type>
+            <default>/etc/dataone/client/certs/cn-dev.test.dataone.org.pem</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.replication.privatekey.filename">
+            <description>What is the path to the CN replication privatekey file?
+                At times the CN communicates over HTTPS with other CNs.
+                Provide the path to the SSL private key generated for this CN.</description>
+            <type>string</type>
+            <default>/etc/dataone/client/private/cn-dev.test.dataone.org.key</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.keystore.password">
+            <description>What is the Java keystore password?
+                Provide the Java keystore password for the default Java keystore.</description>
+            <type>password</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">true</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <!-- the cn.openldap.populated template should be removed, or at least re-considered. 
+            The postinst script sets this value and should never be queried for a user response. 
+            From the debian manuals, postinst scripts should not be setting template questions.
+            Also, logically, it may not make much sense to keep this as a backend debian db maintained setting.
+            It could be easily derived at runtime by querying openldap for nodes or something -->
+        <template key="dataone-cn-os-core/cn.openldap.populated">
+            <description>Is the LDAP database populated?
+                The LDAP database should only be populated on the first run of the
+                installation, otherwise it should be migrated.</description>
+            <type>boolean</type>
+            <default>false</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.openldap.password">
+            <description>What is the LDAP database admin password?
+                Provide the LDAP database password for the administrative user.</description>
+            <type>password</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">true</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.openldap.synchronized">
+            <description>Synchronize the LDAP database across CNs?
+                The CN environment can be stand-alone (one CN), or synchronized via LDAP with
+                the other defined CNs.</description>
+            <type>boolean</type>
+            <default>false</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.openldap.serverID">
+            <description>What is the unique LDAP serverID for this CN?
+                When the CN environment is synchronized via LDAP, each CN MUST have a 
+                unique serverID defined in the LDAP configuration. Set the other CNs
+                in the environment to a number other than this.</description>
+            <type>select</type>
+            <choices>1, 2, 3</choices>
+            <default>1</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.openldap.firstcn">
+            <description>Is this the first CN in the environment to be deployed?
+                The first CN in the deployed environment needs to have its LDAP database 
+                populated with the appropriate entries.  If other CNs are later configured
+                and will be synchronized, their LDAP database will be populated via LDAP
+                replication.</description>
+            <type>boolean</type>
+            <default>false</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">true</flag>
+            <flag name="configured-value">false</flag>
+        </template>
+    </templates>
+    
+    <environment context="CUSTOM" >
+        <!-- all information for a CUSTOM environment is input at configuration time, the following instance of the template have empty values as placeholders -->
+        <!-- although any CUSTOM environment could just rely on the template section for  discovering all the properties that need setting -->
+        <machine  ip="">
+            <question  keyref="dataone-cn-os-core/cn.hostname" />
+            <question  keyref="dataone-cn-os-core/cn.nodeid" />
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename" />
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename" />
+            <question keyref="dataone-cn-os-core/cn.replication.privatekey.filename"/>
+            <question keyref="dataone-cn-os-core/cn.openldap.serverID"/>
+        </machine>
+        <question keyref="dataone-cn-os-core/cn.context.label"/>
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        <question keyref="dataone-cn-os-core/cn.router.hostname"/>
+        <question keyref="dataone-cn-os-core/cn.router.nodeId"/>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename"/>
+        <question keyref="dataone-cn-os-core/cn.server.publiccert.filename"/>
+        <question keyref="dataone-cn-os-core/cn.server.privatekey.filename"/>
+        <question keyref="dataone-cn-os-core/cn.client.certificate.dir"/>
+        <question keyref="dataone-cn-os-core/cn.client.key.dir"/>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+    </environment>
+    <!-- localnet configuration requires the installer to generate and maintain their own Certificate Authority. Please see
+        the documentation on how to install a localnet installation -->
+    <environment context="LOCALNET" >
+        <machine ip="192.168.131.10">
+            <question  keyref="dataone-cn-os-core/cn.hostname">cn-cat-1.mock.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-1.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine  ip="192.168.131.12">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-cat-2.mock.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT2</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT2.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-2.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        <machine ip="192.168.131.14">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-cat-3.mock.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT3</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT3.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-3.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <!-- the cn.router.hostname is set during configuration to be the same as the hostname of the machine being installed upon.
+              There is not a virtual router for localhost setups currently -->
+        <question  keyref="dataone-cn-os-core/cn.router.hostname" />
+        <!-- the cn.router.nodeId is set during configuration to be the same as the nodeId of the machine being installed upon.
+            There is not a virtual router for localhost setups currently -->
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId" />
+        
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">mockDataoneCA.crt</question>
+        <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">tbd.pem</question>
+        <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">tdb.key</question>
+        <question keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+        
+    </environment>
+    <environment context="DEV" >
+        <machine ip="128.111.36.78">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-dev-ucsb-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnDevUCSB1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnDevUCSB1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-dev-ucsb-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-dev-ucsb-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine  ip="64.106.40.9">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-dev-unm-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnDevUNM1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnDevUNM1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-dev-unm-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-dev-unm-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        <machine  ip="160.36.13.153">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-dev-orc-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnDevORC1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnDevORC1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-dev-orc-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-dev-orc-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-dev.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnDev</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+
+    </environment>
+    
+    <environment  context="SANDBOX" >
+        <machine  ip="128.111.36.77" >
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-ucsb-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxUCSB1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxUCSB1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-sandbox-ucsb-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-ucsb-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine  ip="64.106.40.7">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-unm-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxUNM1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxUNM1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-sandbox-unm-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-unm-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        <machine  ip="160.36.13.152">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-orc-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxORC1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxORC1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-sandbox-orc-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-orc-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+    </environment>
+    
+    <environment  context="STAGE" >
+        <machine  ip="128.111.36.76" >
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-ucsb-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageUCSB1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageUCSB1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-stage-ucsb-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-stage-ucsb-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine   ip="64.106.40.8">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-unm-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageUNM1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageUNM1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-stage-unm-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-stage-unm-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        <machine  ip="160.36.13.151">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-orc-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageORC1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageORC1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-stage-orc-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-stage-orc-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question  keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+    </environment>
+    
+    <environment  context="STAGE2" >
+        <machine ip="129.237.201.86">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-unm-2.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageUNM2</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageUNM2.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-stage-unm-2.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-stage-unm-2.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine ip="160.36.13.141">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-orc-2.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageORC2</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageORC2.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-stage-orc-2.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-stage-orc-2.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage-2.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage2</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+    </environment>
+    
+    <environment  context="PRODUCTION" >
+        <machine  ip="128.111.36.80" >
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-ucsb-1.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNUCSB1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNUCSB1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-ucsb-1.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-ucsb-1.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <machine   ip="64.106.40.6">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-unm-1.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNUNM1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNUNM1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-unm-1.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-unm-1.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>
+        <machine  ip="160.36.13.150">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-orc-1.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNORC1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNORC1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-orc-1.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-orc-1.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
+        </machine>
+        
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:CN</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONECAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.dataone.org.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">dataone_org.key</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
+    </environment>
+    
+  </dpc:debconf>
