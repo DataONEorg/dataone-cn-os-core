@@ -7,7 +7,14 @@
             <description>Which deployment environment?
                 Choose a deployment environment to install from the list</description>
             <type>select</type>
-            <choices>LOCALHOST, DEV, SANDBOX, STAGE, STAGE2, PRODUCTION</choices>
+            <choices>
+                <choice>CUSTOM</choice>
+                <choice>LOCALNET</choice>
+                <choice>SANDBOX</choice>
+                <choice>STAGE</choice>
+                <choice>STAGE2</choice>
+                <choice>PRODUCTION</choice>
+            </choices>
             <default>DEV</default>
             <flag name="seen">false</flag>
             <!-- derived from the environment context attribute -->
@@ -224,7 +231,11 @@
                 unique serverID defined in the LDAP configuration. Set the other CNs
                 in the environment to a number other than this.</description>
             <type>select</type>
-            <choices>1, 2, 3</choices>
+            <choices>
+                <choice>1</choice>
+                <choice>2</choice>
+                <choice>3</choice>
+            </choices>
             <default>1</default>
             <flag name="seen">false</flag>
             <flag name="derived-value">false</flag>
