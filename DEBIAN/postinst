@@ -273,6 +273,7 @@ function process_create_debian_config()
 	log "start process_create_debian_config"
 	local TEMPLATE_VALUE
 	local DB_VALUE
+	local EXCEPTION_DB_VALUE
 	#for each template in templates data structure, find out if DB 'seen' flag is false.
 	#if seen is true, then accept the value as provided, or it's a noop (already configured by ansible).
 	for template_name in ${!XML_QUESTION_VALUES[@]}
@@ -296,8 +297,19 @@ function process_create_debian_config()
 				DB_QUESTION_CHANGED+=([$template_name]="false")
 			elif [ "${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}" == "true" ]; then
 			#if template flag user-entered-value is true, then prompt the user for input.
-				db_input high "$template_name"
-				db_go
+				if (db_input high "$template_name"); then
+					db_go
+				else
+					## find if the value was set by some other system, such as ansible
+					log "unable to update user-entered template $template_name"
+					db_get "$template_name" 
+					EXCEPTION_DB_VALUE=$RET
+					if [[ -z ${EXCEPTION_DB_VALUE} ]]; then
+						# nothing else to do here but fail, db_input failed and the value is not set in debconf backend
+						log "failed to retrieve user-entered template $template_name"
+						exitWithFailureCode 86
+					fi
+				fi
 				db_fset $template_name seen true
 				XML_TEMPLATE_BOOLEAN[$SEEN]="true"
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
@@ -376,8 +388,11 @@ function process_update_debian_config()
 					#  if the values are different, then set the default value of the question from the one held by the db, and prompt the user,changed flag is true.
 					#  report the flag values as they are held in the db
 
-					db_input high "$template_name"
-					db_go
+					if (db_input high "$template_name"); then
+						db_go
+					else
+						log "failed to update user-entered template $template_name"
+					fi
 					db_fset $template_name seen true
 					DEB_FLAG_BOOLEAN[$SEEN]="true"
 					unset -v DEB_QUESTION_FLAGS[$template_name]
@@ -401,9 +416,11 @@ function process_update_debian_config()
            		db_get "$template_name" 
            		OLD_DB_VALUE=$RET
            		
-				db_input high "$template_name"
-				db_go
-				
+				if (db_input high "$template_name"); then
+					db_go
+				else
+					log "failed to update user-entered template $template_name"
+				fi
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
 				db_fset $template_name configured-value ${XML_TEMPLATE_BOOLEAN[$CONFIGURED_VALUE]}
 				db_fset $template_name user-entered-value ${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}

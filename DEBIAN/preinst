@@ -18,6 +18,7 @@ else
     echo "debconf must be installed. Exiting."
     exit 1
 fi
+
 # Use as suffix to backedup files
 LONG_DATE=$(date +%Y%m%d%H%M%S)
 
@@ -59,6 +60,7 @@ function log()
     now=$(date "+%Y-%m-%d %H:%M:%S %Z: ")
     echo -e "${now} preinst $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
 }
+
 
 db_get "dataone-cn-os-core/cn.context.label"
 RTN_VALUE=$RET
