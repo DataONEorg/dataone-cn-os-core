@@ -1162,7 +1162,10 @@ function configure_openldap()
 	local SYNC_SETTINGS
 	local SYNC_CONF
 	local MIGRATE_VERSION=0
-
+	local OPENLDAP_POPULATED
+	
+	db_get "dataone-cn-os-core/cn.openldap.populated"
+	OPENLDAP_POPULATED=$RET
 	if [ -n "$NEW_VERSION" ]; then
 		MIGRATE_VERSION=$NEW_VERSION
 	fi
@@ -1205,7 +1208,7 @@ function configure_openldap()
 	## place schema extension
 
     ## XXX XXX XXX -RPW after this script has been run on all environments, then dataone-cn-os-core/cn.openldap.populated logic may be deprecated
-	if [ -z "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" ] || ["${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" == "false" ]; then
+	if [ -z "${OPENLDAP_POPULATED}" ] || ["${OPENLDAP_POPULATED}" == "false" ]; then
 		log "Populating the LDAP database for the first time"
 
 		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:///  -b 'cn={1}cosine,cn=schema,cn=config' >/dev/null 2>&1 ); then
@@ -1528,7 +1531,7 @@ function configure_openldap()
 	
 	# populate or migrate the LDAP database with the LDIF file for the chosen context
 	
-	if [ -z "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" ] || [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" == "false" ]; then
+	if [ -z "${OPENLDAP_POPULATED}" ] || [ "${OPENLDAP_POPULATED}" == "false" ]; then
 		if [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.firstcn]}" == "true" ]; then
 			if [[ -e "${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif" && -n $LDAP_RUNNING ]]; then
 			  log "Adding all dataone schema specific entries"
