@@ -1,5 +1,37 @@
 #!/bin/bash
 
+set -e
+
+ACTION=${1}
+NEW_VERSION=${2}
+
+
+# Source the debconf library
+if [ -e "/usr/share/debconf/confmodule" ]; then
+    . /usr/share/debconf/confmodule
+else
+    echo "debconf must be installed. Exiting."
+    exit 1
+fi
+
+# Reminder: don't echo to stdout, it messes up debconf
+
+D1_LOG_DIR=/var/log/dataone
+D1_LOG_FILE=dataone-cn-os-core.remove.log
+if [ ! -e ${D1_LOG_DIR} ]; then
+    mkdir -p ${D1_LOG_DIR}
+    chown tomcat6:tomcat6 ${D1_LOG_DIR}
+fi
+
+# functions to echo to STDERR or the install log instead of STDOUT
+logError () {
+    echo -e "$@" 1>&2
+}
+
+log () {
+    now=$(date "+%Y-%m-%d %H:%M:%S %Z: ")
+    echo -e "${now} prerm $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
+}
 LONG_DATE=`date +%Y%m%d%H%M%S`
 
 TOMCAT=tomcat6
@@ -12,80 +44,39 @@ APACHE_CONF=/etc/apache2
 MOD_JK_CONF=/etc/libapache2-mod-jk
 SITES="cn-ssl"
 
+log "$ACTION $VERSION"
 
+####
+#### Unfortunately, this will not work with ansible.
+#### We should have an ansible_seen or ansible_set flag in addition
+#### to the seen flag such that when prerm is run
+#### ansible_seen = true & seen == true will result in  
+#### ansible_seen = false &  seen == true; while
+#### ansible_seen = false & seen == true will result in  
+#### ansible_seen = false & seen == false.
+#### 
+#### using a separate indicator will allow for the postinst
+#### script to know whether ansible has modified the 
+#### template questions before an upgrade or whether the upgrade
+#### was kicked off on command line by apt-get or some other debian
+#### package management
+####
+#### But for now, prerm will do nothing and postinst will set
+#### seen to false after it is complete.
+#### if seen is still false when postinst runs again,
+#### then postinst will assume that ansible is not controlling the install
+####
+#declare -a DEBCONF=(`debconf-show dataone-cn-os-core | awk 'BEGIN { FS = "[: ]" } ; { print $2 }'`)
+#for template_name in ${DEBCONF[@]}
+#do
+	# once you configure a CN as the first LDAP CN, do not reconfigure
+#	if [ "$template_name" != "dataone-cn-os-core/cn.openldap.firstcn" ]; then
+#		db_fset $template_name seen false
+#	fi
+#done
+#
 
-###############################################################################
-# Configure Apache
-###############################################################################
+db_stop
+log "Removal of CN OS CORE complete."
 
-## Stop apache
-echo "Stopping Apache"
-/etc/init.d/apache2 stop
-
-# Turn off the ssl module
-#echo "Removing Mod SSL"
-#a2dismod ssl
-
-## disable  mod jk 
-echo "Disabling Mod JK"
-a2dismod jk
-
-#echo "Removing jk.conf from ${APACHE_CONF}/mods-available/"
-#rm -f ${SCRIPT_DIR}/jk.conf ${APACHE_CONF}/mods-available/jk.conf*
-
-## remove workers.properties file for mod-jk
-if [ -e ${MOD_JK_CONF}/workers.properties ]; then 
-  WORKERS_PROPS_DIFF=`diff ${SCRIPT_DIR}/workers.properties ${MOD_JK_CONF}/workers.properties`
-  if [ "${WORKERS_PROPS_DIFF}" != "" ]; then
-    echo "Backing up ${MOD_JK_CONF}/workers.properties to ${MOD_JK_CONF}/workers.properties.${LONG_DATE}"
-    mv ${MOD_JK_CONF}/workers.properties ${MOD_JK_CONF}/workers.properties.${LONG_DATE}
-  fi
-fi
-echo "Removing workers.properties from ${MOD_JK_CONF}/"
-rm -f ${MOD_JK_CONF}/workers.properties*
-
-rm -rf ${SOURCE_DIR}
-
-## disable site configuration files
-for SITE in ${SITES}
-do
-	
-	if [ ${SITE} != "" -a -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
-		echo "Disabling and removing ${SITE}"
-		a2dissite ${SITE}
-	
-		rm -f  ${APACHE_CONF}/sites-available/${SITE}*
-    fi
-done
-
-## enable the default apache site
-a2ensite 000-default
-## Start Apache
-/etc/init.d/apache2 start
-
-## Stop tomcat
-echo "Stopping Tomcat"
-/etc/init.d/${TOMCAT} stop
-
-## restore server.xml
-
-# this mv code does not work, mv thinks /conf/server.xml is a directory. fix it
-#rm -f ${TOMCAT_HOME}/conf/server.xml
-#mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
-#mv ${TOMCAT_HOME}/conf/catalina.properties.* ${TOMCAT_HOME}/conf/catalina.properties
-
-#if [ -e "/var/log/dataone" ]
-#then
-#  rm -rf "/var/log/dataone already exists"
-#fi
-
-## Start Tomcat
-echo "starting Tomcat server"
-
-/etc/init.d/${TOMCAT} start
-
-###############################################################################
-# Remove OpenLDAP
-###############################################################################
-
-echo "Removal of CN OS CORE complete."
+exit 0

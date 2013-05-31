@@ -1,67 +1,115 @@
 Template: dataone-cn-os-core/cn.context.label
 Description: Which deployment environment?
  Choose a deployment environment to install from the list
-Default: DEV
+Default: CUSTOM
 Type: select
-Choices: LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION
+Choices: CUSTOM, LOCALNET, DEV, SANDBOX, STAGE, STAGE2, PRODUCTION
+
+Template: dataone-cn-os-core/cn.hostname
+Description: What is the FQDN (full hostname) of this CN?
+ Enter the full hostname for the CN currently being installed. 
+Type: string
 
 Template: dataone-cn-os-core/cn.nodeid
 Description: What is the unique node id of this CN?
  Enter the unique node id for the CN currently being installed. For example,
- for the UC Santa Barbara Sandbox Coordinating Node, the unique id is 
- urn:node:cnSandboxUCSB1
-Type: string
-
-Template: dataone-cn-os-core/cn.dataone.ca.filename
-Description: What is the DataONE CA filename?
-Type: string
-
-Template: dataone-cn-os-core/cn.client.certificate.filename
-Description: What is the filename of the client certificate to be used for this CN?
- Enter the x509 certificate's filename for the CN currently being installed. It 
- will be one of the following file names: ${certificateFilenames}
+ for the UC Santa Barbara Sandbox Coordinating Node, the unique node id is 
+ urn:node:CNSANDBOXUCSB1
 Type: string
 
 Template: dataone-cn-os-core/cn.iplist
 Description: List the IP adresses:
- The IP addresses for each Coordinating Node in the environment are needed to
+ The IP addresses for each Coordinating Node in an environment are needed to
  configure LDAP, Hazelcast, and other services. Provide a space-separated list
  of IP addresses.
 Type: string
 
 Template: dataone-cn-os-core/cn.hostnamelist
 Description: List the hostnames:
- The hostnames for each Coordinating Node in the environment are needed to
- configure LDAP, Hazelcast, and other services. Provide a space-separated list
- of hostnames.
+ The hostnames for each Coordinating Node in an environment are needed to
+ configure LDAP, Hazelcast, and other services. The list must correspond with the IP address 
+ list in both number and order.
 Type: string
 
 Template: dataone-cn-os-core/cn.nodeids
 Description: List the Node IDs:
- The node IDs for each Coordinating Node in the environment are needed to
+ The node IDs for each Coordinating Node in an environment are needed to
  configure CN services. Provide a space-separated list
  of Node IDs. The list must correspond with the IP address list in both
  number and order.
 Type: string
 
 Template: dataone-cn-os-core/cn.router.hostname
-Description: The CN hostname (round robin):
- The CN hostname for all requests, or the round robin DNS entry.
+Description: The Router hostname (round robin):
+ The CN Router hostname for all requests, or the round robin DNS entry.
+ If the environment does not have RR, then this should be the same as the 
+ FQDN (full hostname) of this CN
 Type: string
 
 Template: dataone-cn-os-core/cn.router.nodeId
-Description: List the Node IDs:
+Description: The Router Node IDs:
  The node ID the round robin router to be set in node.properties
+ If the environment does not have RR, then this should be the same as the 
+ NodeId of this CN
 Type: string
 
-Template: dataone-cn-os-core/cn.openldap.firstcn
-Description: Is this the first CN in the environment to be deployed?
- The first CN in the deployed environment needs to have its LDAP database 
- populated with the appropriate entries.  If other CNs are later configured
- and will be synchronized, their LDAP database will be populated via LDAP
- replication.
-Default: false
-Type: boolean
+Template: dataone-cn-os-core/cn.dataone.ca.filename
+Description: What is the DataONE Certificate Authority filename?
+Type: string
+
+Template: dataone-cn-os-core/cn.server.publiccert.filename
+Description: What is the name of the CN server public certificate file?
+ The CN communicates over HTTPS with other clients and nodes. Provide the path 
+ to the public SSL certificate created for this CN.
+Default: _.test.dataone.org.crt
+Type: string
+
+Template: dataone-cn-os-core/cn.server.privatekey.filename
+Description: What is the name of the CN server private SSL key file?
+ The CN communicates over HTTPS with other clients and nodes. Provide the path 
+ to the SSL private key created for this CN.
+Default: _.test.dataone.org.key
+Type: string
+
+Template: dataone-cn-os-core/cn.client.certificate.dir
+Description: What is the path to the directory of the client certificates?
+ At times the CN communicates over HTTPS with other nodes as a client 
+ to those nodes. Provide the path to the SSL certificate generated for this CN.
+Default: /etc/dataone/client/certs
+Type: string
+
+Template: dataone-cn-os-core/cn.client.key.dir
+Description: What is the path to the directory of the client keys?
+ At times the CN communicates over HTTPS with other nodes as a client 
+ to those nodes. Provide the path to the SSL certificate key generated for this CN.
+Default: /etc/dataone/client/private
+Type: string
+
+Template: dataone-cn-os-core/cn.client.certificate.filename
+Description: What is the name of the CN client certificate file?
+ At times the CN communicates over HTTPS with other nodes as a client 
+ to those nodes. Provide the path to the SSL certificate generated for this CN.
+Default: urn:node:cnDev.crt
+Type: string
+
+Template: dataone-cn-os-core/cn.replication.certificate.filename
+Description: What is the name of the CN replication certificate file?
+ The CN replicates data over HTTPS with other CNs.
+ Provide the path to the SSL certificate generated for this CN.
+Default: cn-dev.test.dataone.org.pem
+Type: string
+
+Template: dataone-cn-os-core/cn.replication.privatekey.filename
+Description: What is the name of the CN replication private key file?
+ The CN replicates data over HTTPS with other CNs.
+ Provide the path to the SSL private key generated for this CN.
+Default: cn-dev.test.dataone.org.key
+Type: string
+
+Template: dataone-cn-os-core/cn.keystore.password
+Description: What is the Java keystore password?
+  Provide the Java keystore password for the default Java keystore.
+Type: password
 
 Template: dataone-cn-os-core/cn.openldap.populated
 Description: Is the LDAP database populated?
@@ -91,48 +139,11 @@ Default: 1
 Type: select
 Choices: 1, 2, 3
 
-Template: dataone-cn-os-core/cn.client.certificate.filepath
-Description: What is the path to the CN client certificate file?
- At times the CN communicates over HTTPS with other nodes as a client 
- to those nodes. Provide the path to the SSL certificate generated for this CN.
-Default: /etc/dataone/client/private/urn:node:cnEnvUCSB1.crt
-Type: string
-
-Template: dataone-cn-os-core/cn.replication.certificate.filename
-Description: What is the path to the CN replication certificate file?
- At times the CN communicates over HTTPS with other CNs.
- Provide the path to the SSL certificate generated for this CN.
-Default: /etc/dataone/client/certs/cn-dev.test.dataone.org.pem
-Type: string
-
-Template: dataone-cn-os-core/cn.replication.privatekey.filename
-Description: What is the path to the CN replication privatekey file?
- At times the CN communicates over HTTPS with other CNs.
- Provide the path to the SSL private key generated for this CN.
-Default: /etc/dataone/client/private/cn-dev.test.dataone.org.key
-Type: string
-
-Template: dataone-cn-os-core/cn.server.privatekey.filepath
-Description: What is the path to the CN server private SSL key file?
- The CN communicates over HTTPS with other clients and nodes. Provide the path 
- to the SSL private key created for this CN.
-Default: /etc/ssl/private/_.test.dataone.org.key
-Type: string
-
-Template: dataone-cn-os-core/cn.server.publiccert.filepath
-Description: What is the path to the CN server certificate file?
- The CN communicates over HTTPS with other clients and nodes. Provide the path 
- to the SSL certificate created for this CN.
-Default: /etc/ssl/certs/_.test.dataone.org.crt
-Type: string
-
-Template: dataone-cn-os-core/cn.keystore.password
-Description: What is the Java keystore password?
-  Provide the Java keystore password for the default Java keystore.
-Type: password
-
-Template: dataone-cn-os-core/cn.installed
-Description: Has the Coordinating Node stack been installed previously?
- If the Coordination Node software has already been installed, certain
- configuration questions will be skipped.
+Template: dataone-cn-os-core/cn.openldap.firstcn
+Description: Is this the first CN in the environment to be deployed?
+ The first CN in the deployed environment needs to have its LDAP database 
+ populated with the appropriate entries.  If other CNs are later configured
+ and will be synchronized, their LDAP database will be populated via LDAP
+ replication.
+Default: false
 Type: boolean
