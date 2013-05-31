@@ -72,7 +72,7 @@ SSL_SERVER_KEY_DIR=/etc/ssl/private/
 D1_LOG_DIR=/var/log/dataone
 D1_LOG_FILE=dataone-cn-os-core.install.log
 D1_TMP_DIR=/tmp
-D1_DEB_CONF_XML_URL="https://repository.dataone.org/software/cicore/trunk/cn-buildout/dataone-cn-os-core/etc/dataone/d1DebConfig.xml"
+D1_DEB_CONF_XML_URL="https://raw.github.com/rpwaltz/deb-cn-core/master/src/etc/dataone/d1DebConfig.xml"
 D1_DEB_CONF_XML="d1DebConfig.xml"
 D1_DEB_XSD_URL="https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneDebPkgConfigTypes.xsd"
 D1_DEB_XSD="dataoneDebPkgConfigTypes.xsd"
@@ -1166,13 +1166,48 @@ function configure_openldap()
 	if [ -n "$NEW_VERSION" ]; then
 		MIGRATE_VERSION=$NEW_VERSION
 	fi
-	
+	### modify the migration scripts
+	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
+			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
+			fi
+			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
+			fi
+	fi
+	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
+			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
+			fi
+			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
+			fi
+	fi
+
+	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
+		if ! (diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema); then
+			log "Schema changing: Run the pre migration script"
+			if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			  log "Preparing for Migrating all dataone schema specific entries"
+			  if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+				exitWithFailureCode 82
+			  fi
+			else
+			  log "No migration. Ldap Not running"
+			fi
+			
+			log "Backing up ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
+			if ! (mv ${LDAP_CONF_DIR}/schema/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to move ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
+			fi
+		fi
+	fi
 	## place schema extension
 
     ## XXX XXX XXX -RPW after this script has been run on all environments, then dataone-cn-os-core/cn.openldap.populated logic may be deprecated
 	if [ -z "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" ] || ["${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.populated]}" == "false" ]; then
 		log "Populating the LDAP database for the first time"
-		log "Adding non dataone schema specific entries"
+
 		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:///  -b 'cn={1}cosine,cn=schema,cn=config' >/dev/null 2>&1 ); then
 			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "ldapadd cosine.ldif failed. Unable to continue"
@@ -1193,13 +1228,14 @@ function configure_openldap()
 		fi
 		if [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.firstcn]}" == "true" ]; then
 			log "This is the first CN to be installed in the environment"
-			log "Adding dataone schema specific entries"
+
 			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'cn=module{0},cn=config' >/dev/null 2>&1 ); then
 				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/backendDBConfig.ldif  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "ldapadd backendDBConfig.ldif failed. Unable to continue"
 					exitWithFailureCode 74
 				fi
 			fi
+			log "Adding dataone schema specific entries"
 			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=org'  >/dev/null 2>&1 ); then
 				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "ldapadd org.ldif failed. Unable to continue"
@@ -1224,42 +1260,6 @@ function configure_openldap()
 		fi
 	else
 		log "LDAP database has already been populated."
-	fi
-	### modify the migration scripts
-	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
-			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
-			fi
-			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
-			fi
-	fi
-	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
-			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
-			fi
-			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
-			fi
-	fi
-	log "Checking LDAP migration."
-	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
-		if ! (diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema); then
-			log "Schema changing: Run the pre migration script"
-			if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			  log "Migrating all dataone schema specific entries"
-			  if ! (${SCRIPT_DIR}/ldap/migrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
-				exitWithFailureCode 82
-			  fi
-			else
-			  log "No migration. Ldap Not running"
-			fi
-			${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl
-			log "Backing up ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
-			if ! (mv ${LDAP_CONF_DIR}/schema/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to move ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
-			fi
-		fi
 	fi
 		
 	log "Copying dataone.schema to ${LDAP_CONF_DIR}/schema/"
