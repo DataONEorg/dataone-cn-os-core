@@ -6,7 +6,6 @@ use Carp;
 use IO::File;
 use Tie::File qw();
 use Getopt::Long();
-use Debian::Dpkg::Version;
 
 use strict;
 
