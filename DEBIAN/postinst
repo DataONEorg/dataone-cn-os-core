@@ -296,7 +296,7 @@ function process_create_debian_config()
 				DB_QUESTION_CHANGED+=([$template_name]="false")
 			elif [ "${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}" == "true" ]; then
 			#if template flag user-entered-value is true, then prompt the user for input.
-				db_input critical "$template_name"
+				db_input high "$template_name"
 				db_go
 				db_fset $template_name seen true
 				XML_TEMPLATE_BOOLEAN[$SEEN]="true"
@@ -376,7 +376,7 @@ function process_update_debian_config()
 					#  if the values are different, then set the default value of the question from the one held by the db, and prompt the user,changed flag is true.
 					#  report the flag values as they are held in the db
 
-					db_input critical "$template_name"
+					db_input high "$template_name"
 					db_go
 					db_fset $template_name seen true
 					DEB_FLAG_BOOLEAN[$SEEN]="true"
@@ -401,7 +401,7 @@ function process_update_debian_config()
            		db_get "$template_name" 
            		OLD_DB_VALUE=$RET
            		
-				db_input critical "$template_name"
+				db_input high "$template_name"
 				db_go
 				
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
