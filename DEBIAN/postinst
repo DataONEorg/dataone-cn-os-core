@@ -1204,9 +1204,10 @@ function configure_openldap()
 			fi
 	fi
 
-	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
-		if ! (diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema); then
-			log "Schema changing: Run the pre migration script"
+# for 1.2.0 remove dependency on dataone.schema changes
+#	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
+#		if ! (diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema); then
+#			log "Schema changing: Run the pre migration script"
 			if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			  log "Preparing for Migrating all dataone schema specific entries"
 			  if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
@@ -1216,12 +1217,12 @@ function configure_openldap()
 			  log "No migration. Ldap Not running"
 			fi
 			
-			log "Backing up ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
-			if ! (mv ${LDAP_CONF_DIR}/schema/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to move ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
-			fi
-		fi
-	fi
+#			log "Backing up ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
+#			if ! (mv ${LDAP_CONF_DIR}/schema/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#				log "Unable to move ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
+#			fi
+#		fi
+#	fi
 	## place schema extension
 
     ## XXX XXX XXX -RPW after this script has been run on all environments, then dataone-cn-os-core/cn.openldap.populated logic may be deprecated

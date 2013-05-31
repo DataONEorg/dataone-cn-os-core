@@ -4,7 +4,9 @@ use Net::LDAP;
 use Net::LDAP::LDIF;
 use Carp;
 use IO::File;
+use Tie::File qw();
 use Getopt::Long();
+use Debian::Dpkg::Version;
 
 use strict;
 
@@ -86,12 +88,60 @@ sub connectLdap
                 }
         return $ldap;
         }
+        
+sub do_verions_1_2_0_changes
+	{
+	my $slapdRtn= `/etc/init.d/slapd stop`;
+	die ("cannot stop slapd\n") if ($? > 0);
+
+	my $newEntry;
+	my $ldif = Net::LDAP::LDIF->new( "/etc/ldap/slapd.d/cn\=config/olcDatabase\=\{0\}config.ldif");
+	while( not $ldif->eof ( ) )
+			{
+			my $entry = $ldif->read_entry ();
+			if ( $ldif->error ( ) )
+					{
+					$ldif->done ();
+					die  ("Error msg: " . $ldif->error ( ) . "\n" . "Error lines:\n" . $ldif->error_lines ( ) . "\n");
+					}
+			if (defined ($entry) && ($entry->dn() eq 'olcDatabase={0}config'))
+					{
+					$newEntry = $entry->clone();
+					}
+			}
+	$ldif->done();
+	$newEntry->replace('olcAccess'=>'{0}to *  by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage  by * none');
+	$ldif = Net::LDAP::LDIF->new( "/etc/ldap/slapd.d/cn\=config/olcDatabase\=\{0\}config.ldif", "w");
+	$ldif->write($newEntry);
+	$ldif->done();
+	### for some reason the ldif write above adds an empty line at the top of the file, so remove it
+	tie my @file, 'Tie::File', "/etc/ldap/slapd.d/cn\=config/olcDatabase\=\{0\}config.ldif" or die ("Could not open /etc/ldap/slapd.d/cn\=config/olcDatabase\=\{0\}config.ldif: $!");
+	if ($file[0] =~ //)
+			{
+			shift @file;
+			}
+	$slapdRtn= `/etc/init.d/slapd start`;
+	die ("cannot start slapd\n") if ($? > 0);
+	}
+	
 my $version;
+
 
 Getopt::Long::GetOptions(
    'version=s' => \$version,
    'help!' => \$help
 ) or usage("Invalid commmand line options.");
+
+
+my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version ge 1.2.0`;
+if ($? == 0) 
+	{
+	my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version le 1.2.0`;
+	if ($? == 0) 
+		{
+		do_verions_1_2_0_changes()
+		}
+	}
 
 
 my $ldap = connectLdap();
