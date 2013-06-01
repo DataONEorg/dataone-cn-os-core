@@ -1194,6 +1194,23 @@ function configure_openldap()
 		LDAP_PRIVATEKEY="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
 		LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}    
 	fi
+	#
+	#  CN Service and D1-Processing needs the ldap password in a properties
+	# file so that they may connect to ldap to retrieve information
+	# the migrate perl scripts need the values in the properties file too in order to connect to ldap
+	#
+	if ! (cp ${SCRIPT_DIR}/ldapService.properties ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "unable to copy ${SCRIPT_DIR}/ldapService.properties to ${D1_CONF_DIR}/ldapService.properties"
+	fi
+	if ! (sed -i.bak "s/PASSWORD/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}/" ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "unable to change the ldap admin password in ${D1_CONF_DIR}/ldapService.properties"
+	fi
+	if ! (chown ${TOMCAT_USER}.${TOMCAT_USER} ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "unable to chown on ${D1_CONF_DIR}/ldapService.properties"
+	fi
+	if ! (chmod -R 640 ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "unable to chmod on ${D1_CONF_DIR}/ldapService.properties"
+	fi
 	### modify the migration scripts
 	if [ -n "$LDAP_CERTIFICATE" ]; then
 			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
@@ -1449,20 +1466,7 @@ function configure_openldap()
 	else
 		log "Couldn't set LDAP configuration correctly. Configure ${LDAP_CONF_DIR}/slapd.conf manually."
 	fi
-	#  CN Service and D1-Processing needs the ldap password in a properties
-	# file so that they may connect to ldap to retrieve information
-	if ! (cp ${SCRIPT_DIR}/ldapService.properties ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "unable to copy ${SCRIPT_DIR}/ldapService.properties to ${D1_CONF_DIR}/ldapService.properties"
-	fi
-	if ! (sed -i.bak "s/PASSWORD/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}/" ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "unable to change the ldap admin password in ${D1_CONF_DIR}/ldapService.properties"
-	fi
-	if ! (chown ${TOMCAT_USER}.${TOMCAT_USER} ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "unable to chown on ${D1_CONF_DIR}/ldapService.properties"
-	fi
-	if ! (chmod -R 640 ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "unable to chmod on ${D1_CONF_DIR}/ldapService.properties"
-	fi
+
 	
 	## set permissions 
 	if ! (chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then

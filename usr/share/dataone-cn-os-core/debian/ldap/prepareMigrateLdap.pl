@@ -60,6 +60,7 @@ sub connectLdap
 			}
 		close($ldapPropertiesFile);
         my $ldap = Net::LDAP->new($ldapProperties{'cn.ldap.server'});
+        die "unable to connect to ldap" unless (defined($ldap));
         my $mesg;
         my $tls_type;
         if (-e $ldap_repl_pem &&  -e $ldap_repl_key)
@@ -121,6 +122,8 @@ sub do_verions_1_2_0_changes
 			}
 	$slapdRtn= `/etc/init.d/slapd start`;
 	die ("cannot start slapd\n") if ($? > 0);
+	##### may need to delay the script for a second or two after this or the next portion may not be able to connect to ldap
+	sleep 2;
 	}
 	
 my $version;
