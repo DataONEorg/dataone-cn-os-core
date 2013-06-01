@@ -1186,8 +1186,16 @@ function configure_openldap()
 	if [ -n "$NEW_VERSION" ]; then
 		MIGRATE_VERSION=$NEW_VERSION
 	fi
-	### modify the migration scripts
 	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
+		LDAP_CERTIFICATE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
+		LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
+	fi
+	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
+		LDAP_PRIVATEKEY="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
+		LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}    
+	fi
+	### modify the migration scripts
+	if [ -n "$LDAP_CERTIFICATE" ]; then
 			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
 			fi
@@ -1195,7 +1203,7 @@ function configure_openldap()
 				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
 			fi
 	fi
-	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
+	if [ -n "$LDAP_PRIVATEKEY" ]; then
 			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
 			fi
@@ -1340,9 +1348,7 @@ function configure_openldap()
 			log "Unable to modify rootpw value in ${LDAP_CONF_DIR}/slapd.conf"
 		fi            
 		# configure the replicaiton certificate fullpath location
-		if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
-			LDAP_CERTIFICATE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
-			LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
+		if [ -n "$LDAP_CERTIFICATE" ]; then
 			if ! (sed -i.bak "s/^\(TLSCertificateFile *\).*/\1           ${LDAP_CERTIFICATE}/" ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify TLSCACertificateFile value in ${LDAP_CONF_DIR}/slapd.conf"
 			fi
@@ -1354,9 +1360,7 @@ function configure_openldap()
 			log "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]} does not exist. slapd, among other services, will fail"
 		fi
 		# configure the replication private key fullpath location
-		if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
-			LDAP_PRIVATEKEY="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
-			LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}            
+		if [ -n "$LDAP_PRIVATEKEY" ]; then         
 			if ! (sed -i.bak "s/^\(TLSCertificateKeyFile *\).*/\1           ${LDAP_PRIVATEKEY}/" ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify TLSCertificateKeyFile  value in ${LDAP_CONF_DIR}/slapd.conf"
 			fi
