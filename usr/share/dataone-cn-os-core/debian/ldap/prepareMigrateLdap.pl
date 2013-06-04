@@ -135,15 +135,12 @@ Getopt::Long::GetOptions(
 ) or usage("Invalid commmand line options.");
 
 
-my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version ge 1.2.0`;
+my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.0`;
 if ($? == 0) 
 	{
-	my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.1`;
-	if ($? == 0) 
-		{
-		do_verions_1_2_0_changes()
-		}
+	do_verions_1_2_0_changes()
 	}
+
 
 
 my $ldap = connectLdap();

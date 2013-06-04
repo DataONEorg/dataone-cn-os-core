@@ -1748,57 +1748,63 @@ function main()
 		log "Deconfigure aborted."
 		;;
 		configure)
-		  log "Configure called."
+		log "Configure called."
 
 
-			if [ -z "$NEW_VERSION" ]; then
-			  FIRSTINST="yes"
-			else 
-			  UPGRADE="yes"
-			fi
+		if [ -z "$NEW_VERSION" ]; then
+		  FIRSTINST="yes"
+		else 
+		  UPGRADE="yes"
+		fi
 
-		  download_validate_config_xml
-		  build_xml_template_data_structures
-		  build_debianDB_template_data_structures
-		  
-		  debug_xml_question_values
-		  debug_xml_template_flags
-			if [ -n "$DEBCONF_RECONFIGURE" ]; then
-				log "MUST RECONFIGURE!!!"
-			fi		  
-		  if [[ "$FIRSTINST" == "yes"  || -n "$DEBCONF_RECONFIGURE" ]]; then
+		download_validate_config_xml
+		build_xml_template_data_structures
+		build_debianDB_template_data_structures
+
+		debug_xml_question_values
+		debug_xml_template_flags
+		if [ -n "$DEBCONF_RECONFIGURE" ]; then
+			log "MUST RECONFIGURE!!!"
+			RECONFIGURE="yes"
+		fi
+
+		if (/usr/bin/dpkg --compare-versions "${NEW_VERSION}" lt 1.2.1); then
+			RECONFIGURE="yes"
+		fi
+
+		if [[ "$FIRSTINST" == "yes"  || "$RECONFIGURE" == "yes" ]]; then
 			##################################################################
 			# Set the context of the deployment (LOCALHOST, DEV, STAGE, SANDBOX, PRODUCTION)
 			##################################################################
 			# Fetch the cn.context.label from the debconf database and set the per-environment variables
 			log "First Installation"
 			process_create_debian_config
-			
+
 			debug_deb_question_values
 			debug_deb_question_flags
-			
+
 			configure_certificates
-			
+
 			configure_node_properties_file
 
 			configure_ufw
 
 			configure_keystore
-	 
+
 			configure_apache
-			
+
 			configure_tomcat
 
 			configure_openldap
 
 			configure_bouncycastle
-			
+
 			log "ETC configuration"                 
 			###############################################################################
 			# Start Tomcat
 			###############################################################################
 			log "starting Tomcat server"
-			
+
 			if ! (/etc/init.d/${TOMCAT} start >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Tomcat server failed to start"
 			fi
@@ -1810,12 +1816,12 @@ function main()
 			# if tomcat is re-installed and the configuration files
 			# deleted, or otherwise corrupted, then 
 			# this package will need to be reconfigured
-			
+
 			log "Update the configuration."
 			process_update_debian_config
 			debug_deb_question_values
 			debug_deb_question_flags
-			
+
 			# if any of the following template questions change
 			# then reconfigure the certificates
 			# dataone-cn-os-core/cn.client.key.dir
@@ -1856,7 +1862,7 @@ function main()
 			if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.iplist]}" == "true" ]]; then
 				configure_ufw
 			fi
-			
+
 			# if the following template question changes
 			# then reconfigure the keystore
 			# dataone-cn-os-core/cn.dataone.ca.filename
@@ -1881,37 +1887,37 @@ function main()
 			configure_openldap
 		fi
 		
-			### the following lines until the db_stop should
-			### be placed in a separate package that has to do with
-			### CN specific tools
-			
-			#if ! (cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			#	log "failed to copy ${SOURCE_DIR}/d1_cn_approve_node.jar to /usr/share/java"
-			#fi
-			# chmod 700 /usr/share/java/d1_cn_approve_node.jar
-			# chmod 700 /usr/local/bin/dataone-approve-node
-			
-			# Fetch the replicaiton certificate location
-			#db_get dataone-cn-os-core/cn.replication.certificate.filename
-			#LDAP_CERTIFICATE=${RET}
-			#LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
-			
-			# Fetch the replication private key location
-			#db_get dataone-cn-os-core/cn.replication.privatekey.filename
-			#LDAP_PRIVATEKEY=${RET}
-			#LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}
-			
-			# copy the perl scripts to /usr/local/bin
-			#cp ${SCRIPT_DIR}/ldap/ldapDeleteNode.pl /usr/local/bin/ldapDeleteNode.pl
-			
-			#substitute the cert/key in the scripts
+		### the following lines until the db_stop should
+		### be placed in a separate package that has to do with
+		### CN specific tools
 
-			#sed -i.bak  's/REPLICATION_CERTIFICATE/'${LDAP_CERTIFICATE}'/' /usr/local/bin/ldapDeleteNode.pl
-			#sed -i.bak  's/REPLICATION_KEY/'${LDAP_PRIVATEKEY}'/' /usr/local/bin/ldapDeleteNode.pl
-			#rm /usr/local/bin/ldapDeleteNode.pl.bak
-			
-			# root should be owner, make certain only root has permission to execute
-			#chmod 700 /usr/local/bin/ldapDeleteNode.pl
+		#if ! (cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		#	log "failed to copy ${SOURCE_DIR}/d1_cn_approve_node.jar to /usr/share/java"
+		#fi
+		# chmod 700 /usr/share/java/d1_cn_approve_node.jar
+		# chmod 700 /usr/local/bin/dataone-approve-node
+
+		# Fetch the replicaiton certificate location
+		#db_get dataone-cn-os-core/cn.replication.certificate.filename
+		#LDAP_CERTIFICATE=${RET}
+		#LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
+
+		# Fetch the replication private key location
+		#db_get dataone-cn-os-core/cn.replication.privatekey.filename
+		#LDAP_PRIVATEKEY=${RET}
+		#LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}
+
+		# copy the perl scripts to /usr/local/bin
+		#cp ${SCRIPT_DIR}/ldap/ldapDeleteNode.pl /usr/local/bin/ldapDeleteNode.pl
+
+		#substitute the cert/key in the scripts
+
+		#sed -i.bak  's/REPLICATION_CERTIFICATE/'${LDAP_CERTIFICATE}'/' /usr/local/bin/ldapDeleteNode.pl
+		#sed -i.bak  's/REPLICATION_KEY/'${LDAP_PRIVATEKEY}'/' /usr/local/bin/ldapDeleteNode.pl
+		#rm /usr/local/bin/ldapDeleteNode.pl.bak
+
+		# root should be owner, make certain only root has permission to execute
+		#chmod 700 /usr/local/bin/ldapDeleteNode.pl
 			
 		#####
 		#### postinst needs to determine if ansible is controlling the install/upgrade
