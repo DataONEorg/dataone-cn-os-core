@@ -143,8 +143,8 @@ if ($? == 0)
 
 
 
-my $ldap = connectLdap();
+#my $ldap = connectLdap();
 
 ##### SOMETHING SHOULD BE HAPPENING HERE FOR TO PREPARE FOR A MIGRATION
-$ldap->unbind;
+#$ldap->unbind;
 

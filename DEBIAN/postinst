@@ -2,11 +2,40 @@
 
 set -e
 
+#The postinst script may be called in the following ways:
+
+#'postinst configure most-recently-configured-version'
+#		The files contained in the package will be unpacked. All package 
+#		dependencies will at least be unpacked. If there are no circular 
+#		dependencies involved, all package dependencies will be configured. 
+#		For behavior in the case of circular dependencies, see the discussion 
+#		in Binary Dependencies - Depends, Recommends, Suggests, Enhances, Pre-Depends, Section 7.2.
+
+#old-'postinst abort-upgrade new-version'
+
+#conflictor's-'postinst abort-remove in-favour package new-version'
+
+#'postinst abort-remove'
+
+#deconfigured's-'postinst abort-deconfigure in-favour failed-install-package version [removing conflicting-package version]'
+
+#		The files contained in the package will be unpacked. All package 
+#		dependencies will at least be "Half-Installed" and will have previously 
+#		been configured and not removed. However, dependencies may not be 
+#		configured or even fully unpacked in some error situations.[47] 
+#		The postinst should still attempt any actions for which its dependencies 
+#		are required, since they will normally be available, but consider 
+#		the correct error handling approach if those actions fail. 
+#		Aborting the postinst action if commands or facilities from the 
+#		package dependencies are not available is often the best approach.
+
 #####
 ##### Read the commandline options
+##### Only 'configure' is handled with processing, other actions
+##### are ignored for now
 #####
 ACTION=${1}
-NEW_VERSION=${2}
+ARG_VERSION=${2}
 
 #####
 ##### Source the debconf library
@@ -490,7 +519,7 @@ function resetDebQuestionSeenFlag()
 ##### build_debianDB_template_data_structures()
 ##### read the flags from the debian backend db into bash datastructures
 ##### populating the DEB_QUESTION_VALUES will be performed later
-
+#####
 function build_debianDB_template_data_structures()
 {
 	local -a DEBIAN_FLAGS
@@ -804,7 +833,7 @@ function configure_ufw()
 ##### configure_keystore()
 ##### import certificates into the java keystore
 ##### 
-#####
+
 function configure_keystore()
 {
 	###############################################################################
@@ -1183,8 +1212,8 @@ function configure_openldap()
 	
 	db_get "dataone-cn-os-core/cn.openldap.populated"
 	OPENLDAP_POPULATED=$RET
-	if [ -n "$NEW_VERSION" ]; then
-		MIGRATE_VERSION=$NEW_VERSION
+	if [ -n "$ARG_VERSION" ]; then
+		MIGRATE_VERSION=$ARG_VERSION
 	fi
 	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
 		LDAP_CERTIFICATE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
@@ -1487,7 +1516,7 @@ function configure_openldap()
 	## stop the default service
 	log "Stopping slapd"
 	if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		if ! (/etc/init.d/slapd stop >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (/etc/init.d/slapd stop   >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Unable to stop slapd."
 			exitWithFailureCode 78
 		fi        	
@@ -1735,7 +1764,7 @@ function debug_deb_question_values()
 #####
 function main()
 {
-	log "dataone-cn-os-core.postinst called  with action: ${ACTION} and version: ${NEW_VERSION}"
+	log "dataone-cn-os-core.postinst called  with action: ${ACTION} and version: ${ARG_VERSION}"
 
 	case "${ACTION}" in
 		abort-remove)
@@ -1751,7 +1780,7 @@ function main()
 		log "Configure called."
 
 
-		if [ -z "$NEW_VERSION" ]; then
+		if [ -z "$ARG_VERSION" ]; then
 		  FIRSTINST="yes"
 		else 
 		  UPGRADE="yes"
@@ -1768,7 +1797,7 @@ function main()
 			RECONFIGURE="yes"
 		fi
 
-		if (/usr/bin/dpkg --compare-versions "${NEW_VERSION}" lt 1.2.1); then
+		if (/usr/bin/dpkg --compare-versions "${ARG_VERSION}" lt 1.2.1); then
 			RECONFIGURE="yes"
 		fi
 
