@@ -91,8 +91,21 @@ sub connectLdap
         
 sub do_verions_1_2_0_changes
 	{
-	my $slapdRtn= `/etc/init.d/slapd stop`;
-	die ("cannot stop slapd\n") if ($? > 0);
+	my $slapdRtn=`/etc/init.d/slapd stop`;
+	if ($? > 0)
+		{
+		my @ldapPids=`pidof slapd`;
+
+		if (scalar(@ldapPids) > 0)
+			{
+			kill 14, $ldapPids[0] || die ("cannot stop slapd\n") ;
+			}
+		else
+			{
+			die ("cannot stop slapd\n") ;
+			}
+		}
+
 
 	my $newEntry;
 	my $ldif = Net::LDAP::LDIF->new( "/etc/ldap/slapd.d/cn\=config/olcDatabase\=\{0\}config.ldif");
