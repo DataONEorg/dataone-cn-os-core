@@ -1516,9 +1516,9 @@ function configure_openldap()
 	log "Stopping slapd"
 	if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		if ! (/etc/init.d/slapd stop   >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to stop slapd. Trying SIGARLM"
 			if ! (kill -s ALRM `cat /var/run/slapd/slapd.pid`   >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				
-				log "Unable to stop slapd."
+				log "Killing slapd with SIGALRM failed"
 				exitWithFailureCode 78
 			else
 				if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
