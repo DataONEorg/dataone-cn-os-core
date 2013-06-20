@@ -292,8 +292,10 @@
             <question  keyref="dataone-cn-os-core/cn.hostname">cn-cat-1.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT1</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT1.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-1.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-1.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-1.mock.dataone.org.crt</question>
+			<question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-1.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT1</question>
@@ -302,8 +304,10 @@
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-cat-2.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT2</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT2.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-2.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-2.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-2.mock.dataone.org.crt</question>
+			<question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-2.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT2</question>
@@ -312,8 +316,10 @@
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-cat-3.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT3</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT3.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-3.mock.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-3.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-3.mock.dataone.org.crt</question>
+			<question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-3.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT3</question>
@@ -324,10 +330,12 @@
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNPUPPETDEV.pem</question>
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">puppet-dev.utk.edu.pem</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">puppet-dev.utk.edu.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">ssl-cert-snakeoil.pem</question>
+			<question keyref="dataone-cn-os-core/cn.server.privatekey.filename">ssl-cert-snakeoil.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">4</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >puppet-dev.utk.edu</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNPUPPETDEV</question>
-        </machine>        
+        </machine>
         <!-- cn.context.label is derived from the context attribute of the environment element -->
         <question keyref="dataone-cn-os-core/cn.context.label" />
         <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
@@ -345,8 +353,6 @@
         <question  keyref="dataone-cn-os-core/cn.router.nodeId" />
         
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">mockDataoneCA.crt</question>
-        <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">ssl-cert-snakeoil.pem</question>
-        <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">ssl-cert-snakeoil.key</question>
         <question keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
         <question keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
         <question keyref="dataone-cn-os-core/cn.keystore.password"/>
