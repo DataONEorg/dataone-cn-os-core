@@ -295,7 +295,7 @@
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-1.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
             <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-1.mock.dataone.org.crt</question>
-	 <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-1.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-1.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT1</question>
@@ -307,7 +307,7 @@
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-2.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
             <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-2.mock.dataone.org.crt</question>
-	 <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-2.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-2.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT2</question>
@@ -319,7 +319,7 @@
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-3.mock.dataone.org.crt</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
             <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-3.mock.dataone.org.crt</question>
-	 <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-3.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-3.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT3</question>
@@ -331,7 +331,7 @@
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">puppet-dev.utk.edu.pem</question>
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">puppet-dev.utk.edu.key</question>
             <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">ssl-cert-snakeoil.pem</question>
-	 <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">ssl-cert-snakeoil.key</question>
+            <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">ssl-cert-snakeoil.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">4</question>
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >puppet-dev.utk.edu</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNPUPPETDEV</question>
