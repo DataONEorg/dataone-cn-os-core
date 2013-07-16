@@ -305,7 +305,7 @@
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNCAT2</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNCAT2.pem</question>
             <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-cat-2.mock.dataone.org.crt</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-2.mock.dataone.orgg.key</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-cat-2.mock.dataone.org.key</question>
             <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">cn-cat-2.mock.dataone.org.crt</question>
             <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">cn-cat-2.mock.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
