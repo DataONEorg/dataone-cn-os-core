@@ -61,7 +61,7 @@ function log()
     echo -e "${now} preinst $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
 }
 
-if ! (sed -i.bak --regexp-extended "s/(^\s+db_purge.+$)/#\1/;" /var/lib/dpkg/info/dataone-cn-os-core.postrm >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+if ! (sed -i.bak --regexp-extended "s/(^.*db_purge.*$)/#\1/;" /var/lib/dpkg/info/dataone-cn-os-core.postrm >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 	log "commenting out db_purge failed"
 else
 	cat /var/lib/dpkg/info/dataone-cn-os-core.postrm >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1
