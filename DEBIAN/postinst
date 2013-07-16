@@ -216,13 +216,13 @@ function process_derived_debian_config()
 						join ' ' ${CN_IPLIST[@]}
 						local IPLIST=${RTN_JOIN}
 						
-						db_get "$template_name"
+						db_get $template_name
 						local DEB_IPLIST=$RET
 						
 						if [[ -n $DEB_IPLIST && $IPLIST != $DEB_IPLIST ]]; then
 							CHANGED_FLAG="true"
 						fi
-						db_set "$template_name" ${IPLIST}
+						db_set $template_name ${IPLIST}
 						# log "IPLIST ${IPLIST[@]}"
 						DEB_QUESTION_VALUES+=([$template_name]="${IPLIST}")
 						;;
@@ -231,13 +231,13 @@ function process_derived_debian_config()
 						join ' ' ${CN_HOSTNAMELIST[@]}
 						local HOSTNAMELIST=${RTN_JOIN}
 						
-						db_get "$template_name"
+						db_get $template_name
 						local DEB_HOSTNAMELIST=$RET
 						
 						if [[ -n $DEB_HOSTNAMELIST && $HOSTNAMELIST != $DEB_HOSTNAMELIST ]]; then
 							CHANGED_FLAG="true"
 						fi
-						db_set "$template_name" ${HOSTNAMELIST}
+						db_set $template_name ${HOSTNAMELIST}
 						# log "HOSTNAMELIST ${HOSTNAMELIST[@]}"
 						DEB_QUESTION_VALUES+=([$template_name]="${HOSTNAMELIST}")
 						;;
@@ -246,24 +246,24 @@ function process_derived_debian_config()
 						join ' ' ${CN_NODEIDSLIST[@]}
 						NODEIDSLIST=${RTN_JOIN}
 						
-						db_get "$template_name"
+						db_get $template_name
 						local DEB_NODEIDSLIST=$RET
 						
 						if [[ -n $DEB_NODEIDSLIST && $NODEIDSLISTT != $DEB_NODEIDSLIST ]]; then
 							CHANGED_FLAG="true"
 						fi	
 						
-						db_set "$template_name" ${NODEIDSLIST}
+						db_set $template_name ${NODEIDSLIST}
 						# log "NODEIDSLIST ${NODEIDSLIST[@]}"
 						DEB_QUESTION_VALUES+=([$template_name]="${NODEIDSLIST}")
 						;;
 					"dataone-cn-os-core/cn.context.label")
-						db_get "$template_name"
+						db_get $template_name
 						local DEB_CONTEXT=$RET
 						if [[ -n $DEB_CONTEXT && DEB_CONTEXT != $CONTEXT ]]; then
 							CHANGED_FLAG="true"
 						fi
-						db_set "$template_name" ${CONTEXT}
+						db_set $template_name ${CONTEXT}
 						# log "CONTEXT $CONTEXT"
 						DEB_QUESTION_VALUES+=([$template_name]="${CONTEXT}")
 						;;
@@ -272,7 +272,7 @@ function process_derived_debian_config()
 						log "unable to process derived template $template_name."
 						;;					
 				esac
-				db_fset "$template_name" seen $SEEN_FLAG
+				db_fset $template_name seen $SEEN_FLAG
 				XML_TEMPLATE_BOOLEAN[$SEEN]=$SEEN_FLAG
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
 				db_fset $template_name configured-value ${XML_TEMPLATE_BOOLEAN[$CONFIGURED_VALUE]}
@@ -313,14 +313,14 @@ function process_create_debian_config()
 
 			if [ "${XML_TEMPLATE_BOOLEAN[$CONFIGURED_VALUE]}" == "true" ]; then
 				#if configured-value is true, then get the answer from the questions section for the machine/environment
-				db_set "$template_name" "${XML_QUESTION_VALUES[$template_name]}"
+				db_set $template_name "${XML_QUESTION_VALUES[$template_name]}"
 				db_fset $template_name seen true
 				XML_TEMPLATE_BOOLEAN[$SEEN]="true"
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
 				db_fset $template_name configured-value ${XML_TEMPLATE_BOOLEAN[$CONFIGURED_VALUE]}
 				db_fset $template_name user-entered-value ${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}
 				DEB_QUESTION_VALUES+=([$template_name]="${XML_QUESTION_VALUES[$template_name]}")
-				# log "XML_QUESTION_VALUES $template_name ${XML_QUESTION_VALUES[$template_name]}"
+				log "XML_QUESTION_VALUES $template_name ${XML_QUESTION_VALUES[$template_name]}"
 				unset -v DEB_QUESTION_FLAGS[$template_name]
 				DEB_QUESTION_FLAGS+=([$template_name]="${XML_TEMPLATE_BOOLEAN[@]}")
 				DB_QUESTION_CHANGED+=([$template_name]="false")
@@ -331,7 +331,7 @@ function process_create_debian_config()
 				else
 					## find if the value was set by some other system, such as ansible
 					log "unable to update user-entered template $template_name"
-					db_get "$template_name" 
+					db_get $template_name
 					EXCEPTION_DB_VALUE=$RET
 					if [[ -z ${EXCEPTION_DB_VALUE} ]]; then
 						# nothing else to do here but fail, db_input failed and the value is not set in debconf backend
@@ -344,19 +344,19 @@ function process_create_debian_config()
 				db_fset $template_name derived-value  ${XML_TEMPLATE_BOOLEAN[$DERIVED_VALUE]}
 				db_fset $template_name configured-value ${XML_TEMPLATE_BOOLEAN[$CONFIGURED_VALUE]}
 				db_fset $template_name user-entered-value ${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}
-				db_get "$template_name" 
+				db_get $template_name
 				TEMPLATE_VALUE=$RET
 				DEB_QUESTION_VALUES+=([$template_name]="${TEMPLATE_VALUE}")
-				# log "USER ENTERED VALUE $template_name ${TEMPLATE_VALUE}"
+				log "USER ENTERED VALUE $template_name ${TEMPLATE_VALUE}"
 				unset -v DEB_QUESTION_FLAGS[$template_name]
 				DEB_QUESTION_FLAGS+=([$template_name]="${XML_TEMPLATE_BOOLEAN[@]}")
 				DB_QUESTION_CHANGED+=([$template_name]="false")
 			fi
 		else
 			### it already been seen, pull the DEB_QUESTION values from the database
-			db_get "$template_name"
+			db_get $template_name
 			local DB_VALUE=$RET
-			# log "SETTING DEB_QUESTION_VALUES $template_name $DB_VALUE"
+			log "SETTING DEB_QUESTION_VALUES $template_name $DB_VALUE"
 			DEB_QUESTION_VALUES+=([$template_name]="${DB_VALUE}")
 			DEB_QUESTION_FLAGS+=([$template_name]="${XML_TEMPLATE_BOOLEAN[@]}")
 		fi
@@ -379,6 +379,7 @@ function process_create_debian_config()
 ##### 
 function process_update_debian_config()
 {
+	log "start process_update_debian_config"
 	local OLD_DB_VALUE
 	local NEW_DB_VALUE
 	# for an update:
@@ -392,7 +393,7 @@ function process_update_debian_config()
 		if [ "${DEB_FLAG_BOOLEAN[$SEEN]}" == "false" ]; then
 			# if db has a user-entered-value flag true and the template user-entered-value is false, there is a discrepency between what is expected and what has
 			# been stored. This happens if the user has overrided the default behaviour somehow
-			db_get "$template_name" 
+			db_get $template_name
 			OLD_DB_VALUE=$RET
 			if  [[ "$CONTEXT" != "CUSTOM" && "${DEB_FLAG_BOOLEAN[$USER_ENTERED_VALUE]}" == "true"  &&  "${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}" == "false" ]]; then
 				# compare the values as stored in the  template and the db.
@@ -442,7 +443,7 @@ function process_update_debian_config()
 			if  [[ "${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}" == "true" ]]; then
            		# then set the default value of the question from the one held by the db
            		# and prompt the user, changed flag is true.
-           		db_get "$template_name" 
+           		db_get $template_name
            		OLD_DB_VALUE=$RET
            		
 				if (db_input high "$template_name"); then
@@ -455,7 +456,7 @@ function process_update_debian_config()
 				db_fset $template_name user-entered-value ${XML_TEMPLATE_BOOLEAN[$USER_ENTERED_VALUE]}
 				db_fset $template_name seen true
 				XML_TEMPLATE_BOOLEAN[$SEEN]="true"
-				db_get "$template_name" 
+				db_get $template_name
 				NEW_DB_VALUE=$RET
 				if [[ "$OLD_DB_VALUE" == "$NEW_DB_VALUE" ]]; then
 					DB_QUESTION_CHANGED+=([$template_name]="false")
@@ -490,14 +491,14 @@ function process_update_debian_config()
 			fi
 		else
 			### it already been seen, pull the DEB_QUESTIONs from the database
-			db_get "$template_name"
+			db_get $template_name
 			local DB_VALUE=$RET
 			# log "SETTING DEB_QUESTION_VALUES $template_name $DB_VALUE"
 			DEB_QUESTION_VALUES+=([$template_name]="${DB_VALUE}")
 		fi
 	done
     process_derived_debian_config
-	
+	log "end process_update_debian_config"
 }
 #####
 ##### resetTemplateSeenFlag()
@@ -510,7 +511,7 @@ function resetDebQuestionSeenFlag()
 	do
 		eval local -a DEB_FLAG_BOOLEAN=("${DEB_QUESTION_FLAGS[$template_name]}")
 		if [[ "${DEB_FLAG_BOOLEAN[$SEEN]}" == "true" &&  "$template_name" != "dataone-cn-os-core/cn.openldap.firstcn" ]]; then
-			db_fset "$template_name" seen false
+			db_fset $template_name seen false
 		fi
 	done
 		
@@ -522,20 +523,24 @@ function resetDebQuestionSeenFlag()
 #####
 function build_debianDB_template_data_structures()
 {
+	if (debconf-show dataone-cn-os-core >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "before build_debianDB_template_data_structures"
+	fi
+
 	local -a DEBIAN_FLAGS
 	local DEBIAN_FLAGS_STR
-	
+
 	for template_name in ${!XML_TEMPLATE_FLAGS[@]}
 	do
 		# note that the posistions of the flags in the array
 		
-		db_fget "$template_name" seen
+		db_fget $template_name seen
 		DEBIAN_FLAGS[$SEEN]=${RET}
-		db_fget "$template_name" derived-value
+		db_fget $template_name derived-value
 		DEBIAN_FLAGS[$DERIVED_VALUE]=${RET}
-		db_fget "$template_name" user-entered-value
+		db_fget $template_name user-entered-value
 		DEBIAN_FLAGS[$USER_ENTERED_VALUE]=${RET}
-		db_fget "$template_name" configured-value
+		db_fget $template_name configured-value
 		DEBIAN_FLAGS[$CONFIGURED_VALUE]=${RET}
 
 		join ' ' ${DEBIAN_FLAGS[@]}
@@ -1210,7 +1215,7 @@ function configure_openldap()
 	local MIGRATE_VERSION=0
 	local OPENLDAP_POPULATED
 	
-	db_get "dataone-cn-os-core/cn.openldap.populated"
+	db_get dataone-cn-os-core/cn.openldap.populated
 	OPENLDAP_POPULATED=$RET
 	if [ -n "$ARG_VERSION" ]; then
 		MIGRATE_VERSION=$ARG_VERSION
