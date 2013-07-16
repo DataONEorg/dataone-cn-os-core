@@ -1979,5 +1979,8 @@ function main()
 }
 
 #### This is the start of all the processing!!!
+if (debconf-show dataone-cn-os-core >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	log "before main"
+fi
 main
 ################ NOTHING SHOULD APPEAR BELOW THIS LINE ################
