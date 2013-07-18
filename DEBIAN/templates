@@ -12,23 +12,23 @@ Type: string
 
 Template: dataone-cn-os-core/cn.nodeid
 Description: What is the unique node id of this CN?
- Enter the unique node id for the CN currently being installed. For example,
- for the UC Santa Barbara Sandbox Coordinating Node, the unique node id is 
- urn:node:CNSANDBOXUCSB1
+ Enter the unique node id for the CN currently being installed. For 
+ example, for the UC Santa Barbara Sandbox Coordinating Node, the unique 
+ node id is urn:node:CNSANDBOXUCSB1
 Type: string
 
 Template: dataone-cn-os-core/cn.iplist
 Description: List the IP adresses:
- The IP addresses for each Coordinating Node in an environment are needed to
- configure LDAP, Hazelcast, and other services. Provide a space-separated list
- of IP addresses.
+ The IP addresses for each Coordinating Node in an environment are needed
+ to configure LDAP, Hazelcast, and other services. Provide a space-separated
+ list of IP addresses.
 Type: string
 
 Template: dataone-cn-os-core/cn.hostnamelist
 Description: List the hostnames:
  The hostnames for each Coordinating Node in an environment are needed to
- configure LDAP, Hazelcast, and other services. The list must correspond with the IP address 
- list in both number and order.
+ configure LDAP, Hazelcast, and other services. The list must correspond 
+ with the IP address list in both number and order.
 Type: string
 
 Template: dataone-cn-os-core/cn.nodeids
@@ -54,7 +54,10 @@ Description: The Router Node IDs:
 Type: string
 
 Template: dataone-cn-os-core/cn.dataone.ca.filename
-Description: What is the DataONE Certificate Authority filename?
+Description: What is the Certificate Authority filename used to authenticate client certs?
+ The all-in-one file where you can assemble the Certificates of Certification 
+ Authorities (CA) whose clients you deal with. Assigned to 
+ SSLCACertificateFile directive in the apache configuration.
 Type: string
 
 Template: dataone-cn-os-core/cn.server.publiccert.filename
@@ -66,9 +69,18 @@ Type: string
 
 Template: dataone-cn-os-core/cn.server.privatekey.filename
 Description: What is the name of the CN server private SSL key file?
- The CN communicates over HTTPS with other clients and nodes. Provide the path 
- to the SSL private key created for this CN.
+ The CN communicates over HTTPS with other clients and nodes. Provide 
+ the path  to the SSL private key created for this CN.
 Default: _.test.dataone.org.key
+Type: string
+
+Template: dataone-cn-os-core/cn.server.cachain.filename
+Description: What is the certificate chain filename used to sign the public server certificate?
+ The all-in-one file where you can assemble the certificates of 
+ Certification Authorities (CA) which form he certificate chain of the 
+ server certificate. Assigned to SSLCertificateChainFile directive 
+ in the apache configuration.
+Default: mockDataoneCA.crt
 Type: string
 
 Template: dataone-cn-os-core/cn.client.certificate.dir

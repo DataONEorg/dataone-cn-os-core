@@ -99,7 +99,11 @@
             <flag name="configured-value">true</flag>           
         </template>
         <template key="dataone-cn-os-core/cn.dataone.ca.filename">
-            <description>What is the DataONE CA filename?</description>
+            <description>What is the Certificate Authority filename used to authenticate client certs?
+				 The all-in-one file where you can assemble the Certificates of Certification 
+				 Authorities (CA) whose clients you deal with. Assigned to 
+				 SSLCACertificateFile directive in the apache configuration.
+            </description>
             <type>string</type>
             <flag name="seen">false</flag>
             <flag name="derived-value">false</flag>
@@ -123,6 +127,19 @@
                 to the SSL private key created for this CN.</description>
             <type>string</type>
             <default>_.test.dataone.org.key</default>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
+        <template key="dataone-cn-os-core/cn.server.cachain.filename">
+            <description>What is the certificate chain filename used to sign the public server certificate?
+			 The all-in-one file where you can assemble the certificates of 
+			 Certification Authorities (CA) which form the certificate chain of the 
+			 server certificate. Assigned to SSLCertificateChainFile directive 
+			 in the apache configuration.          
+            </description>
+            <type>string</type>
             <flag name="seen">false</flag>
             <flag name="derived-value">false</flag>
             <flag name="user-entered-value">false</flag>
@@ -276,6 +293,7 @@
         <question keyref="dataone-cn-os-core/cn.router.hostname"/>
         <question keyref="dataone-cn-os-core/cn.router.nodeId"/>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename"/>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename"/>
         <question keyref="dataone-cn-os-core/cn.server.publiccert.filename"/>
         <question keyref="dataone-cn-os-core/cn.server.privatekey.filename"/>
         <question keyref="dataone-cn-os-core/cn.client.certificate.dir"/>
@@ -351,8 +369,8 @@
         <!-- the cn.router.nodeId is set during configuration to be the same as the nodeId of the machine being installed upon.
             There is not a virtual router for localhost setups currently -->
         <question  keyref="dataone-cn-os-core/cn.router.nodeId" />
-        
-        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">mockDataoneCA.crt</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">mockDataoneCA.crt</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">mockDataoneChain.pem</question>
         <question keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
         <question keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
         <question keyref="dataone-cn-os-core/cn.keystore.password"/>
@@ -401,6 +419,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-dev.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnDev</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
@@ -453,6 +472,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
@@ -504,6 +524,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question  keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
@@ -547,6 +568,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage-2.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage2</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">_.test.dataone.org.key</question>
@@ -598,6 +620,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:CN</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONECAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.dataone.org.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">dataone_org.key</question>

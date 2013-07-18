@@ -118,14 +118,6 @@ LONG_DATE=$(date +%Y%m%d%H%M%S)
 # Create a difficult to guess token to pass for Solr auth
 SOLR_TOKEN=`date +%m%s%Y%N%d | sed 's/0//g'`
 
-# 
-# XXX   XXX   XXX   -RPW    these settings can probably go in the environmental specific 
-# properties in /etc/dataone
-#
-TESTING_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
-PROD_INTERMEDIATE_BUNDLE="geotrust_intermediate.crt"
-PROD_CERTS="DataONEProductionCA.crt DataONERootCA.crt"
-
 #####
 ##### FUNCTION DEFINITIONS
 #####
@@ -847,18 +839,13 @@ function configure_keystore()
 	# Get the password
 
 	local JAVA_KEYSTORE_PASSWORD="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.keystore.password]}"
-	
-	# XXX   XXX   XXX   -RPW    THE INTERMEDIATE BUNDLE VS THE TESTING BUNDLE SHOULD BE CONFIGURED IN THE XML FILE
-	
+
 	# output from keytool is piped to exit 0 so that if keytool fails due to the file already having
 	# been added then the postinst script does not fail due to the subshell failing
-	if [ "${CONTEXT}" == "PRODUCTION" ]; then
-		log "Adding ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
-		(keytool -import -noprompt -alias ${PROD_INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${PROD_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
-	else
-		log "Adding ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
-		(keytool -import -noprompt -alias ${TESTING_INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${TESTING_INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
-	fi
+	local INTERMEDIATE_BUNDLE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.cachain.filename]}"
+	
+	log "Adding ${SSL_CERT_DIR}/${INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
+	(keytool -import -noprompt -alias ${INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
 	
 	# get the DataONE CA
 	
@@ -1026,18 +1013,13 @@ function configure_apache()
 				log "dataone-cn-os-core/cn.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
 		fi
 		
-		## XXX   XXX   XXX   -RPW    THE INTERMEDIATE BUNDLE VS THE TESTING BUNDLE SHOULD BE CONFIGURED IN THE XML FILE
-		
 		## Set the server side SSL CA bundle
-		if [ "${CONTEXT}" == "PRODUCTION" ]; then
-			if ! (sed -i.bak  's/INTERMEDIATE_BUNDLE/'${PROD_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify PRODUCTION INTERMEDIATE_BUNDLE in ${SITE} Apache"
-			fi
-		else
-			if ! (sed -i.bak  's/INTERMEDIATE_BUNDLE/'${TESTING_INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify INTERMEDIATE_BUNDLE in ${SITE} Apache"
-			fi
+		local INTERMEDIATE_BUNDLE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.cachain.filename]}"
+
+		if ! (sed -i.bak  's/INTERMEDIATE_BUNDLE/'${INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to modify INTERMEDIATE_BUNDLE in ${SITE} Apache"
 		fi
+
 		
 		## Set the client side SSL CA chain file            
 		if ! (sed -i.bak  's/D1_CHAIN_FILE/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
