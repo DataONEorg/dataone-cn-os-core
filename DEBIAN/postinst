@@ -1898,12 +1898,15 @@ function main()
 			# dataone-cn-os-core/cn.dataone.ca.filename
 			# dataone-cn-os-core/cn.server.publiccert.filename
 			# dataone-cn-os-core/cn.server.privatekey.filename
-			if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.hostname]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.dataone.ca.filename]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.server.publiccert.filename]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.server.privatekey.filename]}" == "true" ]];then
-				configure_apache
-			fi
+			# if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.hostname]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.dataone.ca.filename]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.server.publiccert.filename]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.server.privatekey.filename]}" == "true" ]];then
+			#	configure_apache
+			#fi
+			
+			# XXX reconfigure apache and tomcat until add in better logic to determine when static files have changed
+			configure_apache
 			configure_tomcat
 			# due to the fact that we do not know if the password has been changed
 			# we will always have to reconfigure openldap until
