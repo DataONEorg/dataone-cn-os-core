@@ -1904,6 +1904,7 @@ function main()
 				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.server.privatekey.filename]}" == "true" ]];then
 				configure_apache
 			fi
+			configure_tomcat
 			# due to the fact that we do not know if the password has been changed
 			# we will always have to reconfigure openldap until
 			# the logic surrounding passwords change
