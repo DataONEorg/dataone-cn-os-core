@@ -342,18 +342,6 @@
             <question  keyref="dataone-cn-os-core/cn.router.hostname" >cn-cat-3.mock.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNCAT3</question>
         </machine>
-        <machine ip="160.36.13.145">
-            <question  keyref="dataone-cn-os-core/cn.hostname" >puppet-dev.utk.edu</question>
-            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNPUPPETDEV</question>
-            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNPUPPETDEV.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">puppet-dev.utk.edu.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">puppet-dev.utk.edu.key</question>
-            <question keyref="dataone-cn-os-core/cn.server.publiccert.filename">ssl-cert-snakeoil.pem</question>
-            <question keyref="dataone-cn-os-core/cn.server.privatekey.filename">ssl-cert-snakeoil.key</question>
-            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">4</question>
-            <question  keyref="dataone-cn-os-core/cn.router.hostname" >puppet-dev.utk.edu</question>
-            <question  keyref="dataone-cn-os-core/cn.router.nodeId" >urn:node:CNPUPPETDEV</question>
-        </machine>
         <!-- cn.context.label is derived from the context attribute of the environment element -->
         <question keyref="dataone-cn-os-core/cn.context.label" />
         <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
@@ -470,8 +458,8 @@
         <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
         <question keyref="dataone-cn-os-core/cn.nodeids"/>
         
-        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
-        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-sandbox.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnSandbox</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
