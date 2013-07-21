@@ -432,14 +432,6 @@
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-ucsb-1.test.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
         </machine>
-        <machine  ip="64.106.40.7">
-            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-unm-1.test.dataone.org</question>
-            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxUNM1</question>
-            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxUNM1.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-sandbox-unm-1.test.dataone.org.pem</question>
-            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-unm-1.test.dataone.org.key</question>
-            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
-        </machine>
         <machine  ip="160.36.13.152">
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-orc-1.test.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxORC1</question>
@@ -448,7 +440,14 @@
             <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-orc-1.test.dataone.org.key</question>
             <question  keyref="dataone-cn-os-core/cn.openldap.serverID">3</question>
         </machine>
-        
+         <machine  ip="64.106.40.7">
+            <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-unm-1.test.dataone.org</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxUNM1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxUNM1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-sandbox-unm-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-sandbox-unm-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">2</question>
+        </machine>       
         <!-- cn.context.label is derived from the context attribute of the environment element -->
         <question keyref="dataone-cn-os-core/cn.context.label" />
         <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
