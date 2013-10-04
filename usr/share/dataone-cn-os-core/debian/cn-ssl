@@ -15,15 +15,15 @@
 	SSLProxyEngine On
     RewriteOptions Inherit
     
-   <Location /knb/metacat>
+   <Location /metacat/metacat>
         Order allow,deny
         Allow from 127.0.0.0/8 ::1
     </Location>
-    <Location /knb/servlet/metacat>
+    <Location /metacat/servlet/metacat>
         Order allow,deny
         Allow from 127.0.0.0/8 ::1
     </Location>
-    <Location /knb/d1/mn>
+    <Location /metacat/d1/mn>
         Order allow,deny
         Allow from 127.0.0.0/8 ::1
     </Location>
@@ -32,7 +32,7 @@
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On
 	AcceptPathInfo On
-	<Location /knb/servlet/replication>
+	<Location /metacat/servlet/replication>
 	  SSLVerifyClient require
 	  SSLVerifyDepth  10
 	</Location>
