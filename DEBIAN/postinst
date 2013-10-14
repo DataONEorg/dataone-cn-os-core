@@ -931,35 +931,42 @@ function configure_apache()
 		log "Unable to copy ${SCRIPT_DIR}/workers.properties to ${MOD_JK_CONF_DIR}/"
 	fi
 	
-	## disable and then re-enable mod_proxy and mod_rewrite
-	log "Refreshing Proxy"
-	
+	## disable and then re-enable mod_proxy, mod_rewrite, and mod_headers
+	log "Refreshing Proxy"	
 	if ! (a2dismod proxy_ajp >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to disable  proxy_ajp apache site"
+		log "Unable to disable proxy_ajp apache module"
 	fi
 	if ! (a2dismod proxy_http >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to disable  proxy_http apache site"
+		log "Unable to disable proxy_http apache module"
 	fi
 	if ! (a2dismod proxy >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to disable proxy apache site"
+		log "Unable to disable proxy apache module"
 	fi
 	
 	if ! (a2enmod proxy >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to enable proxy apache site"
+		log "Unable to enable proxy apache module"
 	fi
 	if ! (a2enmod proxy_http >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to ensable  proxy_http apache site"
+		log "Unable to ensable proxy_http apache module"
 	fi
 	if ! (a2enmod proxy_ajp >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then   
-		log "Unable to ensablv proxy_ajp apache site"
+		log "Unable to ensable proxy_ajp apache module"
 	fi
 	
 	log "Refreshing Rewrite"
 	if ! (a2dismod rewrite >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to disable  rewrite apache site"
+		log "Unable to disable rewrite apache module"
 	fi
 	if ! (a2enmod rewrite >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to ensable  rewrite apache site"
+		log "Unable to ensable rewrite apache module"
+	fi
+	
+	log "Refreshing Headers"
+	if ! (a2dismod headers >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to disable headers apache module"
+	fi
+	if ! (a2enmod headers >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to ensable headers apache module"
 	fi
 	
 	# Turn on the ssl module

@@ -3,7 +3,8 @@
 	DocumentRoot /var/www
 	ServerName SERVER_NAME
 	DirectoryIndex listObjects.xml
-
+    Header set Access-Control-Allow-Origin "*"
+    
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
