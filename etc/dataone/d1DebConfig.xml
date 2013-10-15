@@ -357,8 +357,8 @@
         <!-- the cn.router.nodeId is set during configuration to be the same as the nodeId of the machine being installed upon.
             There is not a virtual router for localhost setups currently -->
         <question  keyref="dataone-cn-os-core/cn.router.nodeId" />
-        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">mockDataoneCA.crt</question>
-        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">mockDataoneChain.pem</question>
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">MockDataoneCA.crt</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">MockDataoneClientCACerts.pem</question>
         <question keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
         <question keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
         <question keyref="dataone-cn-os-core/cn.keystore.password"/>
