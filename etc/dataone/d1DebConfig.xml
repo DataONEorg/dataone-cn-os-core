@@ -371,7 +371,7 @@
         
     </environment>
     <environment context="DEV" >
-        <machine ip="128.111.36.78">
+        <machine ip="128.111.54.78">
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-dev-ucsb-1.test.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnDevUCSB1</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnDevUCSB1.pem</question>
@@ -424,7 +424,7 @@
     </environment>
     
     <environment  context="SANDBOX" >
-        <machine  ip="128.111.36.77" >
+        <machine  ip="128.111.54.77" >
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-sandbox-ucsb-1.test.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnSandboxUCSB1</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnSandboxUCSB1.pem</question>
@@ -475,7 +475,7 @@
     </environment>
     
     <environment  context="STAGE" >
-        <machine  ip="128.111.36.76" >
+        <machine  ip="128.111.54.76" >
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-stage-ucsb-1.test.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnStageUCSB1</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnStageUCSB1.pem</question>
@@ -570,7 +570,7 @@
     </environment>
     
     <environment  context="PRODUCTION" >
-        <machine  ip="128.111.36.80" >
+        <machine  ip="128.111.54.80" >
             <question  keyref="dataone-cn-os-core/cn.hostname" >cn-ucsb-1.dataone.org</question>
             <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:CNUCSB1</question>
             <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:CNUCSB1.pem</question>
