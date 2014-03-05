@@ -947,7 +947,7 @@ function configure_apache()
 		log "Unable to enable proxy apache module"
 	fi
 	if ! (a2enmod proxy_http >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to ensable proxy_http apache module"
+		log "Unable to enable proxy_http apache module"
 	fi
 	if ! (a2enmod proxy_ajp >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then   
 		log "Unable to ensable proxy_ajp apache module"
