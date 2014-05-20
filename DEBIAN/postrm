@@ -19,7 +19,7 @@ D1_LOG_DIR=/var/log/dataone
 D1_LOG_FILE=dataone-cn-os-core.remove.log
 if [ ! -e ${D1_LOG_DIR} ]; then
     mkdir -p ${D1_LOG_DIR}
-    chown tomcat6:tomcat6 ${D1_LOG_DIR}
+    chown tomcat7:tomcat7 ${D1_LOG_DIR}
 fi
 
 # functions to echo to STDERR or the install log instead of STDOUT
@@ -32,10 +32,10 @@ log () {
     echo -e "${now} postrm $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
 }
 
-TOMCAT=tomcat6
-TOMCAT_USER=tomcat6
-DATAONE_USER=tomcat6
-TOMCAT_HOME=/var/lib/tomcat6
+TOMCAT=tomcat7
+TOMCAT_USER=tomcat7
+DATAONE_USER=tomcat7
+TOMCAT_HOME=/var/lib/tomcat7
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2

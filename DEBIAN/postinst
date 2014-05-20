@@ -79,10 +79,10 @@ declare -A DEB_QUESTION_VALUES
 declare -A DB_QUESTION_CHANGED
 # The Global Constants
 
-TOMCAT=tomcat6
-TOMCAT_USER=tomcat6
-DATAONE_USER=tomcat6
-TOMCAT_HOME=/var/lib/tomcat6
+TOMCAT=tomcat7
+TOMCAT_USER=tomcat7
+DATAONE_USER=tomcat7
+TOMCAT_HOME=/var/lib/tomcat7
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF_DIR=/etc/apache2
@@ -91,9 +91,9 @@ D1_CONF_DIR=/etc/dataone
 NODE_PROPS="$D1_CONF_DIR/node.properties"
 LDAP_CONF_DIR=/etc/ldap
 SITES="cn-ssl"
-JAVA_SECURITY=/usr/lib/jvm/java-6-sun/jre/lib/security/java.security
-JAVA_SECURITY_EXT_DIR=/usr/lib/jvm/java-6-sun/jre/lib/ext
-JAVA_KEYSTORE=/usr/lib/jvm/java-6-sun/jre/lib/security/cacerts
+JAVA_SECURITY=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/security/java.security
+JAVA_SECURITY_EXT_DIR=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/ext
+JAVA_KEYSTORE=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/security/cacerts
 LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 SSL_CERT_DIR=/etc/ssl/certs
@@ -144,7 +144,7 @@ function log()
 	#
     if [ ! -e ${D1_LOG_DIR} ]; then
         mkdir -p ${D1_LOG_DIR}
-        chown tomcat6:tomcat6 ${D1_LOG_DIR}
+        chown tomcat7:tomcat7 ${D1_LOG_DIR}
     fi
     now=$(date "+%Y-%m-%d %H:%M:%S %Z: ")
     echo -e "${now} postinst $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
@@ -572,8 +572,8 @@ function build_xml_template_data_structures()
     	 do
 			# log "build_xml_template_data_structures found $template_name"
 			eval local -A FLAG_VALUES=(`xmlstarlet sel -t --match "//templates/template[@key='${template_name}']/flag"  \
-			--value-of "string('[')" --value-of "@name"  --value-of "string(']=&quot;')" \
-			--value-of "node()" --value-of "string('&quot; ')" \
+			--value-of "string('[')" --value-of "@name"  --value-of "string(']=\"')" \
+			--value-of "node()" --value-of "string('\"')" -n \
 			"${D1_CONF_DIR}/${D1_DEB_CONF_XML}"`)
 
 			# log "build_xml_template_data_structures found $template_name ${!FLAG_VALUES[@]} ${FLAG_VALUES[@]}"
@@ -589,8 +589,8 @@ function build_xml_template_data_structures()
 		# build the datastructure to hold information from the questions section of the xml file. or the value of 
 		OLD_IFS=$IFS
 		IFS=$'\n'
-		eval XML_QUESTION_VALUES+=(`xmlstarlet sel -t --match "//environment[@context='${CONTEXT}']/question" --value-of "string('[')"  --value-of "@keyref" --value-of "string(']=&quot;')" --value-of "node()" --value-of "string('&quot;&#xA;')" "$D1_CONF_DIR/${D1_DEB_CONF_XML}"`)
-		eval XML_QUESTION_VALUES+=(`xmlstarlet sel -t --match "//machine[@ip='${IP_ADDRESS}']/question" --value-of "string('[')" --value-of "@keyref" --value-of "string(']=&quot;')" --value-of "node()" --value-of "string('&quot;&#xA;')" "$D1_CONF_DIR/${D1_DEB_CONF_XML}"`)
+		eval XML_QUESTION_VALUES+=(`xmlstarlet sel -t --match "//environment[@context='${CONTEXT}']/question" --value-of "string('[')"  --value-of "@keyref" --value-of "string(']=\"')" --value-of "node()" --value-of "string('\"')" -n "$D1_CONF_DIR/${D1_DEB_CONF_XML}"`)
+		eval XML_QUESTION_VALUES+=(`xmlstarlet sel -t --match "//machine[@ip='${IP_ADDRESS}']/question" --value-of "string('[')" --value-of "@keyref" --value-of "string(']=\"')" --value-of "node()" --value-of "string('\"')" -n "$D1_CONF_DIR/${D1_DEB_CONF_XML}"`)
 		IFS=$OLD_IFS
 	else
 		# The IP ADDRESS was not found within the xml config file, therefore, we will build a CUSTOM installation in which the user must answer all the template questions
@@ -771,10 +771,10 @@ function configure_certificates()
 	fi
 	# set permissions correctly for the certs and private dirs
 	if [ -d  ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]} ] && [ -d ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]} ]; then
-		if ! (chown -R ${TOMCAT_USER}.ssl-cert ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (chown -R ${TOMCAT_USER}:ssl-cert ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Error Unable to chown on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}"
 		fi
-		if ! (chown -R ${TOMCAT_USER}.ssl-cert ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (chown -R ${TOMCAT_USER}:ssl-cert ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Error Unable to chown on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}"
 		fi
 	else
@@ -845,11 +845,11 @@ function configure_keystore()
 	local INTERMEDIATE_BUNDLE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.cachain.filename]}"
 	
 	log "Adding ${SSL_CERT_DIR}/${INTERMEDIATE_BUNDLE} to Java keystore: ${JAVA_KEYSTORE}"
-	(keytool -import -noprompt -alias ${INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
+	(keytool -importcert -noprompt -alias ${INTERMEDIATE_BUNDLE} -file ${SSL_CERT_DIR}/${INTERMEDIATE_BUNDLE} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
 	
 	# get the DataONE CA
 	
-	(keytool -import -noprompt -alias DataONECA -file ${SSL_CERT_DIR}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
+	(keytool -importcert -noprompt -alias DataONECA -file ${SSL_CERT_DIR}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]} -keystore ${JAVA_KEYSTORE} -storepass ${JAVA_KEYSTORE_PASSWORD}  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 | exit 0)
 	log "Adding ${SSL_CERT_DIR}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]} to Java keystore: ${JAVA_KEYSTORE} -$RTN_KEYTOOL"
 	# Always clear the cached keystore password
 	db_set dataone-cn-os-core/cn.keystore.password "" # clear the cached pw
@@ -1080,54 +1080,54 @@ function configure_tomcat()
 	## determine if the tomcat init script has a sufficient heap size
 	## XXX   XXX   XXX   -RPW    THE MAX/INITIAL HEAP PER ENVIRONMENT SHOULD BE CONFIGURED IN THE XML FILE
 	
-	if [ -e "/etc/init.d/tomcat6" ]; then
+	if [ -e "/etc/init.d/tomcat7" ]; then
 		## XXX   XXX   XXX   -RPW   
-		## we should determine if any changes have been made to /etc/init.d/tomcat6 and make a backup copy
+		## we should determine if any changes have been made to /etc/init.d/tomcat7 and make a backup copy
 		## before proceeding with its modification
-		if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat6); then
+		if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat7); then
 			log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
 			## -Xmx is not set, that is bad, the tomcat installation must
 			## have change significantly. We must manually add it to the JAVA_OPTS LINE
 			## and then change this script to handle the exact line to add it to
 			
 		else 
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat6); then
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat7); then
 				## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
 				## developer VMs will not be able to support this amount of heap space
 				## in fact our development environment probably cannot
-				if ! (sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify heap space settings in /etc/init.d/tomcat6"
+				if ! (sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to modify heap space settings in /etc/init.d/tomcat7"
 				fi
-				if ! (rm /etc/default/tomcat6.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to remove /etc/default/tomcat6.bak"
+				if ! (rm /etc/default/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to remove /etc/default/tomcat7.bak"
 				fi
 			fi
 		fi
-		if ! (egrep -q 'ulimit.+\-Hn' /etc/init.d/tomcat6); then
-			if ! (sed -i.bak --regexp-extended 's/^(\#\!\/bin\/sh.*$)/\1\n  ulimit -Hn 16384\n  ulimit -Sn 16384\n/;' /etc/init.d/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ulimit in /etc/init.d/tomcat6"
+		if ! (egrep -q 'ulimit.+\-Hn' /etc/init.d/tomcat7); then
+			if ! (sed -i.bak --regexp-extended 's/^(\#\!\/bin\/sh.*$)/\1\n  ulimit -Hn 16384\n  ulimit -Sn 16384\n/;' /etc/init.d/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify ulimit in /etc/init.d/tomcat7"
 			fi
-			if ! (rm /etc/init.d/tomcat6.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to remove /etc/init.d/tomcat6.bak"
+			if ! (rm /etc/init.d/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to remove /etc/init.d/tomcat7.bak"
 			fi
 		fi
 	fi
 	
-	if [ -e "/etc/default/tomcat6" ]; then
-		if ! (egrep -q '^\#?JAVA_OPTS\=".\{JAVA_OPTS\}.+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat6); then
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat6); then
-				echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/tomcat6
+	if [ -e "/etc/default/tomcat7" ]; then
+		if ! (egrep -q '^\#?JAVA_OPTS\=".+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat7); then
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat7); then
+				echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/tomcat7
 			fi
 		else 
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat6); then
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat7); then
 				## XXX   XXX   XXX   -RPW
 				## What happens if UseConcMarkSweepGC is not a part of JAVA_OPTS, but we still want to include
 				## UseParallelGC as our main garbage collection method
-				if ! (sed -i.bak --regexp-extended 's/^\#?JAVA_OPTS=\".\{JAVA_OPTS\}.+\-XX\:\+UseConcMarkSweepGC\"/JAVA_OPTS="\$\{JAVA_OPTS\} \-XX\:\+UseParallelGC"/;' /etc/default/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify UseConcMarkSweepGC in /etc/init.d/tomcat6"
+				if ! (sed -i.bak --regexp-extended s/UseConcMarkSweepGC/UseParallelGC/ /etc/default/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to modify UseConcMarkSweepGC in /etc/init.d/tomcat7"
 				fi
-				if ! (rm /etc/default/tomcat6.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to remove /etc/default/tomcat6.bak"
+				if ! (rm /etc/default/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to remove /etc/default/tomcat7.bak"
 				fi
 			fi
 		fi
@@ -1164,20 +1164,20 @@ function configure_tomcat()
 		fi
 	fi
 	
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /etc/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /etc/tomcat6"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /etc/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /etc/tomcat7"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/lib/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/lib/tomcat6"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/lib/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/lib/tomcat7"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/log/tomcat6"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/log/tomcat7"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/cache/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/cache/tomcat6"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/cache/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/cache/tomcat7"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /usr/share/tomcat6 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /usr/share/tomcat6"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /usr/share/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /usr/share/tomcat7"
 	fi
 
 }
@@ -1228,7 +1228,7 @@ function configure_openldap()
 	if ! (sed -i.bak "s/PASSWORD/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}/" ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to change the ldap admin password in ${D1_CONF_DIR}/ldapService.properties"
 	fi
-	if ! (chown ${TOMCAT_USER}.${TOMCAT_USER} ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (chown ${TOMCAT_USER}:${TOMCAT_USER} ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to chown on ${D1_CONF_DIR}/ldapService.properties"
 	fi
 	if ! (chmod -R 640 ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
@@ -1335,7 +1335,7 @@ function configure_openldap()
 	if ! (cp ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to copy ${SCRIPT_DIR}/ldap/dataone.schema to ${LDAP_CONF_DIR}/schema/"
 	fi
-	if ! (chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF_DIR}/schema/dataone.schema >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (chown -R ${LDAP_USER}:${LDAP_USER} ${LDAP_CONF_DIR}/schema/dataone.schema >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to chown ${LDAP_CONF_DIR}/schema/dataone.schema"
 	fi        
 	## place slapd.conf template
@@ -1393,8 +1393,8 @@ function configure_openldap()
 				log "Unable to modify TLSCACertificateFile value in ${LDAP_CONF_DIR}/slapd.conf"
 			fi
 			# make sure we have the correct ownership
-			if ! (chown ${TOMCAT_USER}.ssl-cert "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}">> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to chown ${TOMCAT_USER}.ssl-cert on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
+			if ! (chown ${TOMCAT_USER}:ssl-cert "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}">> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to chown ${TOMCAT_USER}:ssl-cert on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
 			fi
 		else
 			log "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]} does not exist. slapd, among other services, will fail"
@@ -1410,8 +1410,8 @@ function configure_openldap()
 			fi
 			
 			# make sure we have the correct ownership for the key
-			if ! (chown ${TOMCAT_USER}.ssl-cert "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to chown ${TOMCAT_USER}.ssl-cert on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
+			if ! (chown ${TOMCAT_USER}:ssl-cert "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to chown ${TOMCAT_USER}:ssl-cert on ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
 			fi
 		else
 			log "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]} does not exist. slapd, among other services, will fail"
@@ -1492,10 +1492,10 @@ function configure_openldap()
 
 	
 	## set permissions 
-	if ! (chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (chown -R ${LDAP_USER}:${LDAP_USER} ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to chown on ${LDAP_CONF_DIR}/slapd.conf"
 	fi
-	if ! (chown -R ${LDAP_USER}.${LDAP_USER} ${LDAP_CONF_DIR}/ldap.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (chown -R ${LDAP_USER}:${LDAP_USER} ${LDAP_CONF_DIR}/ldap.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to chown on ${LDAP_CONF_DIR}/ldap.conf"
 	fi        
 	# add to ssl-cert group so it can read private keys
@@ -1561,7 +1561,7 @@ function configure_openldap()
 		exitWithFailureCode 84
 	fi
 	if [ -e /etc/ldap/slapd.d ]; then
-	  if ! (chown -R ${LDAP_USER}.${LDAP_USER} /etc/ldap/slapd.d >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
+	  if ! (chown -R ${LDAP_USER}:${LDAP_USER} /etc/ldap/slapd.d >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
 		  log "chown on /etc/ldap/slapd.d failed"
 		  exitWithFailureCode 80
 	  fi
@@ -1571,7 +1571,7 @@ function configure_openldap()
 	fi
 	## make sure we own the storage folder
 	if [ -e /var/lib/ldap ]; then
-	  if ! (chown -R ${LDAP_USER}.${LDAP_USER} /var/lib/ldap >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
+	  if ! (chown -R ${LDAP_USER}:${LDAP_USER} /var/lib/ldap >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
 		  log "chown on /var/lib/ldap failed"
 	  fi 
 	else
