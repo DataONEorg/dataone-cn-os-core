@@ -2,6 +2,8 @@
 <VirtualHost *:443>
 	DocumentRoot /var/www
 	ServerName SERVER_NAME
+	ServerAlias SERVER_ALIAS
+	
 	DirectoryIndex listObjects.xml
     Header set Access-Control-Allow-Origin "*"
     

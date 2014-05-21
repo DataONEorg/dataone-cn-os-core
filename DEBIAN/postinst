@@ -1012,9 +1012,19 @@ function configure_apache()
 		
 		## replace the token SERVER_NAME in the site file
 		
-		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]} ]; then
+		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]} ]; then
 			if ! (sed -i.bak  's/SERVER_NAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify SERVER_NAME in ${SITE} Apache"
+			fi
+		else
+				log "dataone-cn-os-core/cn.router.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
+		fi
+		
+		## replace the token SERVER_ALIAS in the site file
+		
+		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]} ]; then
+			if ! (sed -i.bak  's/SERVER_ALIAS/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify SERVER_ALIAS in ${SITE} Apache"
 			fi
 		else
 				log "dataone-cn-os-core/cn.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
