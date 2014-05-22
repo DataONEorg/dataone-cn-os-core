@@ -1094,25 +1094,26 @@ function configure_tomcat()
 		## XXX   XXX   XXX   -RPW   
 		## we should determine if any changes have been made to /etc/init.d/tomcat7 and make a backup copy
 		## before proceeding with its modification
-		if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat7); then
-			log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
+		## The modification of JAVA_OPTS should move to the /etc/default/tomcat7
+		#if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat7); then
+			#log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
 			## -Xmx is not set, that is bad, the tomcat installation must
 			## have change significantly. We must manually add it to the JAVA_OPTS LINE
 			## and then change this script to handle the exact line to add it to
 			
-		else 
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat7); then
+		#else 
+			#if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat7); then
 				## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
 				## developer VMs will not be able to support this amount of heap space
 				## in fact our development environment probably cannot
-				if ! (sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify heap space settings in /etc/init.d/tomcat7"
-				fi
-				if ! (rm /etc/default/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to remove /etc/default/tomcat7.bak"
-				fi
-			fi
-		fi
+				#if ! (sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					#log "Unable to modify heap space settings in /etc/init.d/tomcat7"
+				#fi
+				#if ! (rm /etc/default/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					#log "Unable to remove /etc/default/tomcat7.bak"
+				#fi
+			#fi
+		#fi
 		if ! (egrep -q 'ulimit.+\-Hn' /etc/init.d/tomcat7); then
 			if ! (sed -i.bak --regexp-extended 's/^(\#\!\/bin\/sh.*$)/\1\n  ulimit -Hn 16384\n  ulimit -Sn 16384\n/;' /etc/init.d/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify ulimit in /etc/init.d/tomcat7"
@@ -1134,10 +1135,26 @@ function configure_tomcat()
 				## What happens if UseConcMarkSweepGC is not a part of JAVA_OPTS, but we still want to include
 				## UseParallelGC as our main garbage collection method
 				if ! (sed -i.bak --regexp-extended s/UseConcMarkSweepGC/UseParallelGC/ /etc/default/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify UseConcMarkSweepGC in /etc/init.d/tomcat7"
+					log "Unable to modify UseConcMarkSweepGC in /etc/default/tomcat7"
 				fi
 				if ! (rm /etc/default/tomcat7.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "Unable to remove /etc/default/tomcat7.bak"
+				fi
+			fi
+		fi
+		if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/default/tomcat7); then
+			log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
+			## -Xmx is not set, that is bad, the tomcat installation must
+			## have change significantly. We must manually add it to the JAVA_OPTS LINE
+			## and then change this script to handle the exact line to add it to
+			
+		else 
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/default/tomcat7); then
+				## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
+				## developer VMs will not be able to support this amount of heap space
+				## in fact our development environment probably cannot
+				if ! (sed -i.bak --regexp-extended 's/(JAVA_OPTS\=)"([^"]+\-Xmx)[0-9]+([^"]*)"/\1"\28192\3 -Xms1024M -XX:MaxPermSize=512M"/;' /etc/default/tomcat7 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to modify heap space settings in /etc/default/tomcat7"
 				fi
 			fi
 		fi
