@@ -93,6 +93,6 @@ Getopt::Long::GetOptions(
 #	}
 #if ($dkg121_rtn) 
 #	{
-	do_verions_1_2_1_changes()
+	do_verions_1_2_1_changes();
 #	}
 exit 0;
