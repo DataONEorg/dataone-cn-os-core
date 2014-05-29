@@ -50,7 +50,7 @@ sub do_verions_1_2_1_changes
 #		print STDOUT "$filename\n";
 #		}
 	@tomcat6_files = undef;
-	chown $uid,$gid, @tomcat6_files
+	chown $uid,$gid, @tomcat6_files;
 	open(FIND_TOMCAT6, 'find / ! -path "/etc/tomcat6/**" ! -path "/etc/tomcat6" ! -path "/var/log/tomcat6/**" ! -path "/var/log/tomcat6"  ! -path "/usr/share/tomcat6/**" ! -path "/usr/share/tomcat6" ! -path "/etc/authbind/**" ! -path "/proc/**" ! -path "/tmp/**"  -user tomcat6 -print |');
 	## set autoflusth
 	select((select(FIND_TOMCAT6), $| = 1)[0]);
@@ -65,7 +65,7 @@ sub do_verions_1_2_1_changes
 #		{
 #		print STDOUT "$filename\n";
 #		}
-	chown $uid,$gid, @tomcat6_files
+	chown $uid,$gid, @tomcat6_files;
 	chdir($orig_dir);
 	}
 	
