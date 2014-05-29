@@ -66,6 +66,8 @@ sub do_verions_1_2_1_changes
 #		print STDOUT "$filename\n";
 #		}
 	chown $uid,$gid, @tomcat6_files;
+	my $chownrtn = `chown -h $uid:$gid /usr/share/maven-repo/org/noggit/noggit/debian/noggit-debian.jar /usr/share/java/noggit.jar`;
+
 	chdir($orig_dir);
 	}
 	
