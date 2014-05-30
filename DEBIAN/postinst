@@ -1485,14 +1485,14 @@ function configure_openldap()
 					SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttls_key=${LDAP_PRIVATEKEY}"
 					SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttls_cacert=${DATAONE_CA_FILEPATH}"                            
 					SYNC_SETTINGS="${SYNC_SETTINGS}\n\tinterval=00:00:00:05"
-					SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"5 5 300 5\""
+					SYNC_SETTINGS="${SYNC_SETTINGS}\n\tretry=\"12 5 300 +\""
 					SYNC_SETTINGS="${SYNC_SETTINGS}\n\ttimeout=1"
 				fi
 			done
 				
 			SYNC_SETTINGS="${SYNC_SETTINGS}\n\nmirrormode on"
 			SYNC_SETTINGS="${SYNC_SETTINGS}\noverlay syncprov"
-			SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncprov-checkpoint 100 10"
+			SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncprov-checkpoint 50 5"
 			SYNC_SETTINGS="${SYNC_SETTINGS}\nsyncprov-sessionlog 100\n"
 			
 			# Fetch the ldap serverID from the debconf database
