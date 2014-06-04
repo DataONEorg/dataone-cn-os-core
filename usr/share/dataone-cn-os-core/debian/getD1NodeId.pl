@@ -19,7 +19,7 @@ usage() if (!defined $environment);
 
    
 my $cnNodeReference = "ERROR";
-my $hostname = `/bin/hostname -f`;
+my $hostname = `/bin/hostname -s`;
 chomp($hostname);
 print "'${hostname}'\n";
 my $cnUrl = "NOOP";
