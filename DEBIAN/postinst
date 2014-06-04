@@ -1327,33 +1327,8 @@ function configure_openldap()
 				exitWithFailureCode 74
 			fi
 		fi
-		log "Adding dataone schema specific entries"
-		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=org'  >/dev/null 2>&1 ); then
-			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "ldapadd org.ldif failed. Unable to continue"
-				exitWithFailureCode 75
-			fi
-		fi
-		if [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.firstcn]}" == "true" ]; then
-			log "This is the first CN to be installed in the environment"
 
 
-			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=dataone,dc=org' >/dev/null 2>&1 ); then
-				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "ldapadd dataone.ldif failed. Unable to continue"
-					exitWithFailureCode 76
-				fi
-			fi
-			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=cilogon,dc=org' >/dev/null 2>&1 ); then
-				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "ldapadd cilogon.ldif failed. Unable to continue"
-					exitWithFailureCode 77
-				fi
-			fi
-		else
-			log "This is not the first CN to be installed in the environment."
-			
-		fi
 	else
 		log "LDAP database has already been populated."
 	fi
@@ -1564,29 +1539,29 @@ function configure_openldap()
 		log "Unable to process slapd.conf into the ${LDAP_CONF_DIR}/slapd.d. LDAP will not be functional."
 		exitWithFailureCode 79
 	fi
-	if [ -e "${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif" ]; then
-		# NOTE: I see this being broken across a linebreak now with version 2.4.21 (BRL 20120731)
-		# http://www.openldap.org/its/index.cgi/Software%20Bugs?id=6465
-		# (if i read the bug report correctly it is fixed starting at 2.4.24)
-		# the string uri="" finds its way into olcDatabase={1}hdb.ldif file 
-		# into the olcSyncrepl directive and breaks OpenLDAP
-		# the string uri="" may be found at the beginning of a line, end of a line,
-		# middle of the line, or breaking across lines.
-		# if it breaks across lines, we need to preserve the newline,
-		# and ensure the line afterwards starts with a space.
-		# otherwise remove the string, guaranteeing only a single space separates
-		# previous setting string to the next setting string 
-		if ! (/usr/bin/perl -pi.bak -e 'BEGIN{undef $/;} s/\hu(\s*)r(\s*)i(\s*)\=(\s*)\"(\s*)\"(\n?)/$1$2$3$4$5$6/mg' ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif 2>&1 );  then
-			log "perl correction of ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif failed"
-		fi
+	#if [ -e "${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif" ]; then
+		## NOTE: I see this being broken across a linebreak now with version 2.4.21 (BRL 20120731)
+		## http://www.openldap.org/its/index.cgi/Software%20Bugs?id=6465
+		## (if i read the bug report correctly it is fixed starting at 2.4.24)
+		## the string uri="" finds its way into olcDatabase={1}hdb.ldif file 
+		## into the olcSyncrepl directive and breaks OpenLDAP
+		## the string uri="" may be found at the beginning of a line, end of a line,
+		## middle of the line, or breaking across lines.
+		## if it breaks across lines, we need to preserve the newline,
+		## and ensure the line afterwards starts with a space.
+		## otherwise remove the string, guaranteeing only a single space separates
+		## previous setting string to the next setting string 
+		#if ! (/usr/bin/perl -pi.bak -e 'BEGIN{undef $/;} s/\hu(\s*)r(\s*)i(\s*)\=(\s*)\"(\s*)\"(\n?)/$1$2$3$4$5$6/mg' ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif 2>&1 );  then
+			#log "perl correction of ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif failed"
+		#fi
 		
-		if ! (rm ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
-			log "unable to remove ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak"
-		fi
-	else
-		log "unable to find ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif"
-		exitWithFailureCode 84
-	fi
+		#if ! (rm ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
+			#log "unable to remove ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif.bak"
+		#fi
+	#else
+		#log "unable to find ${LDAP_CONF_DIR}/slapd.d/cn=config/olcDatabase={1}hdb.ldif"
+		#exitWithFailureCode 84
+	#fi
 	if [ -e /etc/ldap/slapd.d ]; then
 	  if ! (chown -R ${LDAP_USER}:${LDAP_USER} /etc/ldap/slapd.d >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
 		  log "chown on /etc/ldap/slapd.d failed"
@@ -1612,11 +1587,31 @@ function configure_openldap()
 	fi
 	
 	sleep 5 # openldap doesn't seem to come up quickly enough
-	
+
 	# populate or migrate the LDAP database with the LDIF file for the chosen context
 	
 	if [ -z "${OPENLDAP_POPULATED}" ] || [ "${OPENLDAP_POPULATED}" == "false" ]; then
+		log "This is the first CN to be installed in the environment"
+		log "Adding dataone schema specific entries"
+		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=org'  >/dev/null 2>&1 ); then
+			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "ldapadd org.ldif failed. Unable to continue"
+				exitWithFailureCode 75
+			fi
+		fi
 		if [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.firstcn]}" == "true" ]; then
+			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=dataone,dc=org' >/dev/null 2>&1 ); then
+				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "ldapadd dataone.ldif failed. Unable to continue"
+					exitWithFailureCode 76
+				fi
+			fi
+			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=cilogon,dc=org' >/dev/null 2>&1 ); then
+				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "ldapadd cilogon.ldif failed. Unable to continue"
+					exitWithFailureCode 77
+				fi
+			fi
 			if [[ -e "${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif" && -n $LDAP_RUNNING ]]; then
 			  log "Adding all dataone schema specific entries"
 			  if ! (ldapadd -v -c -D cn=admin,dc=dataone,dc=org -w ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]} -H ldap://localhost:389 -x -f ${SCRIPT_DIR}/ldap/${CONTEXT,,}NodeList.ldif  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
