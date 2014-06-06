@@ -601,6 +601,11 @@ function build_xml_template_data_structures()
 			XML_TEMPLATE_FLAGS+=([$template_name]="false false true false")
 		done
     fi
+    # XXX this is a hack for the time being. may need to add it to the template later
+    # but it does not follow in the normal question/template fields of the
+    # xml file
+    db_set dataone-cn-os-core/cn.ipaddress "${IP_ADDRESS}" # clear the cached pw
+	db_fset dataone-cn-os-core/cn.ipaddress seen true
 
 }
 

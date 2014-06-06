@@ -17,6 +17,11 @@ Description: What is the unique node id of this CN?
  node id is urn:node:CNSANDBOXUCSB1
 Type: string
 
+Template: dataone-cn-os-core/cn.ipaddress
+Description: What is the unique ip address of this CN?
+ Enter the public ip address for the CN currently being installed.
+Type: string
+
 Template: dataone-cn-os-core/cn.iplist
 Description: List the IP adresses:
  The IP addresses for each Coordinating Node in an environment are needed
