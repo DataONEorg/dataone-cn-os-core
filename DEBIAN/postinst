@@ -105,6 +105,7 @@ D1_DEB_CONF_XML_URL="https://repository.dataone.org/software/cicore/trunk/cn-bui
 D1_DEB_CONF_XML="d1DebConfig.xml"
 D1_DEB_XSD_URL="https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneDebPkgConfigTypes.xsd"
 D1_DEB_XSD="dataoneDebPkgConfigTypes.xsd"
+SUCCESS=0
 
 #positions of the flags in XML_TEMPLATE_FLAGS and DEB_QUESTION_FLAGS
 SEEN=0
@@ -183,6 +184,29 @@ function join() {
         RTN_JOIN="${RTN_JOIN%"${RTN_JOIN##*[![:space:]]}"}" # remove trailing whitespace characters
         return
 }
+
+
+##### find out if ldap is running
+##### if it is not try to restart
+##### if it does not restart, then fail
+
+function confirm_ldap_running() 
+{
+	if ! (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (/etc/init.d/slapd start >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
+			log "Slapd failed to start"
+			return 0
+		fi
+		sleep 5
+		if ! (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Slapd cannot run"
+			return 0
+		fi
+	fi
+
+	return 1
+}
+
 
 #####
 ##### process_derived_debian_config()
@@ -1235,7 +1259,9 @@ function configure_openldap()
 	local SYNC_CONF
 	local MIGRATE_VERSION=0
 	local OPENLDAP_POPULATED
-	
+
+    local return_val
+    
 	db_get dataone-cn-os-core/cn.openldap.populated
 	OPENLDAP_POPULATED=$RET
 	if [ -n "$ARG_VERSION" ]; then
@@ -1283,20 +1309,25 @@ function configure_openldap()
 				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
 			fi
 	fi
+	
+	log "Preparing for Migrating all dataone schema specific entries"
+	if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+		exitWithFailureCode 82
+	fi
 
 # for 1.2.0 remove dependency on dataone.schema changes
 #	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
 #		if ! (diff ${SCRIPT_DIR}/ldap/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema); then
 #			log "Schema changing: Run the pre migration script"
-			if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			  log "Preparing for Migrating all dataone schema specific entries"
-			  if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
-				exitWithFailureCode 82
-			  fi
-			else
-			  log "No migration. Ldap Not running"
-			fi
-			
+#			if (pidof slapd  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#			  log "Preparing for Migrating all dataone schema specific entries"
+#			  if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+#				exitWithFailureCode 82
+#			  fi
+#			else
+#			  log "No migration. Ldap Not running"
+#			fi
+#			
 #			log "Backing up ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
 #			if ! (mv ${LDAP_CONF_DIR}/schema/dataone.schema ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 #				log "Unable to move ${LDAP_CONF_DIR}/schema/dataone.schema to ${LDAP_CONF_DIR}/schema/dataone.schema.${LONG_DATE}"
@@ -1306,7 +1337,13 @@ function configure_openldap()
 	## place schema extension
 
 	if [ -z "${OPENLDAP_POPULATED}" ] || [ "${OPENLDAP_POPULATED}" == "false" ]; then
-		log "Populating the LDAP database for the first time"
+		confirm_ldap_running
+		return_val=$?
+		if [ "$return_val" -ne "$SUCCESS" ]
+		then
+			"Slapd is not running and cannot be restarted. Failure!"
+			exitWithFailureCode 90
+		fi
 
 		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:///  -b 'cn={1}cosine,cn=schema,cn=config' >/dev/null 2>&1 ); then
 			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
@@ -1588,11 +1625,18 @@ function configure_openldap()
 	log "Starting slapd"
 	LDAP_RUNNING="yes"
 	if ! (/etc/init.d/slapd start >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 );  then
-		LDAP_RUNNING=""
+		log "Slapd failed to start"
+		exitWithFailureCode 91
 	fi
 	
 	sleep 5 # openldap doesn't seem to come up quickly enough
-
+	confirm_ldap_running
+	return_val=$?
+	if [ "$return_val" -ne "$SUCCESS" ]
+	then
+		log "Slapd is not running and cannot be restarted. Failure!"
+		exitWithFailureCode 92
+	fi
 	# populate or migrate the LDAP database with the LDIF file for the chosen context
 	
 	if [ -z "${OPENLDAP_POPULATED}" ] || [ "${OPENLDAP_POPULATED}" == "false" ]; then

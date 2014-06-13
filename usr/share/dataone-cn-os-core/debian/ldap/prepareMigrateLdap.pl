@@ -147,16 +147,21 @@ Getopt::Long::GetOptions(
    'help!' => \$help
 ) or usage("Invalid commmand line options.");
 
+if ( defined($version) && (length($version) > 0)  && $version =~/^(\d+\.\d+\.\d+)/) 
+	{
+	$version = $1;
+	
 # do this everytime, too many things can go wrong during and upgrade such that this might not be called, and it needs to be called
 # in order for upgrading to ansible to work correctly
-#my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.0`;
-#if ($? == 0) 
-#	{
-	do_verions_1_2_0_changes()
-#	}
+
+	my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.0`;
+	if ($? == 0) 
+		{
+		do_verions_1_2_0_changes()
+		}
 
 
-
+	}
 #my $ldap = connectLdap();
 
 ##### SOMETHING SHOULD BE HAPPENING HERE FOR TO PREPARE FOR A MIGRATION
