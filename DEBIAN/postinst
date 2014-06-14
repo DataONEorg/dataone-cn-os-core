@@ -1918,10 +1918,7 @@ function main()
 			# if tomcat is re-installed and the configuration files
 			# deleted, or otherwise corrupted, then 
 			# this package will need to be reconfigured
-			if ! (${SCRIPT_DIR}/prepareMigrateTomcat7.pl --version $ARG_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
-				log "prepareMigrateTomcat7.pl failed to run"
-				exitWithFailureCode 85
-			fi
+
 			log "Update the configuration."
 			process_update_debian_config
 			debug_deb_question_values
