@@ -1642,20 +1642,21 @@ function configure_openldap()
 	if [ -z "${OPENLDAP_POPULATED}" ] || [ "${OPENLDAP_POPULATED}" == "false" ]; then
 		log "This is the first CN to be installed in the environment"
 		log "Adding dataone schema specific entries"
-		if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=org'  >/dev/null 2>&1 ); then
+		# find out if org.ldif has been added
+		if ! (ldapsearch -Y EXTERNAL -H ldapi:///  -b '' -s base +  2> /dev/null | grep -q -P '^namingContexts:\sdc=org$'  >/dev/null 2>&1 ); then
 			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "ldapadd org.ldif failed. Unable to continue"
 				exitWithFailureCode 75
 			fi
 		fi
 		if [ "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.firstcn]}" == "true" ]; then
-			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=dataone,dc=org' >/dev/null 2>&1 ); then
+			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:///  -b 'dc=org' -s one 2> /dev/null | grep -q -P '^dn:\sdc=dataone,dc=org$' >/dev/null 2>&1 ); then
 				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/dataone.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "ldapadd dataone.ldif failed. Unable to continue"
 					exitWithFailureCode 76
 				fi
 			fi
-			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b 'dc=cilogon,dc=org' >/dev/null 2>&1 ); then
+			if ! (sudo ldapsearch -Y EXTERNAL -H ldapi:///  -b 'dc=org' -s one 2> /dev/null | grep -q -P '^dn:\sdc=cilogon,dc=org$' >/dev/null 2>&1 ); then
 				if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/cilogon.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "ldapadd cilogon.ldif failed. Unable to continue"
 					exitWithFailureCode 77
