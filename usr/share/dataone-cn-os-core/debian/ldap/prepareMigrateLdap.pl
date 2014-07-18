@@ -166,4 +166,5 @@ if ( defined($version) && (length($version) > 0)  && $version =~/^(\d+\.\d+\.\d+
 
 ##### SOMETHING SHOULD BE HAPPENING HERE FOR TO PREPARE FOR A MIGRATION
 #$ldap->unbind;
+exit 0;
 
