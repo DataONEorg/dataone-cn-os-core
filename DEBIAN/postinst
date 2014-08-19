@@ -1930,7 +1930,6 @@ function main()
 			log "Configuration of dataone-cn-os-core complete."
 		else
 			## does not appear that update will have to touch tomcat
-			## or bouncycastle
 			# if tomcat is re-installed and the configuration files
 			# deleted, or otherwise corrupted, then 
 			# this package will need to be reconfigured
@@ -2007,6 +2006,8 @@ function main()
 			# we will always have to reconfigure openldap until
 			# the logic surrounding passwords change
 			configure_openldap
+			#reconfigure the bouncycastle if it is ncessary.
+			configure_bouncycastle
 		fi
 		
 		### the following lines until the db_stop should
