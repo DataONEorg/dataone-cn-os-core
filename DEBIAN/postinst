@@ -1757,7 +1757,7 @@ function configure_bouncycastle()
 		fi
 		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jar ]; then
 			echo "but we need to upgrade the bcmail-jdk16-1.46.jar file"
-			rm ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jarr
+			rm ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jar
 			if ! (cp ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Copy of ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
 			fi
