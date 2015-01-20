@@ -723,7 +723,7 @@ function configure_node_properties_file()
 	if [[ "${SYNCHRONIZED}" != *false* ]];then
 		configure_node_property "cn.iplist" $NODE_PROPS
 	else
-		configure_node_properties "cn.iplist" $NODE_PROPS "127.0.0.1"
+		configure_node_property "cn.iplist" $NODE_PROPS "127.0.0.1"
 	fi
 	
 	configure_node_property "cn.nodeids" $NODE_PROPS
