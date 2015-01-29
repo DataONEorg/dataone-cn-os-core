@@ -5,7 +5,11 @@
 	ServerAlias SERVER_ALIAS
 	
 	DirectoryIndex listObjects.xml
-    Header set Access-Control-Allow-Origin "*"
+    
+    ## Allow CORS requests from all origins to use cookies
+    SetEnvIf Origin "^(.*)$" ORIGIN_DOMAIN=$1
+    Header set Access-Control-Allow-Origin "%{ORIGIN_DOMAIN}e" env=ORIGIN_DOMAIN
+    Header set Access-Control-Allow-Credentials "true"
     
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks MultiViews
