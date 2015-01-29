@@ -11,6 +11,9 @@
     Header set Access-Control-Allow-Origin "%{ORIGIN_DOMAIN}e" env=ORIGIN_DOMAIN
     Header set Access-Control-Allow-Credentials "true"
     
+    ## Allow annotator authentication token on the header
+    Header add Access-Control-Allow-Headers "x-annotator-auth-token"
+    
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
