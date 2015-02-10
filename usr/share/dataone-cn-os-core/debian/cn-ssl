@@ -12,7 +12,9 @@
     Header set Access-Control-Allow-Credentials "true"
     
     ## Allow annotator authentication token on the header
-    Header add Access-Control-Allow-Headers "x-annotator-auth-token, Content-Type"
+	Header set Access-Control-Allow-Headers "x-annotator-auth-token, Content-Type, Location, Content-Length"
+	Header set Access-Control-Expose-Headers "Content-Length, Content-Type, Location"
+	Header set Access-Control-Allow-Methods: "POST, GET, OPTIONS, PUT, DELETE"
     
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks MultiViews
