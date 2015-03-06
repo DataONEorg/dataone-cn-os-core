@@ -147,7 +147,7 @@ Getopt::Long::GetOptions(
    'help!' => \$help
 ) or usage("Invalid commmand line options.");
 
-if ( defined($version) && (length($version) > 0)  && $version =~/^(\d+\.\d+\.\d+)/) 
+if ( defined($version) && (length($version) > 0)  && $version =~/^(\d+(?:\.\d+\.\d+)?)/) 
 	{
 	$version = $1;
 	
