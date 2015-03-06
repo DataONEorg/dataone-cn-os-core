@@ -80,7 +80,7 @@ Getopt::Long::GetOptions(
 ) or usage("Invalid commmand line options.");
 
 
-# TODO uncomment the blow code when adding to branch of 1.2.2 release
+# TODO uncomment the below code when adding to branch of 1.2.2 release
 
 #my $dkg121_rtn = 0;
 #my $rtnjunk= `/usr/bin/dpkg --compare-versions $version eq 1.2.1`;
@@ -95,6 +95,6 @@ Getopt::Long::GetOptions(
 #	}
 #if ($dkg121_rtn) 
 #	{
-	do_verions_1_2_1_changes();
+#	do_verions_1_2_1_changes();
 #	}
 exit 0;
