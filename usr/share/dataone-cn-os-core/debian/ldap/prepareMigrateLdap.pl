@@ -153,14 +153,14 @@ if ( defined($version) && (length($version) > 0)  && $version =~/^(\d+(?:\.\d+\.
 	
 # do this everytime, too many things can go wrong during and upgrade such that this might not be called, and it needs to be called
 # in order for upgrading to ansible to work correctly
-
-	my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.0`;
-	if ($? == 0) 
+	if ($version > 0)
 		{
-		do_verions_1_2_0_changes()
+		my $dkg_rtn = `/usr/bin/dpkg --compare-versions $version lt 1.2.0`;
+		if ($? == 0) 
+			{
+			do_verions_1_2_0_changes()
+			}
 		}
-
-
 	}
 #my $ldap = connectLdap();
 
