@@ -1270,10 +1270,17 @@ function configure_openldap()
 	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}" ]; then
 		LDAP_CERTIFICATE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
 		LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
+	else
+	  log "unable to locate ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.certificate.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.certificate.filename]}"
+	  
+	  exitWithFailureCode 94
 	fi
 	if [ -e "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}" ]; then
 		LDAP_PRIVATEKEY="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
-		LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}    
+		LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}
+    else
+      log "unable to locate ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.client.key.dir]}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.replication.privatekey.filename]}"
+      exitWithFailureCode 95
 	fi
 	#
 	#  CN Service and D1-Processing needs the ldap password in a properties
@@ -1282,9 +1289,11 @@ function configure_openldap()
 	#
 	if ! (cp ${SCRIPT_DIR}/ldapService.properties ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to copy ${SCRIPT_DIR}/ldapService.properties to ${D1_CONF_DIR}/ldapService.properties"
+		exitWithFailureCode 96
 	fi
 	if ! (sed -i.bak "s/PASSWORD/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}/" ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to change the ldap admin password in ${D1_CONF_DIR}/ldapService.properties"
+		exitWithFailureCode 97
 	fi
 	if ! (chown ${TOMCAT_USER}:${TOMCAT_USER} ${D1_CONF_DIR}/ldapService.properties >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to chown on ${D1_CONF_DIR}/ldapService.properties"
@@ -1304,9 +1313,11 @@ function configure_openldap()
 	if [ -n "$LDAP_PRIVATEKEY" ]; then
 			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
+				exitWithFailureCode 98
 			fi
 			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
+				exitWithFailureCode 99
 			fi
 	fi
 	
