@@ -1733,7 +1733,9 @@ function configure_bouncycastle()
 	## 2015-03-18 BRL: remove bouncycastle jars on install and require individual projects to manage that dependency
 	
 	if ! (grep -q -P '=org\.bouncycastle\.jce\.provider\.BouncyCastleProvider' ${JAVA_SECURITY}); then
-	
+		
+		echo "bouncycastle security provider NOT previously installed "
+		
 		#SECURITY_PROVIDERS=`grep -P 'security\.provider\.\d' ${JAVA_SECURITY} | awk 'BEGIN { FS = "[.=]" } ; { print $3 }'`
 		#MAXSECURITY_PROVIDERS=(
 		#	$(for i in ${SECURITY_PROVIDERS[*]}
@@ -1751,6 +1753,7 @@ function configure_bouncycastle()
 		#fi
 		
 	else
+	
 		## TODO: remove BC provider entry from java.security?
 		
 		echo "bouncycastle security provider was previously installed "
