@@ -1736,22 +1736,6 @@ function configure_bouncycastle()
 		
 		echo "bouncycastle security provider NOT previously installed "
 		
-		#SECURITY_PROVIDERS=`grep -P 'security\.provider\.\d' ${JAVA_SECURITY} | awk 'BEGIN { FS = "[.=]" } ; { print $3 }'`
-		#MAXSECURITY_PROVIDERS=(
-		#	$(for i in ${SECURITY_PROVIDERS[*]}
-		#		do
-		#			echo "$i"
-		#			done | sort -nr )
-		#)
-		#MAX_PROVIDER_ORDER=${MAXSECURITY_PROVIDERS[0]}
-		#BOUNCY_CASTLE_ORDER=`expr ${MAX_PROVIDER_ORDER} + 1`
-		
-		#BOUNCY_CASTLE_PROVIDER="\nsecurity.provider."${BOUNCY_CASTLE_ORDER}"=org.bouncycastle.jce.provider.BouncyCastleProvider"
-		
-		#if ! (sed -i.bak --regexp-extended "s/(^security\.provider\.${MAX_PROVIDER_ORDER}.+$)/\1${BOUNCY_CASTLE_PROVIDER}/;" ${JAVA_SECURITY} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		#	log "Bouncy Castle provider substitution died for ${JAVA_SECURITY}"
-		#fi
-		
 	else
 	
 		## TODO: remove BC provider entry from java.security?
