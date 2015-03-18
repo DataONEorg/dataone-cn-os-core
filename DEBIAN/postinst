@@ -1730,52 +1730,46 @@ function configure_bouncycastle()
 	# Configure BouncyCastle for Java Security (before starting tomcat)
 	###############################################################################
 	## XXX   XXX   XXX   -RPW Do we still need bouncy castle as a jce provider for our installation to work?
+	## 2015-03-18 BRL: remove bouncycastle jars on install and require individual projects to manage that dependency
 	
 	if ! (grep -q -P '=org\.bouncycastle\.jce\.provider\.BouncyCastleProvider' ${JAVA_SECURITY}); then
 	
-		if ! (cp ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Copy of ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
-		fi
-		if ! (cp ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Copy of ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
-		fi
-	
-		SECURITY_PROVIDERS=`grep -P 'security\.provider\.\d' ${JAVA_SECURITY} | awk 'BEGIN { FS = "[.=]" } ; { print $3 }'`
-		MAXSECURITY_PROVIDERS=(
-			$(for i in ${SECURITY_PROVIDERS[*]}
-				do
-					echo "$i"
-					done | sort -nr )
-		)
-		MAX_PROVIDER_ORDER=${MAXSECURITY_PROVIDERS[0]}
-		BOUNCY_CASTLE_ORDER=`expr ${MAX_PROVIDER_ORDER} + 1`
+		#SECURITY_PROVIDERS=`grep -P 'security\.provider\.\d' ${JAVA_SECURITY} | awk 'BEGIN { FS = "[.=]" } ; { print $3 }'`
+		#MAXSECURITY_PROVIDERS=(
+		#	$(for i in ${SECURITY_PROVIDERS[*]}
+		#		do
+		#			echo "$i"
+		#			done | sort -nr )
+		#)
+		#MAX_PROVIDER_ORDER=${MAXSECURITY_PROVIDERS[0]}
+		#BOUNCY_CASTLE_ORDER=`expr ${MAX_PROVIDER_ORDER} + 1`
 		
-		BOUNCY_CASTLE_PROVIDER="\nsecurity.provider."${BOUNCY_CASTLE_ORDER}"=org.bouncycastle.jce.provider.BouncyCastleProvider"
+		#BOUNCY_CASTLE_PROVIDER="\nsecurity.provider."${BOUNCY_CASTLE_ORDER}"=org.bouncycastle.jce.provider.BouncyCastleProvider"
 		
-		if ! (sed -i.bak --regexp-extended "s/(^security\.provider\.${MAX_PROVIDER_ORDER}.+$)/\1${BOUNCY_CASTLE_PROVIDER}/;" ${JAVA_SECURITY} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Bouncy Castle provider substitution died for ${JAVA_SECURITY}"
-		fi
+		#if ! (sed -i.bak --regexp-extended "s/(^security\.provider\.${MAX_PROVIDER_ORDER}.+$)/\1${BOUNCY_CASTLE_PROVIDER}/;" ${JAVA_SECURITY} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		#	log "Bouncy Castle provider substitution died for ${JAVA_SECURITY}"
+		#fi
 		
 	else
+		## TODO: remove BC provider entry from java.security?
+		
 		echo "bouncycastle security provider was previously installed "
-		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcprov-jdk16-1.46.jar ]; then
-			echo "but we need to upgrade the bcprov-jdk16-1.46.jar file"	
-			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcprov-jdk16-1.46.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcprov-jdk16-1.46.jar failed"
+		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar ]; then
+			echo "but we need to remove the bcprov-*.jar file"	
+			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar failed"
 			fi
-			if ! (cp ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Copy of ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
-			fi
+			#if ! (cp ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			#	log "Copy of ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
+			#fi
 			
 		fi
-		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jar ]; then
-			echo "but we need to upgrade the bcmail-jdk16-1.46.jar file"		
-			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcmail-jdk16-1.46.jar failed"
+		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar ]; then
+			echo "but we need to remove the bcmail-*.jar file"		
+			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar failed"
 			fi
-			if ! (cp ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Copy of ${SOURCE_DIR}/bcmail-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
-			fi
+			
 		fi
 	fi
 
