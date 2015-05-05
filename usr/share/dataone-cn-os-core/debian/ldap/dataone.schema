@@ -18,13 +18,15 @@ attributetype ( myAttributeType:1 NAME 'isVerified'
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 
         SINGLE-VALUE )
 attributetype ( myAttributeType:2 NAME 'equivalentIdentity'
-        DESC 'identity (DN) considered equivalent to this identity'
-        EQUALITY distinguishedNameMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+        DESC 'identity considered equivalent to this identity'
+        EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 attributetype ( myAttributeType:3 NAME 'equivalentIdentityRequest'
         DESC 'identity equivalence request'
-        EQUALITY distinguishedNameMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+        EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 objectclass ( myObjectClass:1 NAME 'd1Principal'
         DESC 'DataONE principal extension'
         AUXILIARY

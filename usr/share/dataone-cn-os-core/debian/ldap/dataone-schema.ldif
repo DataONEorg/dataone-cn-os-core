@@ -16,14 +16,16 @@ olcAttributeTypes: {0}( myAttributeType:1
  SINGLE-VALUE )
 olcAttributeTypes: {1}( myAttributeType:2 
  NAME 'equivalentIdentity' 
- DESC 'identity (DN) considered equivalent to this identity' 
- EQUALITY distinguishedNameMatch 
- SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+ DESC 'identity considered equivalent to this identity' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 olcAttributeTypes: {2}( myAttributeType:3 
  NAME 'equivalentIdentityRequest' 
  DESC 'identity equivalence request' 
- EQUALITY distinguishedNameMatch 
- SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 olcAttributeTypes: {3}( myAttributeType:4 
  NAME 'adminIdentity' 
  DESC 'identities that can administer the group' 
@@ -33,8 +35,7 @@ olcAttributeTypes: {4}( myAttributeType:5
  NAME 'reservationId' 
  DESC 'Unique ID for the reservation entry (part of DN)' 
  EQUALITY caseIgnoreMatch 
- SUBSTR case
- IgnoreSubstringsMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 olcAttributeTypes: {5}( myAttributeType:6 
  NAME 'subject' 
