@@ -1982,9 +1982,9 @@ function main()
 			# if the following template question changes
 			# then reconfigure the keystore
 			# dataone-cn-os-core/cn.dataone.ca.filename
-			if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.dataone.ca.filename]}" == "true" ]]; then
+			#if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.dataone.ca.filename]}" == "true" ]]; then
 				configure_keystore
-			fi
+			#fi
 			# if the following template questions change
 			# then reconfigure apache
 			# dataone-cn-os-core/cn.hostname
