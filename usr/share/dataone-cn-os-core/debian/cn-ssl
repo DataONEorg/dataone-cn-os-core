@@ -12,7 +12,7 @@
     Header set Access-Control-Allow-Credentials "true"
     
     ## Allow annotator authentication token on the header
-	Header set Access-Control-Allow-Headers "Authorization, Content-Type, Location, Content-Length"
+	Header set Access-Control-Allow-Headers "Authorization, Content-Type, Location, Content-Length, x-annotator-auth-token"
 	Header set Access-Control-Expose-Headers "Content-Length, Content-Type, Location"
 	Header set Access-Control-Allow-Methods: "POST, GET, OPTIONS, PUT, DELETE"
     
