@@ -387,7 +387,40 @@ attributetype (
     EQUALITY caseExactMatch
     SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
     SINGLE-VALUE
+    )  
+attributetype ( 
+    d1NodeListAttributeType:36
+    NAME 'd1NodePropertyId'
+    DESC 'unique identifier for a DataONE Node Property, forms part of a (DN)'
+    EQUALITY caseExactMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
+    SINGLE-VALUE
+    )    
+attributetype ( 
+    d1NodeListAttributeType:37
+    NAME 'd1NodePropertyKey'
+    DESC 'A Node Property key'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
+    SINGLE-VALUE
     )
+attributetype ( 
+    d1NodeListAttributeType:38
+    NAME 'd1NodePropertyValue'
+    DESC 'A Node Property value'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
+    SINGLE-VALUE
+    )
+attributetype ( 
+    d1NodeListAttributeType:39
+    NAME 'd1NodePropertyType'
+    DESC 'A Node Property type'
+    EQUALITY caseExactMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8}
+    SINGLE-VALUE
+    )       
 objectclass (
     d1NodeListObjectClass:1
     NAME 'd1Node'
@@ -424,3 +457,12 @@ objectclass (
     MUST (d1NodeServiceId $ d1NodeId $ d1ServiceMethodName )
     MAY( d1AllowedSubject )
     )
+objectclass (
+    d1NodeListObjectClass:4
+    NAME 'd1NodeProperty'
+    DESC 'DataONE Node Property definition'
+    SUP top
+    STRUCTURAL
+    MUST (d1NodePropertyId $ d1NodeId $ d1NodePropertyKey $ d1NodePropertyValue )
+    MAY( d1NodePropertyType )
+    )    
