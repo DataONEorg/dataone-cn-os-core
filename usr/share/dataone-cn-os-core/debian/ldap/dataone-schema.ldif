@@ -239,6 +239,30 @@ olcAttributeTypes: {36}( d1NodeListAttributeType:29
  either Offline, Recovery, or Active' 
  EQUALITY caseExactMatch 
  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8} )
+olcAttributeTypes: {37}( d1NodeListAttributeType:30 
+ NAME 'd1NodePropertyId' 
+ DESC 'unique identifier for a DataONE Node Property, forms part of a (DN)' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} ) 
+olcAttributeTypes: {38}( d1NodeListAttributeType:31 
+ NAME 'd1NodePropertyKey' 
+ DESC 'Key for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {39}( d1NodeListAttributeType:32 
+ NAME 'd1NodePropertyValue' 
+ DESC 'Value for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {40}( d1NodeListAttributeType:32 
+ NAME 'd1NodePropertyType' 
+ DESC 'Type for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
 olcObjectClasses: {0}( myObjectClass:1 
  NAME 'd1Principal' 
  DESC 'DataONE principal extension' 
@@ -283,3 +307,11 @@ olcObjectClasses: {5}( d1NodeListObjectClass:3
  STRUCTURAL 
  MUST ( d1NodeServiceId $ d1NodeId $ d1ServiceMethodName ) 
  MAY d1AllowedSubject )
+olcObjectClasses: {6}( d1NodeListObjectClass:3 
+ NAME 'd1NodeProperty' 
+ DESC 'DataONE Node Property definition' 
+ SUP top 
+ STRUCTURAL 
+ MUST ( d1NodePropertyId $ d1NodeId $ d1NodePropertyKey $ 
+ d1NodePropertyValue )
+ MAY d1NodePropertyType )
