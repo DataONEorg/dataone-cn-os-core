@@ -1736,33 +1736,29 @@ function configure_bouncycastle()
 	## 2015-03-18 BRL: remove bouncycastle jars on install and require individual projects to manage that dependency
 	
 	if ! (grep -q -P '=org\.bouncycastle\.jce\.provider\.BouncyCastleProvider' ${JAVA_SECURITY}); then
-		
-		echo "bouncycastle security provider NOT previously installed "
-		
+		echo "bouncycastle security provider NOT previously installed"
 	else
-	
+		echo "bouncycastle security provider NOT previously installed"
 		## TODO: remove BC provider entry from java.security?
-		
-		echo "bouncycastle security provider was previously installed "
-		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar ]; then
-			echo "but we need to remove the bcprov-*.jar file"	
-			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar failed"
-			fi
-			#if ! (cp ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			#	log "Copy of ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
-			#fi
-			
-		fi
-		if [ -e ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar ]; then
-			echo "but we need to remove the bcmail-*.jar file"		
-			if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Removing ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar failed"
-			fi
-			
-		fi
 	fi
-
+	
+	if [ -e ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar ]; then
+		echo "we need to remove the bcprov-*.jar file"	
+		if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Removing ${JAVA_SECURITY_EXT_DIR}/bcprov-*.jar failed"
+		fi
+		#if ! (cp ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar ${JAVA_SECURITY_EXT_DIR} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		#	log "Copy of ${SOURCE_DIR}/bcprov-jdk15on-1.46.jar to ${JAVA_SECURITY_EXT_DIR} failed"
+		#fi
+		
+	fi
+	if [ -e ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar ]; then
+		echo "we need to remove the bcmail-*.jar file"		
+		if ! (rm ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Removing ${JAVA_SECURITY_EXT_DIR}/bcmail-*.jar failed"
+		fi
+		
+	fi
 	
 }
 #####
