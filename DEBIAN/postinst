@@ -259,7 +259,7 @@ function process_derived_debian_config()
 						;;
 					"dataone-cn-os-core/cn.nodeids")
 						CN_NODEIDSLIST=(`xmlstarlet sel -t --match "//environment[@context='${CONTEXT}']/machine/question[@keyref='dataone-cn-os-core/cn.nodeid']"  --value-of "concat(text(), ' ')"  "$D1_CONF_DIR/${D1_DEB_CONF_XML}"`)
-						join ' ' ${CN_NODEIDSLIST[@]}
+						join ';' ${CN_NODEIDSLIST[@]}
 						NODEIDSLIST=${RTN_JOIN}
 						
 						db_get $template_name
