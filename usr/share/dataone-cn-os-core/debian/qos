@@ -6,7 +6,8 @@
     # handles connections from up to 50000 different IPs
     QS_ClientEntries 50000
     # disables keep-alive when 100% of the TCP connections are occupied:
-    QS_SrvMaxConnClose      100%
+    # mod_qos wants the percent to be lower than 99
+    QS_SrvMaxConnClose      98%
     # minimum request/response speed. Do not limit currently. May revise in future
     QS_SrvMinDataRate       0
 
