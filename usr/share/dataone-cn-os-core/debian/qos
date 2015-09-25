@@ -7,9 +7,9 @@
     QS_ClientEntries 50000
     # disables keep-alive when 100% of the TCP connections are occupied:
     # mod_qos wants the percent to be lower than 99
-    QS_SrvMaxConnClose      98%
+    #QS_SrvMaxConnClose      100%
     # minimum request/response speed. Do not limit currently. May revise in future
-    QS_SrvMinDataRate       0
+    #QS_SrvMinDataRate       0
 
     # exclude the CNs in this environment from these settings.
     CN_QS_SRVMAXCONNEXCLUDEIP
