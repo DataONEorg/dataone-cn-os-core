@@ -286,8 +286,9 @@ attributetype (
 	d1NodeListAttributeType:24
 	NAME 'd1NodeContactSubject'
 	DESC 'Identity responsible for Administrative functions of the Node'
-	EQUALITY distinguishedNameMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 
 	)
 attributetype ( 
     d1NodeListAttributeType:25
@@ -310,8 +311,9 @@ attributetype (
 	d1NodeListAttributeType:27
 	NAME 'd1AllowedSubject'
 	DESC 'Subject that is allowed to execute a Service Method'
-	EQUALITY distinguishedNameMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 
 	)
 attributetype ( 
     d1NodeListAttributeType:28
@@ -339,8 +341,9 @@ attributetype (
 	d1NodeListAttributeType:30
 	NAME 'd1NodeAdministrativeSubject'
 	DESC 'Identity responsible for Administrative functions of the Node'
-	EQUALITY distinguishedNameMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 
 	)
 attributetype ( 
     d1NodeListAttributeType:31
