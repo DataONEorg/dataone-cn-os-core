@@ -49,8 +49,9 @@ attributetype ( myAttributeType:5 NAME 'reservationId'
 		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )     
 attributetype ( myAttributeType:6 NAME 'subject'
         DESC 'Identity holding the reservation'
-        EQUALITY distinguishedNameMatch
-        SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+        EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 attributetype ( myAttributeType:7 NAME 'identifier'
         DESC 'Reserved Identifier'
         EQUALITY caseIgnoreMatch

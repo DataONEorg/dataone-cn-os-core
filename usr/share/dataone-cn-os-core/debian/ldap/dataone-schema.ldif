@@ -40,8 +40,9 @@ olcAttributeTypes: {4}( myAttributeType:5
 olcAttributeTypes: {5}( myAttributeType:6 
  NAME 'subject' 
  DESC 'Identity holding the reservation' 
- EQUALITY distinguishedNameMatch 
- SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 olcAttributeTypes: {6}( myAttributeType:7 
  NAME 'identifier' 
  DESC 'Reserved Identifier' 
