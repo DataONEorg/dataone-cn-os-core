@@ -735,6 +735,7 @@ function configure_node_properties_file()
 	PUBLICCERT_VALUE=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.publiccert.filename]}
 	CERT_FILE_PATH=${SSL_CERT_DIR}/${PUBLICCERT_VALUE}
 	CERT_FILE_PATH_ESC=${CERT_FILE_PATH//\//\\\/}
+	log "Public cert filename is: ${CERT_FILE_PATH_ESC}"
 	configure_node_property "cn.server.publiccert.filename" $NODE_PROPS "${CERT_FILE_PATH_ESC}"
   
 	log "Start configuration of D1Client certificate"
