@@ -733,7 +733,9 @@ function configure_node_properties_file()
 	configure_node_property "cn.router.hostname" $NODE_PROPS
 	
 	PUBLICCERT_VALUE=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.publiccert.filename]}
-	configure_node_property "cn.server.publiccert.filename" $NODE_PROPS "${SSL_CERT_DIR}/${PUBLICCERT_VALUE}"
+	CERT_FILE_PATH=${SSL_CERT_DIR}/${PUBLICCERT_VALUE}
+	CERT_FILE_PATH_ESC=${CERT_FILE_PATH//\//\\\/}
+	configure_node_property "cn.server.publiccert.filename" $NODE_PROPS "${CERT_FILE_PATH_ESC}"
   
 	log "Start configuration of D1Client certificate"
 	CLIENT_CERT_FILE_LABEL="D1Client.certificate.filename"
