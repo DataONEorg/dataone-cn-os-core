@@ -1481,7 +1481,11 @@ function configure_openldap()
 	if [ -e ${LDAP_CONF_DIR}/slapd.conf ]; then
 		# Fetch the ldap rootpw from the debconf database
 		
-		if ! (sed -i.bak "s/^\(rootpw *\).*/\1           ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}/" ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		## hash the given password when writing to the file
+		LDAP_ROOT_PASSWORD=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.openldap.password]}
+		LDAP_ROOT_PASSWORD=`slappasswd -n -s ${LDAP_ROOT_PASSWORD}`
+		
+		if ! (sed -i.bak "s/^\(rootpw *\).*/\1           ${LDAP_ROOT_PASSWORD}/" ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Unable to modify rootpw value in ${LDAP_CONF_DIR}/slapd.conf"
 		fi            
 		# configure the replicaiton certificate fullpath location
@@ -1594,6 +1598,9 @@ function configure_openldap()
 	fi
 	if ! (chown -R ${LDAP_USER}:${LDAP_USER} ${LDAP_CONF_DIR}/ldap.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "unable to chown on ${LDAP_CONF_DIR}/ldap.conf"
+	fi
+	if ! (chmod 0600 ${LDAP_CONF_DIR}/slapd.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "unable to chmod on ${LDAP_CONF_DIR}/slapd.conf"
 	fi        
 	# add to ssl-cert group so it can read private keys
 	if ! (adduser ${LDAP_USER} ssl-cert >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
