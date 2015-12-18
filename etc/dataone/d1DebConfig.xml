@@ -100,6 +100,15 @@
             <flag name="user-entered-value">false</flag>
             <flag name="configured-value">true</flag>           
         </template>
+        <template key="dataone-cn-os-core/cn.search.hostname">
+            <description>The CN search UI hostname:
+                The CN search hostname.</description>
+            <type>string</type>
+            <flag name="seen">false</flag>
+            <flag name="derived-value">false</flag>
+            <flag name="user-entered-value">false</flag>
+            <flag name="configured-value">true</flag>
+        </template>
         <template key="dataone-cn-os-core/cn.dataone.ca.filename">
             <description>What is the Certificate Authority filename used to authenticate client certs?
 				 The all-in-one file where you can assemble the Certificates of Certification 
@@ -303,6 +312,7 @@
         <question keyref="dataone-cn-os-core/cn.nodeids"/>
         <question keyref="dataone-cn-os-core/cn.router.hostname"/>
         <question keyref="dataone-cn-os-core/cn.router.nodeId"/>
+        <question keyref="dataone-cn-os-core/cn.search.hostname"/>        
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename"/>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename"/>
         <question keyref="dataone-cn-os-core/cn.server.publiccert.filename"/>
@@ -369,6 +379,7 @@
         <!-- the cn.router.nodeId is set during configuration to be the same as the nodeId of the machine being installed upon.
             There is not a virtual router for localhost setups currently -->
         <question  keyref="dataone-cn-os-core/cn.router.nodeId" />
+        <question  keyref="dataone-cn-os-core/cn.search.hostname" >search.mock.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">MockDataoneCA.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">MockDataoneClientCACerts.pem</question>
         <question keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
@@ -421,6 +432,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-dev.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnDev</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-dev.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -466,6 +478,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-dev-2.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnDev2</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-dev-2.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -518,6 +531,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-sandbox.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnSandbox</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-sandbox.test.dataone.org</question>        
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -553,6 +567,7 @@
         <question keyref="dataone-cn-os-core/cn.nodeids"/>
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-sandbox-2.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnSandbox2</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-sandbox-2.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -604,6 +619,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-stage.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question  keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -649,6 +665,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-stage-2.test.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnStage2</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-stage-2.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.test.dataone.org.crt</question>
@@ -701,6 +718,7 @@
         
         <question  keyref="dataone-cn-os-core/cn.router.hostname">cn.dataone.org</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:CN</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search.test.dataone.org</question>
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">geotrust_intermediate.crt</question>
         <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONECAChain.crt</question>
         <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">_.dataone.org.crt</question>

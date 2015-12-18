@@ -5,6 +5,8 @@
 	ServerAlias SERVER_ALIAS
 	
 	DirectoryIndex listObjects.xml
+	
+	RedirectMatch ^/$ https://SEARCH_SERVER_NAME
     
     ## Allow CORS requests from all origins to use cookies
     SetEnvIf Origin "^(.*)$" ORIGIN_DOMAIN=$1
@@ -15,6 +17,18 @@
 	Header set Access-Control-Allow-Headers "Authorization, Content-Type, Location, Content-Length, x-annotator-auth-token"
 	Header set Access-Control-Expose-Headers "Content-Length, Content-Type, Location"
 	Header set Access-Control-Allow-Methods: "POST, GET, OPTIONS, PUT, DELETE"
+    
+	# Cache common calls for content that rarely changes   
+	# ++
+ 	CacheRoot "/var/cache/apache2"
+ 	CacheEnable disk /cn/v1/node
+	CacheEnable disk /cn/v1/formats
+	CacheEnable disk /cn/v2/node
+	CacheEnable disk /cn/v2/formats
+	CacheIgnoreNoLastMod On
+	# five minute expiry on these caches
+	CacheDefaultExpire 600
+   	# --
     
 	<Directory /var/www/>
 		Options Indexes FollowSymLinks MultiViews

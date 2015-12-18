@@ -131,6 +131,14 @@ if (db_get dataone-cn-os-core/cn.router.nodeId); then
 	log "dataone-cn-os-core/cn.router.nodeId value:$RTN_VALUE seen:$SEEN"
 fi
 
+if (db_get dataone-cn-os-core/cn.search.hostname); then
+	db_get dataone-cn-os-core/cn.search.hostname
+	RTN_VALUE=$RET
+	db_fget dataone-cn-os-core/cn.search.hostname seen
+	SEEN=$RET
+	log "dataone-cn-os-core/cn.search.hostname value:$RTN_VALUE seen:$SEEN"
+fi
+
 if (db_get dataone-cn-os-core/cn.dataone.ca.filename); then
 	db_get dataone-cn-os-core/cn.dataone.ca.filename
 	RTN_VALUE=$RET

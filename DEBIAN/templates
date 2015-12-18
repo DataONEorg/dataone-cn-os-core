@@ -58,6 +58,13 @@ Description: The Router Node IDs:
  NodeId of this CN
 Type: string
 
+Template: dataone-cn-os-core/cn.search.hostname
+Description: The Search UI hostname:
+ The CN Search UI hostname.
+ If the environment does not have a dedicated search UI, then this should be the same as the 
+ FQDN (full hostname) of this CN
+Type: string
+
 Template: dataone-cn-os-core/cn.dataone.ca.filename
 Description: What is the Certificate Authority filename used to authenticate client certs?
  The all-in-one file where you can assemble the Certificates of Certification 
