@@ -6,7 +6,7 @@
 	
 	DirectoryIndex listObjects.xml
 	
-	RedirectMatch ^/$ https://SEARCH_SERVER_NAME
+	RedirectMatch ^/$ https://SEARCH_HOSTNAME
     
     ## Allow CORS requests from all origins to use cookies
     SetEnvIf Origin "^(.*)$" ORIGIN_DOMAIN=$1
