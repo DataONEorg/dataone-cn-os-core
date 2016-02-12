@@ -1986,7 +1986,11 @@ function main()
 			if ! (/etc/init.d/${TOMCAT} start >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Tomcat server failed to start"
 			fi
-
+			if ! (cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "failed to copy ${SOURCE_DIR}/d1_cn_approve_node.jar to /usr/share/java"
+			fi
+			chmod 700 /usr/share/java/d1_cn_approve_node.jar
+			chmod 700 /usr/local/bin/dataone-approve-node
 			log "Configuration of dataone-cn-os-core complete."
 		else
 			## does not appear that update will have to touch tomcat
@@ -2070,37 +2074,7 @@ function main()
 			configure_bouncycastle
 		fi
 		
-		### the following lines until the db_stop should
-		### be placed in a separate package that has to do with
-		### CN specific tools
 
-		#if ! (cp ${SOURCE_DIR}/d1_cn_approve_node.jar /usr/share/java >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		#	log "failed to copy ${SOURCE_DIR}/d1_cn_approve_node.jar to /usr/share/java"
-		#fi
-		# chmod 700 /usr/share/java/d1_cn_approve_node.jar
-		# chmod 700 /usr/local/bin/dataone-approve-node
-
-		# Fetch the replicaiton certificate location
-		#db_get dataone-cn-os-core/cn.replication.certificate.filename
-		#LDAP_CERTIFICATE=${RET}
-		#LDAP_CERTIFICATE=${LDAP_CERTIFICATE//\//\\\/}
-
-		# Fetch the replication private key location
-		#db_get dataone-cn-os-core/cn.replication.privatekey.filename
-		#LDAP_PRIVATEKEY=${RET}
-		#LDAP_PRIVATEKEY=${LDAP_PRIVATEKEY//\//\\\/}
-
-		# copy the perl scripts to /usr/local/bin
-		#cp ${SCRIPT_DIR}/ldap/ldapDeleteNode.pl /usr/local/bin/ldapDeleteNode.pl
-
-		#substitute the cert/key in the scripts
-
-		#sed -i.bak  's/REPLICATION_CERTIFICATE/'${LDAP_CERTIFICATE}'/' /usr/local/bin/ldapDeleteNode.pl
-		#sed -i.bak  's/REPLICATION_KEY/'${LDAP_PRIVATEKEY}'/' /usr/local/bin/ldapDeleteNode.pl
-		#rm /usr/local/bin/ldapDeleteNode.pl.bak
-
-		# root should be owner, make certain only root has permission to execute
-		#chmod 700 /usr/local/bin/ldapDeleteNode.pl
 			
 		#####
 		#### postinst needs to determine if ansible is controlling the install/upgrade
@@ -2116,6 +2090,7 @@ function main()
 		resetDebQuestionSeenFlag
 		;;
 	esac
+	
 	db_stop
 	exit 0
 }
