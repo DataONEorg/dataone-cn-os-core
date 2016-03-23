@@ -54,6 +54,20 @@
         Allow from 127.0.0.0/8 ::1
     </Location>
 
+# start-DV
+# added by DV 2016-03-21 for cache control evaluation
+    <Location /cn/v1/node>
+      ExpiresActive On
+      ExpiresDefault "access plus 60 seconds"
+    </Location>
+    <Location /cn/v2/node>
+      ExpiresActive On
+      ExpiresDefault "access plus 60 seconds"
+    </Location>
+    <LocationMatch /cn/xslt/*>
+      Header set Cache-Control "public, max-age=600"
+    </LocationMatch>
+# end-DV
 
 	Include /etc/apache2/jk_mount	
 	AllowEncodedSlashes On

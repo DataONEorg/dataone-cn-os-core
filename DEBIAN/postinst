@@ -1050,8 +1050,14 @@ function configure_apache()
 	if ! (a2enmod jk >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to enable jk apache site"
 	fi
-	
-
+	## disable and then re-enable mod qos to pick up changes
+	log "Refreshing Mod Expires"
+	if ! (a2dismod expires >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to disable mod expires"
+	fi
+	if ! (a2enmod expires >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to enable mod expires"
+	fi
 
 	## disable the default apache site, which gets in the way of the other sites
 	if ! (a2dissite 000-default >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
