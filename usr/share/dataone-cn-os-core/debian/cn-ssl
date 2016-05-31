@@ -81,7 +81,14 @@
 	#   Enable/Disable SSL for this virtual host.
 	SSLEngine on
 	SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
-	SSLVerifyClient optional
+	<If "%{HTTP_USER_AGENT} =~ /AppleWebKit/“>
+		SSLVerifyClient none
+
+	</If>
+	<Else>
+		SSLVerifyClient optional
+
+	</Else>
 	SSLVerifyDepth 10
 
 	SSLCertificateFile /etc/ssl/certs/PUBLIC_SERVER_CERT
