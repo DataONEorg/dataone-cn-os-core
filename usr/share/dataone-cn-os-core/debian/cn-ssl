@@ -80,15 +80,26 @@
 	#   SSL Engine Switch:
 	#   Enable/Disable SSL for this virtual host.
 	SSLEngine on
-	SSLOptions +StrictRequire +StdEnvVars +ExportCertData        
-	<If "%{HTTP_USER_AGENT} =~ /AppleWebKit/“>
-		SSLVerifyClient none
+	SSLOptions +StrictRequire +StdEnvVars +ExportCertData
+#
+#   The <If> directive was introduced in Apache webserver 2.4
+#   Uncomment out the code once Ubuntu has been upgraded
+#
+#   Bug #6539
+#   completely unable to access cn.dataone.org from Safari 7.1 
+#   if user has any certificates installed
+#   Safari does not play nicely with DataONE when it has multiple
+#   certificates or a certificate from an Authority 
+#   that DataONE does not recognize
+#
+#	<If "%{HTTP_USER_AGENT} =~ /Macintosh.+AppleWebKit/“>
+#		SSLVerifyClient none
+#
+#	</If>
+#	<Else>
+	SSLVerifyClient optional
 
-	</If>
-	<Else>
-		SSLVerifyClient optional
-
-	</Else>
+#	</Else>
 	SSLVerifyDepth 10
 
 	SSLCertificateFile /etc/ssl/certs/PUBLIC_SERVER_CERT
