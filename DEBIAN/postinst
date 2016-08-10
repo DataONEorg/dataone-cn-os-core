@@ -1368,29 +1368,34 @@ function configure_openldap()
 		log "unable to chmod on ${D1_CONF_DIR}/ldapService.properties"
 	fi
 	### modify the migration scripts
-	if [ -n "$LDAP_CERTIFICATE" ]; then
-			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
-			fi
-			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
-			fi
-	fi
-	if [ -n "$LDAP_PRIVATEKEY" ]; then
-			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
-				exitWithFailureCode 98
-			fi
-			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
-				exitWithFailureCode 99
-			fi
-	fi
-	
-	log "Preparing for Migrating all dataone schema specific entries"
-	if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
-		exitWithFailureCode 82
-	fi
+	### considering the perl scripts are not used now. comment out the 
+	### use of the perl scripts. IF a need arises in the future
+	### to modify LDAP because of a migration issue, then the
+	### scripts will need to be revisited/refactored
+	### https://redmine.dataone.org/issues/6874
+#	if [ -n "$LDAP_CERTIFICATE" ]; then
+#			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
+#			fi
+#			if ! (sed -i.bak "s/^\(ldap_repl_pem\)/my \$\1=\"${LDAP_CERTIFICATE}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#				log "Unable to modify ldap_repl_pem value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
+#			fi
+#	fi
+#	if [ -n "$LDAP_PRIVATEKEY" ]; then
+#			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/migrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/migrateLdap.pl "
+#				exitWithFailureCode 98
+#			fi
+#			if ! (sed -i.bak "s/^\(ldap_repl_key\)/my \$\1=\"${LDAP_PRIVATEKEY}\";/" ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+#				log "Unable to modify ldap_repl_key  value in ${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl "
+#				exitWithFailureCode 99
+#			fi
+#	fi
+#	
+#	log "Preparing for Migrating all dataone schema specific entries"
+#	if ! (${SCRIPT_DIR}/ldap/prepareMigrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+#		exitWithFailureCode 82
+#	fi
 
 # for 1.2.0 remove dependency on dataone.schema changes
 #	if [ -e "${LDAP_CONF_DIR}/schema/dataone.schema" ]; then 
@@ -1760,16 +1765,20 @@ function configure_openldap()
 		fi
 		db_set dataone-cn-os-core/cn.openldap.populated true
 		db_fset dataone-cn-os-core/cn.openldap.populated seen true
-		
-	else
-		if [ -n "$LDAP_RUNNING" ]; then
-		  log "Migrating all dataone schema specific entries"
-		  if ! (${SCRIPT_DIR}/ldap/migrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
-			exitWithFailureCode 82
-		  fi
-		else
-		  log "No migration. Ldap Not running"
-		fi
+	### considering the perl scripts are not used now. comment out the 
+	### use of the perl scripts. IF a need arises in the future
+	### to modify LDAP because of a migration issue, then the
+	### scripts will need to be revisited/refactored
+	### https://redmine.dataone.org/issues/6874
+#	else
+#		if [ -n "$LDAP_RUNNING" ]; then
+#		  log "Migrating all dataone schema specific entries"
+#		  if ! (${SCRIPT_DIR}/ldap/migrateLdap.pl --version $MIGRATE_VERSION>> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+#			exitWithFailureCode 82
+#		  fi
+#		else
+#		  log "No migration. Ldap Not running"
+#		fi
 	fi
 	## list the entries
 	if [ -n "$LDAP_RUNNING" ]; then
