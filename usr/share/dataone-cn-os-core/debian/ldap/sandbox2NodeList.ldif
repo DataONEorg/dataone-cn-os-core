@@ -1,0 +1,258 @@
+dn: cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1Node
+objectClass: device
+cn: urn:node:cnSandbox2
+d1NodeApproved: TRUE
+d1NodeBaseURL: https://cn-sandbox-ucsb-2.test.dataone.org/cn
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+d1NodeDescription: Round Robin Sandbox2 Router of Coordinating Nodes
+d1NodeId: urn:node:cnSandbox2
+d1NodeName: cn-sandbox
+d1NodeReplicate: FALSE
+d1NodeState: up
+d1NodeSynchronize: FALSE
+d1NodeType: cn
+subject: cn=urn:node:cnSandbox2,dc=dataone,dc=org
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNCore-v1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNRead-v1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNAuthorization-v1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNIdentity-v1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNReplication-v1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNRegister-v1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNCore-v2
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnSandbox2,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnSandbox2
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1Node
+objectClass: device
+cn: urn:node:cnSandboxUCSB2
+d1NodeApproved: TRUE
+d1NodeBaseURL: https://cn-sandbox-ucsb-2.test.dataone.org/cn
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+d1NodeDescription: University of California Santa Barbara Sandbox2 Coordinating Node
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeName: cn-sandbox-ucsb-2
+d1NodeReplicate: FALSE
+d1NodeState: up
+d1NodeSynchronize: FALSE
+d1NodeType: cn
+d1NodeAggregateLogs: FALSE
+d1NodeLogLastAggregated: 2015-12-07T23:51:47.821+00:00
+d1NodeProcessingState: offline
+subject: cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNCore-v1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNRead-v1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNAuthorization-v1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNIdentity-v1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNReplication-v1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+objectClass: d1NodeService
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceAvailable: TRUE
+d1NodeServiceId: CNRegister-v1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnSandboxUCSB2,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnSandboxUCSB2
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService

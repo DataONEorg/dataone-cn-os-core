@@ -62,6 +62,70 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnDev,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnDev
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
 dn: cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
 cn: urn:node:cnDevUCSB1
 d1NodeId: urn:node:cnDevUCSB1
@@ -126,6 +190,69 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnDevUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnDevUCSB1
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
 
 dn: cn=urn:node:cnDevUNM1,dc=dataone,dc=org
 cn: urn:node:cnDevUNM1
@@ -191,7 +318,69 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
 
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnDevUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnDevUNM1
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
 
 dn: cn=urn:node:cnDevORC1,dc=dataone,dc=org
 cn: urn:node:cnDevORC1
@@ -257,67 +446,67 @@ d1NodeServiceVersion: v1
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: cn=urn:node:mnDevGMN,dc=dataone,dc=org
-cn: urn:node:mnDevGMN
-d1NodeId: urn:node:mnDevGMN
-d1NodeName: gmn-dev
-d1NodeDescription: Development Generic Member Node
-d1NodeBaseURL: https://gmn-dev.test.dataone.org/mn
-d1NodeReplicate: TRUE
-d1NodeSynchronize: TRUE
-d1NodeState: up
-d1NodeType: mn
-d1NodeApproved: TRUE
-subject: cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
-d1NodeLastHarvested: 1900-01-01T00:00:00Z
-d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
-d1NodeSynSchdSec: 0
-d1NodeSynSchdMin: 0,5,10,15,20,25,30,35,40,45,50,55
-d1NodeSynSchdHour: *
-d1NodeSynSchdMday: *
-d1NodeSynSchdMon: *
-d1NodeSynSchdWday: ?
-d1NodeSynSchdYear: *
-objectclass: device
-objectclass: d1Node
-
-dn: d1NodeServiceId=MNCore-v1,cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeServiceId: MNCore-v1
-d1NodeId: urn:node:mnDevGMN
-d1NodeServiceName: MNCore
-d1NodeServiceVersion: v1
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNRead-v1,cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeServiceId: MNRead-v1
-d1NodeId: urn:node:mnDevGMN
-d1NodeServiceName: MNRead
-d1NodeServiceVersion: v1
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNAuthorization-v1,cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeServiceId: MNAuthorization-v1
-d1NodeId: urn:node:mnDevGMN
-d1NodeServiceName: MNAuthorization
-d1NodeServiceVersion: v1
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNStorage-v1,cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeServiceId: MNStorage-v1
-d1NodeId: urn:node:mnDevGMN
-d1NodeServiceName: MNStorage
-d1NodeServiceVersion: v1
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
 
-dn: d1NodeServiceId=MNReplication-v1,cn=urn:node:mnDevGMN,dc=dataone,dc=org
-d1NodeServiceId: MNReplication-v1
-d1NodeId: urn:node:mnDevGMN
-d1NodeServiceName: MNReplication
-d1NodeServiceVersion: v1
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
 d1NodeServiceAvailable: TRUE
 objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnDevORC1,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnDevORC1
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
