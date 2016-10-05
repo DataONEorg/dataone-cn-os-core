@@ -971,8 +971,8 @@ function configure_apache()
 	fi
 	
 	log "Copying qos to ${APACHE_CONF_DIR}/mods-available/"
-	if ! (cp ${SCRIPT_DIR}/qos ${APACHE_CONF_DIR}/conf.d/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to copy ${SCRIPT_DIR}/qos to ${APACHE_CONF_DIR}/conf/"
+	if ! (cp ${SCRIPT_DIR}/qos.conf ${APACHE_CONF_DIR}/conf-available/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to copy ${SCRIPT_DIR}/qos.conf to ${APACHE_CONF_DIR}/conf-available/"
 	fi
 	log "Copying mod_qos_500_error.xml to ${APACHE_CONF_DIR}/mods-available/"
 	if ! (cp ${SCRIPT_DIR}/mod_qos_500_error.xml ${APACHE_WWW_DIR}/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
@@ -1072,7 +1072,7 @@ function configure_apache()
 			do
 				MOD_QOS_CN_EXCLUSIONS+="\tQS_SrvMaxConnExcludeIP\t${IP}\n"
 			done
-		if ! (sed -i  's/CN_QS_SRVMAXCONNEXCLUDEIP/'${MOD_QOS_CN_EXCLUSIONS}'/' ${APACHE_CONF_DIR}/conf.d/qos >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (sed -i  's/CN_QS_SRVMAXCONNEXCLUDEIP/'${MOD_QOS_CN_EXCLUSIONS}'/' ${APACHE_CONF_DIR}/conf-available/qos.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Unable to configure apache mod_qos to exclude CNs"
 		fi
 	fi
@@ -1080,72 +1080,72 @@ function configure_apache()
 	## copy in site configuration files
 	for SITE in ${SITES}
 	do
-		if [ -e "${APACHE_CONF_DIR}/sites-available/${SITE}" ]; then 
+		if [ -e "${APACHE_CONF_DIR}/sites-available/${SITE}.conf" ]; then 
 		  ## if there is a difference, then the diff script returns false
-		  if ! (diff ${SCRIPT_DIR}/${SITE} ${APACHE_CONF_DIR}/sites-available/${SITE}); then
-			log "Backing up ${APACHE_CONF_DIR}/sites-available/${SITE} to ${APACHE_CONF_DIR}/sites-available/${SITE}.${LONG_DATE}"
-			if ! (mv ${APACHE_CONF_DIR}/sites-available/${SITE} ${APACHE_CONF_DIR}/sites-available/${SITE}.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to move  ${APACHE_CONF_DIR}/sites-available/${SITE} ${APACHE_CONF_DIR}/sites-available/${SITE}.${LONG_DATE}"
+		  if ! (diff ${SCRIPT_DIR}/${SITE}.conf ${APACHE_CONF_DIR}/sites-available/${SITE}.conf); then
+			log "Backing up ${APACHE_CONF_DIR}/sites-available/${SITE}.conf to ${APACHE_CONF_DIR}/sites-available/${SITE}.conf.${LONG_DATE}"
+			if ! (mv ${APACHE_CONF_DIR}/sites-available/${SITE}.conf ${APACHE_CONF_DIR}/sites-available/${SITE}.conf.${LONG_DATE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to move  ${APACHE_CONF_DIR}/sites-available/${SITE}.conf ${APACHE_CONF_DIR}/sites-available/${SITE}.conf.${LONG_DATE}"
 			fi
 		  fi
 		fi
-		log "Copying ${SITE} site file to ${APACHE_CONF_DIR}/sites-available/"
-		if ! (cp ${SCRIPT_DIR}/${SITE} ${APACHE_CONF_DIR}/sites-available/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Unable to copy  ${SCRIPT_DIR}/${SITE} ${APACHE_CONF_DIR}/sites-available/"
+		log "Copying ${SITE}.conf site file to ${APACHE_CONF_DIR}/sites-available/"
+		if ! (cp ${SCRIPT_DIR}/${SITE}.conf ${APACHE_CONF_DIR}/sites-available/ >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to copy  ${SCRIPT_DIR}/${SITE}.conf ${APACHE_CONF_DIR}/sites-available/"
 			continue
 		fi
 		
 		## replace the token SERVER_NAME in the site file
 		
 		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]} ]; then
-			if ! (sed -i.bak  's/SERVER_NAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify SERVER_NAME in ${SITE} Apache"
+			if ! (sed -i.bak  's/SERVER_NAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify SERVER_NAME in ${SITE}.conf Apache"
 			fi
 		else
-				log "dataone-cn-os-core/cn.router.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
+				log "dataone-cn-os-core/cn.router.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}.conf"
 		fi
 		
 		## replace the token SERVER_ALIAS in the site file
 		
 		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]} ]; then
-			if ! (sed -i.bak  's/SERVER_ALIAS/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify SERVER_ALIAS in ${SITE} Apache"
+			if ! (sed -i.bak  's/SERVER_ALIAS/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify SERVER_ALIAS in ${SITE}.conf Apache"
 			fi
 		else
-				log "dataone-cn-os-core/cn.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
+				log "dataone-cn-os-core/cn.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}.conf"
 		fi
 		
 		## replace the token SEARCH_SERVER_NAME in the site file
 		
 		if [ -n ${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.search.hostname]} ]; then
-			if ! (sed -i.bak  's/SEARCH_HOSTNAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.search.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "Unable to modify SEARCH_NAME in ${SITE} Apache"
+			if ! (sed -i.bak  's/SEARCH_HOSTNAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.search.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				log "Unable to modify SEARCH_NAME in ${SITE}.conf Apache"
 			fi
 		else
-				log "dataone-cn-os-core/cn.router.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}"
+				log "dataone-cn-os-core/cn.router.hostname can not be set in ${APACHE_CONF_DIR}/sites-available/${SITE}.conf"
 		fi
 		
 		## Set the server side SSL CA bundle
 		local INTERMEDIATE_BUNDLE="${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.cachain.filename]}"
 
-		if ! (sed -i.bak  's/INTERMEDIATE_BUNDLE/'${INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Unable to modify INTERMEDIATE_BUNDLE in ${SITE} Apache"
+		if ! (sed -i.bak  's/INTERMEDIATE_BUNDLE/'${INTERMEDIATE_BUNDLE}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to modify INTERMEDIATE_BUNDLE in ${SITE}.conf Apache"
 		fi
 
 		
 		## Set the client side SSL CA chain file            
-		if ! (sed -i.bak  's/D1_CHAIN_FILE/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Unable to modify D1_CHAIN_FILE in ${SITE} Apache"
+		if ! (sed -i.bak  's/D1_CHAIN_FILE/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.dataone.ca.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to modify D1_CHAIN_FILE in ${SITE}.conf Apache"
 		fi
 		
 		## Set the client side SSL certificate file            
-		if ! (sed -i.bak  's/PUBLIC_SERVER_CERT/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.publiccert.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Unable to modify PUBLIC_SERVER_CERT_FILE in ${SITE} Apache"
+		if ! (sed -i.bak  's/PUBLIC_SERVER_CERT/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.publiccert.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to modify PUBLIC_SERVER_CERT_FILE in ${SITE}.conf Apache"
 		fi
 		
 		## Set the client side SSL private key file      
-		if ! (sed -i.bak  's/D1_PRIVATEKEY_FILE/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.privatekey.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-			log "Unable to modify D1_PRIVATEKEY_FILE in ${SITE} Apache"
+		if ! (sed -i.bak  's/D1_PRIVATEKEY_FILE/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.privatekey.filename]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+			log "Unable to modify D1_PRIVATEKEY_FILE in ${SITE}.conf Apache"
 		fi
 		
 		## enable ${SITE} site

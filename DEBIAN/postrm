@@ -92,14 +92,14 @@ if [ "$ACTION" = "purge" ]; then
 	for SITE in ${SITES}
 	do
 		
-		if [ ${SITE} != "" -a -e ${APACHE_CONF}/sites-enabled/${SITE} ]; then
-			log "Disabling and removing ${SITE}"
+		if [ ${SITE}.conf != "" -a -e ${APACHE_CONF}/sites-enabled/${SITE}.conf ]; then
+			log "Disabling and removing ${SITE}.conf"
 			if ! (a2dissite ${SITE} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "Unable to disable $site in apache2"
 			fi
 		
 			if ! (rm -f  ${APACHE_CONF}/sites-available/${SITE}* >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-				log "unable to remove ${APACHE_CONF}/sites-available/${SITE}"
+				log "unable to remove ${APACHE_CONF}/sites-available/${SITE}.conf"
 			fi
 	    fi
 	done
