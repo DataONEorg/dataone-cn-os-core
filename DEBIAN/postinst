@@ -92,9 +92,9 @@ D1_CONF_DIR=/etc/dataone
 NODE_PROPS="$D1_CONF_DIR/node.properties"
 LDAP_CONF_DIR=/etc/ldap
 SITES="cn-ssl"
-JAVA_SECURITY=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/security/java.security
-JAVA_SECURITY_EXT_DIR=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/ext
-JAVA_KEYSTORE=/usr/lib/jvm/java-1.7.0-openjdk-amd64/jre/lib/security/cacerts
+JAVA_SECURITY=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/java.security
+JAVA_SECURITY_EXT_DIR=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/ext
+JAVA_KEYSTORE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
 LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 SSL_CERT_DIR=/etc/ssl/certs
@@ -1818,7 +1818,7 @@ function configure_bouncycastle()
 	if ! (grep -q -P '=org\.bouncycastle\.jce\.provider\.BouncyCastleProvider' ${JAVA_SECURITY}); then
 		echo "bouncycastle security provider NOT previously installed"
 	else
-		echo "bouncycastle security provider NOT previously installed"
+		echo "bouncycastle security provider previously installed"
 		## TODO: remove BC provider entry from java.security?
 	fi
 	
