@@ -171,8 +171,3 @@ Description: Is this the first CN in the environment to be deployed?
  replication.
 Default: false
 Type: boolean
-
-Template: dataone-cn-os-core/orcid.client.secret
-Description: What is the ORCID API secret?
-  Provide the ORCID client API secret key.
-Type: password

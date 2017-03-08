@@ -284,15 +284,6 @@
             <flag name="user-entered-value">true</flag>
             <flag name="configured-value">false</flag>
         </template>
-        <template key="dataone-cn-os-core/orcid.client.secret">
-            <description>What is the ORCID API secret?
-                Provide the ORCID client API secret key.</description>
-            <type>password</type>
-            <flag name="seen">false</flag>
-            <flag name="derived-value">false</flag>
-            <flag name="user-entered-value">true</flag>
-            <flag name="configured-value">false</flag>
-        </template>
     </templates>
     
     <environment context="CUSTOM" >
@@ -323,7 +314,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.password"/>
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized"/>
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>        
     </environment>
     <!-- localnet configuration requires the installer to generate and maintain their own Certificate Authority. Please see
         the documentation on how to install a localnet installation -->
@@ -391,7 +381,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
         
     </environment>
 
@@ -446,7 +435,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
 
     <environment context="DEV2" >
@@ -492,7 +480,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
     
     <environment  context="SANDBOX" >
@@ -545,7 +532,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
 
     <environment  context="SANDBOX2" >
@@ -580,7 +566,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">false</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
     
     <environment  context="STAGE" >
@@ -633,7 +618,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
     
     <environment  context="STAGE2" >
@@ -679,7 +663,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
     
     <environment  context="PRODUCTION" >
@@ -732,7 +715,6 @@
         <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
-        <question keyref="dataone-cn-os-core/orcid.client.secret"/>
     </environment>
     
   </dpc:debconf>
