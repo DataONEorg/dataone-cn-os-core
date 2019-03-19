@@ -102,8 +102,8 @@ PORTS=(5701 5702 5703 389 5432)
 
 /usr/local/bin/stopDaemons.sh
 
-service tomcat7 stop
-confirm_tomcat_stop tomcat7
+service tomcat8 stop
+confirm_tomcat_stop tomcat8
 service slapd stop
 confirm_service_stop slapd
 service postgresql stop
@@ -150,7 +150,7 @@ done
 
 /etc/init.d/postgresql start
 
-/etc/init.d/tomcat7 start
+/etc/init.d/tomcat8 start
 
 
 if [[ ${TOGGLE} == "enable" ]]; then
