@@ -1733,7 +1733,7 @@ function configure_openldap()
 		log "This is the first CN to be installed in the environment"
 		log "Adding dataone schema specific entries"
 		# find out if org.ldif has been added
-		if ! (ldapsearch -Y EXTERNAL -H ldapi:///  -b '' -s base +  2> /dev/null | grep -q -P '^namingContexts:\sdc=org$'  >/dev/null 2>&1 ); then
+		if ! (ldapsearch -Y EXTERNAL -H ldapi:///  -b 'dc=org' -s base +  2> /dev/null | grep -q -P '^dn:\sdc=org$'  >/dev/null 2>&1 ); then
 			if ! (sudo ldapadd -Y EXTERNAL -H ldapi:/// -f ${SCRIPT_DIR}/ldap/org.ldif >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 				log "ldapadd org.ldif failed. Unable to continue"
 				exitWithFailureCode 75
