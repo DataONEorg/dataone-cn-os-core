@@ -574,7 +574,7 @@ function build_debianDB_template_data_structures()
 #####
 function build_xml_template_data_structures()
 {
-#	local MY_POSSIBLE_IPS=(`/sbin/ifconfig -a | grep -o -P 'inet\saddr\:((?!127\.0\.\d+\.\d+)(?:(?:[01]?\d?\d?|2[0-4]\d|25[0-5])\.?){4})' | awk --field-separator :  '{ print $2 }'`)
+#	local MY_POSSIBLE_IPS=(`/sbin/ifconfig -a | grep -o -P 'inet\s((?!127\.0\.\d+\.\d+)(?:(?:[01]?\d?\d?|2[0-4]\d|25[0-5])\.?){4})' | awk '{ print $2 }'`)
 	local MY_POSSIBLE_IPS=(`hostname --all-ip-addresses`)
     local ALL_ENVIRONMENT_IPS=(`xmlstarlet sel -t --match "//environment[@context != 'CUSTOM']/machine"  --value-of "concat(@ip, ' ')"  "${D1_CONF_DIR}/${D1_DEB_CONF_XML}"`)
 
