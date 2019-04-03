@@ -83,6 +83,9 @@ TOMCAT=tomcat8
 TOMCAT_USER=tomcat8
 DATAONE_USER=tomcat8
 TOMCAT_HOME=/var/lib/tomcat8
+JDK_PACKAGE=openjdk-8-jdk
+JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+DEFAULT_JAVA_HOME=/usr/lib/jvm/default-java
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF_DIR=/etc/apache2
@@ -92,9 +95,9 @@ D1_CONF_DIR=/etc/dataone
 NODE_PROPS="$D1_CONF_DIR/node.properties"
 LDAP_CONF_DIR=/etc/ldap
 SITES="cn-ssl"
-JAVA_SECURITY=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/java.security
-JAVA_SECURITY_EXT_DIR=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/ext
-JAVA_KEYSTORE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
+JAVA_SECURITY=${JDK_HOME}/jre/lib/security/java.security
+JAVA_SECURITY_EXT_DIR=${JDK_HOME}/jre/lib/ext
+JAVA_KEYSTORE=${JDK_HOME}/jre/lib/security/cacerts
 LDAP_USER=openldap
 CILOGON_CERTS="cilogon-basic.pem cilogon-silver.pem cilogon-openid.pem"
 SSL_CERT_DIR=/etc/ssl/certs
@@ -860,6 +863,21 @@ function configure_ufw()
 		log "Error Unable to allow from ${MONITOR_HOST} to any port 6556"
 	fi
     
+}
+
+#####
+##### install_configure_jdk
+##### install and configure the jdk
+##### 
+function configure_jdk() {
+    log "configure default java, java, keytool and javaws"
+    update-alternatives --set java ${JDK_HOME}/jre/bin/java
+    update-alternatives --set javac ${JDK_HOME}/bin/javac
+    update-alternatives --set keytool ${JDK_HOME}/jre/bin/keytool
+    update-alternatives --set javaws ${JDK_HOME}/jre/bin/javaws
+    log "set the defaul-java to openjdk 8"
+    rm -rf $DEFAULT_JAVA_HOME
+    ln -s  $JDK_HOME $DEFAULT_JAVA_HOME
 }
 
 #####
@@ -1981,6 +1999,8 @@ function main()
 			configure_node_properties_file
 
 			configure_ufw
+			
+			configure_jdk
 
 			configure_keystore
 
@@ -2055,6 +2075,7 @@ function main()
 			# if the following template question changes
 			# then reconfigure ufw
 			# dataone-cn-os-core/cn.iplist
+			configure_jdk
 			if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.iplist]}" == "true" ]]; then
 				configure_ufw
 			fi
