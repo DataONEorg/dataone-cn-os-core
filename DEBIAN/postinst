@@ -875,11 +875,11 @@ function configure_ufw()
 ##### install and configure the jdk
 ##### 
 function configure_jdk() {
-    log "configure default java, java, keytool and javaws"
+    log "configure default java, java and keytool"
     update-alternatives --set java ${JDK_HOME}/jre/bin/java
     update-alternatives --set javac ${JDK_HOME}/bin/javac
     update-alternatives --set keytool ${JDK_HOME}/jre/bin/keytool
-    update-alternatives --set javaws ${JDK_HOME}/jre/bin/javaws
+    #update-alternatives --set javaws ${JDK_HOME}/jre/bin/javaws
     log "set the defaul-java to openjdk 8"
     rm -rf $DEFAULT_JAVA_HOME
     ln -s  $JDK_HOME $DEFAULT_JAVA_HOME
