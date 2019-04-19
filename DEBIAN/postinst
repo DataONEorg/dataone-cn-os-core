@@ -756,6 +756,11 @@ function configure_node_properties_file()
 	if ! (sed -i.bak "s/SOLRTOKEN/${SOLR_TOKEN}/" ${NODE_PROPS} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Error Unable to modify SOLRTOKEN in ${NODE_PROPS}"
 	fi
+	
+	if ! (sed -i.bak "s/CN_ENV_HOSTNAME_LIST/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostnamelist]}/" ${NODE_PROPS} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+        log "Error Unable to modify CN_ENV_HOSTNAME_LIST in ${NODE_PROPS}"
+    fi
+	
 	log "Start configuration of Hostname in ${NODE_PROPS}"
 	# set the FQDN of the machine
 	if [ -n "${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}" ]; then
