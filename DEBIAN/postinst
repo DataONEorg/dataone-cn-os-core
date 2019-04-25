@@ -736,7 +736,7 @@ function configure_node_properties_file()
 	configure_node_property "cn.router.nodeId" $NODE_PROPS
 	configure_node_property "cn.router.hostname" $NODE_PROPS
 	
-	local HOST_NAME=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}
+	local HOST_NAME=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}
 	PUBLICCERT_VALUE=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.publiccert.filename]}
 	CERT_FILE_PATH=${SERVER_SSL_PREFIX_DIR}/${HOST_NAME}/${PUBLICCERT_VALUE}
 	CERT_FILE_PATH_ESC=${CERT_FILE_PATH//\//\\\/}
@@ -803,7 +803,7 @@ function configure_certificates()
 	# check if this is a new install
 		
 	log "Start configuration of DataONE private key"
-	local HOST_NAME=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}
+	local HOST_NAME=${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}
 	if [ ! -e "${SERVER_SSL_PREFIX_DIR}/${HOST_NAME}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.privatekey.filename]}" ];then
 		log "Key file is missing.  Please provide it as ${SERVER_SSL_PREFIX_DIR}/${HOST_NAME}/${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.server.privatekey.filename]}. Without
 		this, SSL will not function properly."
@@ -1165,7 +1165,7 @@ function configure_apache()
 		fi
 		
 		## Set the client side SSL certificate file            
-		if ! (sed -i.bak  's/CN_HOSTNAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (sed -i.bak  's/CN_HOSTNAME/'${DEB_QUESTION_VALUES[dataone-cn-os-core/cn.router.hostname]}'/' ${APACHE_CONF_DIR}/sites-available/${SITE}.conf >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Unable to modify PUBLIC_SERVER_CERT_FILE in ${SITE}.conf Apache"
 		fi
 		
