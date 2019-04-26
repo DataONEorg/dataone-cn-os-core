@@ -2070,16 +2070,19 @@ function main()
 			# dataone-cn-os-core/cn.router.hostname
 			# dataone-cn-os-core/cn.client.certificate.filename
 			# dataone-cn-os-core/cn.hostname
-			if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.context.label]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.iplist]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.nodeids]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.nodeid]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.router.nodeId]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.router.hostname]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.client.certificate.filename]}" == "true" ||
-				"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.hostname]}" == "true" ]];then
-				configure_node_properties_file
-			fi
+			# if [[ "${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.context.label]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.iplist]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.nodeids]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.nodeid]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.router.nodeId]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.router.hostname]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.client.certificate.filename]}" == "true" ||
+			#	"${DB_QUESTION_CHANGED[dataone-cn-os-core/cn.hostname]}" == "true" ]];then
+			#	configure_node_properties_file
+			# fi
+			# the node properties file is always overwritten, so we have to configure it without conditions
+			configure_node_properties_file
+			
 			# if the following template question changes
 			# then reconfigure ufw
 			# dataone-cn-os-core/cn.iplist
