@@ -1211,7 +1211,7 @@ function configure_tomcat()
 	## determine if the tomcat init script has a sufficient heap size
 	## XXX   XXX   XXX   -RPW    THE MAX/INITIAL HEAP PER ENVIRONMENT SHOULD BE CONFIGURED IN THE XML FILE
 	
-	if [ -e "/etc/init.d/tomcat8" ]; then
+	#if [ -e "/etc/init.d/tomcat8" ]; then
 		## XXX   XXX   XXX   -RPW   
 		## we should determine if any changes have been made to /etc/init.d/tomcat8 and make a backup copy
 		## before proceeding with its modification
@@ -1243,7 +1243,7 @@ function configure_tomcat()
 		#		log "Unable to remove /etc/init.d/tomcat8.bak"
 		#	fi
 		#fi
-	fi
+	#fi
 	
 	if [ -e "/etc/default/tomcat8" ]; then
 		if ! (egrep -q '^\#?JAVA_OPTS\=".+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat8); then
