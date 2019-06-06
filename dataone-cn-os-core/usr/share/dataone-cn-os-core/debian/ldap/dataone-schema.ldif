@@ -1,0 +1,320 @@
+dn: cn={4}dataone
+objectClass: olcSchemaConfig
+cn: {4}dataone
+olcObjectIdentifier: {0}myOID 1.3.6.1.4.1.37951
+olcObjectIdentifier: {1}mySNMP myOID:1
+olcObjectIdentifier: {2}myLDAP myOID:2
+olcObjectIdentifier: {3}myAttributeType myLDAP:1
+olcObjectIdentifier: {4}myObjectClass myLDAP:2
+olcObjectIdentifier: {5}d1NodeListAttributeType myLDAP:3
+olcObjectIdentifier: {6}d1NodeListObjectClass myLDAP:4
+olcAttributeTypes: {0}( myAttributeType:1 
+ NAME 'isVerified' 
+ DESC 'boolean flag denoting if the entity is verified' 
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 
+ SINGLE-VALUE )
+olcAttributeTypes: {1}( myAttributeType:2 
+ NAME 'equivalentIdentity' 
+ DESC 'identity considered equivalent to this identity' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {2}( myAttributeType:3 
+ NAME 'equivalentIdentityRequest' 
+ DESC 'identity equivalence request' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {3}( myAttributeType:4 
+ NAME 'adminIdentity' 
+ DESC 'identities that can administer the group' 
+ EQUALITY distinguishedNameMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+olcAttributeTypes: {4}( myAttributeType:5 
+ NAME 'reservationId' 
+ DESC 'Unique ID for the reservation entry (part of DN)' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {5}( myAttributeType:6 
+ NAME 'subject' 
+ DESC 'Identity holding the reservation' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {6}( myAttributeType:7 
+ NAME 'identifier' 
+ DESC 'Reserved Identifier' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {7}( myAttributeType:8 
+ NAME 'created' 
+ DESC 'Date reservation was placed' 
+ EQUALITY generalizedTimeMatch 
+ ORDERING generalizedTimeOrderingMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 )
+olcAttributeTypes: {8}( d1NodeListAttributeType:1 
+ NAME 'd1NodeId' 
+ DESC 'identifier for a DataONE node, forms part of a (DN)' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
+olcAttributeTypes: {9}( d1NodeListAttributeType:2 
+ NAME 'd1NodeServiceId' 
+ DESC 'unique identifier for a DataONE Node Service, forms part of a (DN)' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {10}( d1NodeListAttributeType:3 
+ NAME 'd1NodeName' 
+ DESC 'unique human readable Name for a DataONE node' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {11}( d1NodeListAttributeType:4 
+ NAME 'd1NodeDescription' 
+ DESC 'unique human readable Description for a DataONE node' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32768} )
+olcAttributeTypes: {12}( d1NodeListAttributeType:5 
+ NAME 'd1NodeBaseURL' 
+ DESC 'URL where a DataONE node may be located on Internet' 
+ EQUALITY caseIgnoreMatch
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{800} )
+olcAttributeTypes: {13}( d1NodeListAttributeType:6 
+ NAME 'd1NodeReplicate' 
+ DESC 'Boolean indicating if the Node receives replicate data from other Nodes'
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+olcAttributeTypes: {14}( d1NodeListAttributeType:7 
+ NAME 'd1NodeSynchronize' 
+ DESC 'Boolean indicating if the Node allows for synchronization of data.       
+ May be turned off if node is offline temporarily' 
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+olcAttributeTypes: {15}( d1NodeListAttributeType:8 
+ NAME 'd1NodeType' 
+ DESC 'Indicates if node is Coordinating Node/Member Node or Monitor' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8} )
+olcAttributeTypes: {16}( d1NodeListAttributeType:9 
+ NAME 'd1NodeLastHarvested' 
+ DESC 'Date the node was Last Harvested for Synchronization data. Keeps track 
+ of information for incremental harvesting of a membernode. The 
+ date records the dateSysMetadataModified of the latest object synchronized, 
+ not the date the synch harvest occurred. Stored as string representations 
+ of ISO 8601 datetimes' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.
+ 1466.115.121.1.15{32} )
+olcAttributeTypes: {17}( d1NodeListAttributeType:10 
+ NAME 'd1NodeLastCompleteHarvest' 
+ DESC 'Date the node was last fully Harvested for Synchronization data.
+ A full harvest is all data synchronized rather then an incremental harvest.
+ Stored as string representations of ISO 8601 datetimes' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32} )
+olcAttributeTypes: {18}( d1NodeListAttributeType:11 
+ NAME 'd1NodeSynSchdSec' 
+ DESC 'Crontab Seconds field. 
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch SYNTA
+ X 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {19}( d1NodeListAttributeType:12 
+ NAME 'd1NodeSynSchdMin' 
+ DESC 'Crontab Minutes field. 
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {20}( d1NodeListAttributeType:13 
+ NAME 'd1NodeSynSchdHour' 
+ DESC 'Crontab Hour field.
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 
+ 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {21}( d1NodeListAttributeType:14 
+ NAME 'd1NodeSynSchdMday' 
+ DESC 'Crontab Day of the Month field.
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {22}( d1NodeListAttributeType:15 
+ NAME 'd1NodeSynSchdMon' 
+ DESC 'Crontab Month field. 
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {23}( d1NodeListAttributeType:16 
+ NAME 'd1NodeSynSchdWday' 
+ DESC 'Crontab Day of Week field. 
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {24}( d1NodeListAttributeType:17 
+ NAME 'd1NodeSynSchdYear' 
+ DESC 'Crontab Year field. 
+ The full entry signifying start of a synchronization Job' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {25}( d1NodeListAttributeType:18 
+ NAME 'd1NodeState' 
+ DESC 'indicator of health, may be up,down,unknown' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8} )
+olcAttributeTypes: {26}( d1NodeListAttributeType:19 
+ NAME 'd1NodePingSuccess' 
+ DESC 'Store results from the Mn_Health.ping method 
+ Stored as string representations of ISO 8601 datetimes' 
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+olcAttributeTypes: {27}( d1NodeListAttributeType:20 
+ NAME 'd1NodePingDateChecked' 
+ DESC 'Date the node was last checked for a Ping. 
+ Stored as string representations of ISO 8601 datetimes' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32} )
+olcAttributeTypes: {28}( d1NodeListAttributeType:21 
+ NAME 'd1NodeServiceName' 
+ DESC 'Name of a DataONE node Service API' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {29}( d1NodeListAttributeType:22 
+ NAME 'd1NodeServiceVersion' 
+ DESC 'Version level of a DataONE node Service API' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {30}( d1NodeListAttributeType:23 
+ NAME 'd1NodeServiceAvailable' 
+ DESC 'Boolean indicating if a Service API is implemented on a node.' 
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+olcAttributeTypes: {31}( d1NodeListAttributeType:24 
+ NAME 'd1NodeContactSubject' 
+ DESC 'Identity responsible for Administrative functions of the Node' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {32}( d1NodeListAttributeType:25 
+ NAME 'd1NodeApproved' 
+ DESC 'Boolean indicating if a Node is approved for addition.' 
+ EQUALITY booleanMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+olcAttributeTypes: {33}( d1NodeListAttributeType:26 
+ NAME 'd1ServiceMethodName'
+ DESC 'Name of a DataONE Service API Method' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+olcAttributeTypes: {34}( d1NodeListAttributeType:27 
+ NAME 'd1AllowedSubject' 
+ DESC 'Subject that is allowed to execute a Service Method' 
+ EQUALITY caseIgnoreMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+olcAttributeTypes: {35}( d1NodeListAttributeType:28 
+ NAME 'd1NodeLogLastAggregated' 
+ DESC 'Date the node was Last Harvested for Logging data. 
+ Keeps track of information for incremental Aggregation 
+ of a node.The date records the time of the latest run of Log Aggregation. 
+ Stored as string representations of ISO 8601 datetimes' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32} )
+olcAttributeTypes: {36}( d1NodeListAttributeType:29 
+ NAME 'd1NodeProcessingState' 
+ DESC 'State of the processing daemon.  
+ Currently this attribute is only significant for logging. 
+ If it becomes important for other components then the communication 
+ between components will need to be addressed.  Its values may be 
+ either Offline, Recovery, or Active' 
+ EQUALITY caseExactMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{8} )
+olcAttributeTypes: {37}( d1NodeListAttributeType:30 
+ NAME 'd1NodePropertyId' 
+ DESC 'unique identifier for a DataONE Node Property, forms part of a (DN)' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} ) 
+olcAttributeTypes: {38}( d1NodeListAttributeType:31 
+ NAME 'd1NodePropertyKey' 
+ DESC 'Key for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {39}( d1NodeListAttributeType:32 
+ NAME 'd1NodePropertyValue' 
+ DESC 'Value for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcAttributeTypes: {40}( d1NodeListAttributeType:32 
+ NAME 'd1NodePropertyType' 
+ DESC 'Type for a DataONE Node Property' 
+ EQUALITY caseExactMatch 
+ SUBSTR caseIgnoreSubstringsMatch 
+ SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64} )
+olcObjectClasses: {0}( myObjectClass:1 
+ NAME 'd1Principal' 
+ DESC 'DataONE principal extension' 
+ AUXILIARY 
+ MUST isVerified 
+ MAY ( equivalentIdentity $ equivalentIdentityRequest ) )
+olcObjectClasses: {1}( myObjectClass:2 
+ NAME 'd1Group' 
+ DESC 'DataONE group extension' 
+ AUXILIARY 
+ MUST adminIdentity )
+olcObjectClasses: {2}( myObjectClass:3 
+ NAME 'd1Reservation' 
+ DESC 'DataONE identifier reservation extension' 
+ SUP top 
+ STRUCTURAL 
+ MUST ( reservationId $ subject $ identifier $ created ) )
+olcObjectClasses: {3}( d1NodeListObjectClass:1 
+ NAME 'd1Node' 
+ DESC 'DataONE Node container forms a nodeList' 
+ SUP device 
+ STRUCTURAL 
+ MUST ( d1NodeId $ d1NodeName $ d1NodeDescription $ d1NodeBaseURL $ 
+ d1NodeReplicate $ d1NodeSynchronize $ d1NodeState $ d1NodeType $ 
+ d1NodeContactSubject $ d1NodeApproved ) 
+ MAY ( subject $ d1NodeLastHarvested $ d1NodeLastCompleteHarvest $ 
+ d1NodeSynSchdSec $ d1NodeSynSchdMin $ d1NodeSynSchdHour $ 
+ d1NodeSynSchdMday $ d1NodeSynSchdMon $ d1NodeSynSchdWday $ 
+ d1NodeSynSchdYear $ d1NodePingSuccess $ d1NodePingDateChecked $ 
+ d1NodeLogLastAggregated $ d1NodeProcessingState ) )
+olcObjectClasses: {4}( d1NodeListObjectClass:2 
+ NAME 'd1NodeService' 
+ DESC 'DataONE Node Service definition' 
+ SUP top 
+ STRUCTURAL 
+ MUST ( d1NodeServiceId $ d1NodeId $ d1NodeServiceName $ 
+ d1NodeServiceVersion $ d1NodeServiceAvailable ) )
+olcObjectClasses: {5}( d1NodeListObjectClass:3 
+ NAME 'd1ServiceMethodRestriction' 
+ DESC 'DataONE Node Service definition' 
+ SUP top 
+ STRUCTURAL 
+ MUST ( d1NodeServiceId $ d1NodeId $ d1ServiceMethodName ) 
+ MAY d1AllowedSubject )
+olcObjectClasses: {6}( d1NodeListObjectClass:3 
+ NAME 'd1NodeProperty' 
+ DESC 'DataONE Node Property definition' 
+ SUP top 
+ STRUCTURAL 
+ MUST ( d1NodePropertyId $ d1NodeId $ d1NodePropertyKey $ 
+ d1NodePropertyValue )
+ MAY d1NodePropertyType )

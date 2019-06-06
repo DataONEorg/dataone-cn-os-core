@@ -1,0 +1,132 @@
+dn: cn=urn:node:cnLocalhost,dc=dataone,dc=org
+cn: urn:node:cnLocalhost
+d1NodeId: urn:node:cnLocalhost
+d1NodeName: cn-localhost
+d1NodeDescription: A Coordinating Node installed on your localhost
+d1NodeBaseURL: https://localhost/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeApproved: TRUE
+d1NodeState: up
+d1NodeType: cn
+subject: cn=localhost,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnLocalhost
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+
+
+dn: cn=urn:node:mnLocalhost,dc=dataone,dc=org
+cn: urn:node:mnLocalhost
+d1NodeId: urn:node:mnLocalhost
+d1NodeName: mn-Localhost
+d1NodeDescription: A Member Node installed on your localhost
+d1NodeBaseURL: https://localhost/mn
+d1NodeReplicate: TRUE
+d1NodeSynchronize: TRUE
+d1NodeState: up
+d1NodeType: mn
+d1NodeApproved: TRUE
+subject: cn=localhost,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+d1NodeLastHarvested: 1900-01-01T00:00:00Z
+d1NodeLastCompleteHarvest: 1900-01-01T00:00:00Z
+d1NodeSynSchdSec: 0
+d1NodeSynSchdMin: 0,5,10,15,20,25,30,35,40,45,50,55
+d1NodeSynSchdHour: *
+d1NodeSynSchdMday: *
+d1NodeSynSchdMon: *
+d1NodeSynSchdWday: ?
+d1NodeSynSchdYear: *
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=MNCore-v1,cn=urn:node:mnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: MNCore-v1
+d1NodeId: urn:node:mnLocalhost
+d1NodeServiceName: MNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=MNRead-v1,cn=urn:node:mnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: MNRead-v1
+d1NodeId: urn:node:mnLocalhost
+d1NodeServiceName: MNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=MNAuthorization-v1,cn=urn:node:mnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: MNAuthorization-v1
+d1NodeId: urn:node:mnLocalhost
+d1NodeServiceName: MNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=MNStorage-v1,cn=urn:node:mnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: MNStorage-v1
+d1NodeId: urn:node:mnLocalhost
+d1NodeServiceName: MNStorage
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=MNReplication-v1,cn=urn:node:mnLocalhost,dc=dataone,dc=org
+d1NodeServiceId: MNReplication-v1
+d1NodeId: urn:node:mnLocalhost
+d1NodeServiceName: MNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+

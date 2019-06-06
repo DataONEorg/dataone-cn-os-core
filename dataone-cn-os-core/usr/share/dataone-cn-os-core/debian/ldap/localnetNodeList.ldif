@@ -1,0 +1,193 @@
+dn: cn=urn:node:CNCAT1,dc=dataone,dc=org
+cn: urn:node:CNCAT1
+d1NodeId: urn:node:CNCAT1
+d1NodeName: cn-cat-1
+d1NodeDescription: LocalNet Metacat Mock Coordinating Node 1
+d1NodeBaseURL: https://cn-cat-1.mock.dataone.org/cn
+subject: cn=urn:node:CNCAT1,o=Mock,c=US,dc=dataone,dc=org
+d1NodeContactSubject: cn=Waltz\, Robert Patrick A7170,o=University of Tennessee,c=US,dc=cilogon,dc=org
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNCAT1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:CNCAT1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:CNCAT2,dc=dataone,dc=org
+cn: urn:node:CNCAT2
+d1NodeId: urn:node:CNCAT2
+d1NodeName: cn-cat-2
+d1NodeDescription: LocalNet Metacat Mock Coordinating Node 2
+d1NodeBaseURL: https://cn-cat-2.mock.dataone.org/cn
+subject: cn=urn:node:CNCAT2,o=Mock,c=US,dc=dataone,dc=org
+d1NodeContactSubject: cn=Waltz\, Robert Patrick A7170,o=University of Tennessee,c=US,dc=cilogon,dc=org
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNCAT2,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:CNCAT2
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:CNCAT3,dc=dataone,dc=org
+cn: urn:node:CNCAT3
+d1NodeId: urn:node:CNCAT3
+d1NodeName: cn-cat-3
+d1NodeDescription: LocalNet Metacat Mock Coordinating Node 3
+d1NodeBaseURL: https://cn-cat-3.mock.dataone.org/cn
+subject: cn=urn:node:CNCAT3,o=Mock,c=US,dc=dataone,dc=org
+d1NodeContactSubject: cn=Waltz\, Robert Patrick A7170,o=University of Tennessee,c=US,dc=cilogon,dc=org
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:CNCAT3,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:CNCAT3
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+

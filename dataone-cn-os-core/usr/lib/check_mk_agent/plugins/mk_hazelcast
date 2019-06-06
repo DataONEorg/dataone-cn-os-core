@@ -1,0 +1,21 @@
+#!/bin/sh
+
+PATH=${PATH}:/sbin:/usr/lib/nagios/plugins
+export PATH
+
+thishost=`hostname -f`
+hosts='UCSB UNM ORC'
+ports='5701 5702 5703'
+
+echo "<<<hazelcast>>>"
+
+for port in ${ports}; do
+  for host in ${hosts}; do
+    testhost=$(echo $thishost | sed s/-[a-z]*-1/-${host}-1/)
+    result="$(check_tcp -H ${testhost} -p ${port})"
+    if [ "X${result}" = "XConnection refused" ]; then
+        result="TCP CRIT - ${result}"
+    fi
+    echo "${testhost}/${port} : ${result}"
+  done
+done

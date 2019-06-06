@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ports="5701 5702 5703"
+for port in ${ports}; do
+  curl -s "http://localhost:${port}/hazelcast/rest/cluster"
+done

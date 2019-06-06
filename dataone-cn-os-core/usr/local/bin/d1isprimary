@@ -1,0 +1,16 @@
+#!/bin/bash
+# Detect is current host is the primary host for this domain
+
+#!/bin/bash
+PROPERTIES="/etc/dataone/node.properties"
+THIS_ENVIRONMENT=$(grep "^cn.router.hostname=" ${PROPERTIES} | cut -d'=' -f2)
+PRIMARY_IP=$(dig +short ${THIS_ENVIRONMENT})
+THIS_IP=$(hostname -i)
+RET_CODE=0
+if [ "${THIS_IP}" == "${PRIMARY_IP}" ]; then
+  echo "TRUE ${THIS_ENVIRONMENT}"
+  RET_CODE=1
+else
+  echo "FALSE ${THIS_ENVIRONMENT}"
+fi
+exit $RET_CODE

@@ -1,0 +1,471 @@
+dn: cn=urn:node:cnStage,dc=dataone,dc=org
+cn: urn:node:cnStage
+d1NodeId: urn:node:cnStage
+d1NodeName: cn-stage
+d1NodeDescription: Round Robin Staging Router of Coordinating Nodes
+d1NodeBaseURL: https://cn-stage.test.dataone.org/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnStage,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnStage
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+cn: urn:node:cnStageUNM1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeName: cn-stage-unm-1
+d1NodeDescription: University of New Mexico Stage Coordinating Node
+d1NodeBaseURL: https://cn-stage-unm-1.test.dataone.org/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnStageUNM1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnStageUNM1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+cn: urn:node:cnStageUCSB1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeName: cn-stage-ucsb-1
+d1NodeDescription: University of California Santa Barbara Stage Coordinating Node
+d1NodeBaseURL: https://cn-stage-ucsb-1.test.dataone.org/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnStageUCSB1,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnStageUCSB1
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: cn=urn:node:cnStageORC1,dc=dataone,dc=org
+cn: urn:node:cnStageORC1
+d1NodeId: urn:node:cnStageORC1
+d1NodeName: cn-stage-orc-1
+d1NodeDescription: Oak Ridge National Laboratory Stage Coordinating Node
+d1NodeBaseURL: https://cn-stage-orc-1.test.dataone.org/cn
+d1NodeReplicate: FALSE
+d1NodeSynchronize: FALSE
+d1NodeState: up
+d1NodeType: cn
+d1NodeApproved: TRUE
+subject: cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeContactSubject: cn=Robert P Waltz A904,o=Google,c=US,dc=cilogon,dc=org
+objectclass: device
+objectclass: d1Node
+
+dn: d1NodeServiceId=CNCore-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v1,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v1
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v1
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNCore-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNCore-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNCore
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRead-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRead-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNRead
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNAuthorization-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNAuthorization-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNAuthorization
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNIdentity-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNIdentity-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNIdentity
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNReplication-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNReplication-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNReplication
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNRegister-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNRegister-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNRegister
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNDiagnostic-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNDiagnostic-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNDiagnostic
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
+
+dn: d1NodeServiceId=CNView-v2,cn=urn:node:cnStageORC1,dc=dataone,dc=org
+d1NodeServiceId: CNView-v2
+d1NodeId: urn:node:cnStageORC1
+d1NodeServiceName: CNView
+d1NodeServiceVersion: v2
+d1NodeServiceAvailable: TRUE
+objectclass: d1NodeService
