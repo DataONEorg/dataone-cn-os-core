@@ -1,5 +1,0 @@
-dn: dc=org
-objectclass: dcObject
-objectclass: organization
-o: Organization
-dc: org

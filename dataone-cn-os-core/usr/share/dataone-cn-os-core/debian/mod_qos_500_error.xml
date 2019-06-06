@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<error detailCode="500" errorCode="500" name="ServiceFailure">
-    <description>Internal Server Error: The server is busy. Try again soon.</description>
-</error>
