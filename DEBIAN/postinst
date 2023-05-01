@@ -79,10 +79,10 @@ declare -A DEB_QUESTION_VALUES
 declare -A DB_QUESTION_CHANGED
 # The Global Constants
 
-TOMCAT=tomcat8
-TOMCAT_USER=tomcat8
-DATAONE_USER=tomcat8
-TOMCAT_HOME=/var/lib/tomcat8
+TOMCAT=tomcat9
+TOMCAT_USER=tomcat
+DATAONE_USER=tomcat
+TOMCAT_HOME=/var/lib/tomcat9
 JDK_PACKAGE=openjdk-8-jdk
 JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 DEFAULT_JAVA_HOME=/usr/lib/jvm/default-java
@@ -151,7 +151,7 @@ function log()
     if [ ! -e ${D1_LOG_DIR} ]; then
         mkdir -p ${D1_LOG_DIR}
     fi
-    chown -R tomcat8:tomcat8 ${D1_LOG_DIR}
+    chown -R TOMCAT_USER:TOMCAT_USER ${D1_LOG_DIR}
     now=$(date "+%Y-%m-%d %H:%M:%S %Z: ")
     echo -e "${now} postinst $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
 }
@@ -1199,78 +1199,43 @@ function configure_tomcat()
 {
 
 	# findout if tomcat is running
-	if (/etc/init.d/${TOMCAT} status  >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if (systemctl status ${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		## Stop tomcat
 		log "Stopping Tomcat"
-		if ! (/etc/init.d/${TOMCAT} stop >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		if ! (systemctl stop ${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 			log "Unable to Stop Tomcat!"
 			exitWithFailureCode 70
 		fi
 	fi
 	
-	## determine if the tomcat init script has a sufficient heap size
-	## XXX   XXX   XXX   -RPW    THE MAX/INITIAL HEAP PER ENVIRONMENT SHOULD BE CONFIGURED IN THE XML FILE
 	
-	#if [ -e "/etc/init.d/tomcat8" ]; then
-		## XXX   XXX   XXX   -RPW   
-		## we should determine if any changes have been made to /etc/init.d/tomcat8 and make a backup copy
-		## before proceeding with its modification
-		## The modification of JAVA_OPTS should move to the /etc/default/tomcat8
-		#if ! (egrep -q 'JAVA_OPTS\=.+\-Xmx' /etc/init.d/tomcat8); then
-			#log "THERE WAS AN ERROR /etc/init.d/tomcat NO LONGER HAS -Xmx DEFINED"
-			## -Xmx is not set, that is bad, the tomcat installation must
-			## have change significantly. We must manually add it to the JAVA_OPTS LINE
-			## and then change this script to handle the exact line to add it to
-			
-		#else 
-			#if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/init.d/tomcat8); then
-				## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
-				## developer VMs will not be able to support this amount of heap space
-				## in fact our development environment probably cannot
-				#if ! (sed -i.bak --regexp-extended '0,/(^JAVA_OPTS\=)"([^"]*)"/s//\1"\2 -Xmx8192M -Xms1024M -XX:MaxPermSize=512M"/;' /etc/init.d/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					#log "Unable to modify heap space settings in /etc/init.d/tomcat8"
-				#fi
-				#if ! (rm /etc/default/tomcat8.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					#log "Unable to remove /etc/default/tomcat8.bak"
-				#fi
-			#fi
-		#fi
-		#if ! (egrep -q 'ulimit.+\-Hn' /etc/init.d/tomcat8); then
-		#	if ! (sed -i.bak --regexp-extended 's/^(\#\!\/bin\/sh.*$)/\1\n  ulimit -Hn 16384\n  ulimit -Sn 16384\n/;' /etc/init.d/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		#		log "Unable to modify ulimit in /etc/init.d/tomcat8"
-		#	fi
-		#	if ! (rm /etc/init.d/tomcat8.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		#		log "Unable to remove /etc/init.d/tomcat8.bak"
-		#	fi
-		#fi
-	#fi
 	
-	if [ -e "/etc/default/tomcat8" ]; then
-		if ! (egrep -q '^\#?JAVA_OPTS\=".+\-XX\:\+UseConcMarkSweepGC"' /etc/default/tomcat8); then
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat8); then
-				echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/tomcat8
+	if [ -e "/etc/default/${TOMCAT}" ]; then
+		if ! (egrep -q '^\#?JAVA_OPTS\=".+\-XX\:\+UseConcMarkSweepGC"' /etc/default/${TOMCAT}); then
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/${TOMCAT}); then
+				echo "JAVA_OPTS=\"\${JAVA_OPTS} -XX:+UseParallelGC\"" >> /etc/default/${TOMCAT}
 			fi
 		else 
-			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/tomcat8); then
+			if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:\+UseParallelGC' /etc/default/${TOMCAT}); then
 				## XXX   XXX   XXX   -RPW
 				## What happens if UseConcMarkSweepGC is not a part of JAVA_OPTS, but we still want to include
 				## UseParallelGC as our main garbage collection method
-				if ! (sed -i.bak --regexp-extended s/UseConcMarkSweepGC/UseParallelGC/ /etc/default/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify UseConcMarkSweepGC in /etc/default/tomcat8"
+				if ! (sed -i.bak --regexp-extended s/UseConcMarkSweepGC/UseParallelGC/ /etc/default/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to modify UseConcMarkSweepGC in /etc/default/${TOMCAT}"
 				fi
-				if ! (rm /etc/default/tomcat8.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to remove /etc/default/tomcat8.bak"
+				if ! (rm /etc/default/${TOMCAT}.bak >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+					log "Unable to remove /etc/default/${TOMCAT}.bak"
 				fi
 			fi
 		fi
 		
-		if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/default/tomcat8); then
+		if ! (egrep -q 'JAVA_OPTS\=.+\-XX\:MaxPermSize' /etc/default/${TOMCAT}); then
 				## THE MAIN PROBLEM WITH THIS APPROACH CURRENTLY IS SUPPORTING THE DIFFERENT ENVIRONEMENTS
 				## developer VMs will not be able to support this amount of heap space
 				## in fact our development environment probably cannot
-				log "Can't find the memory setting on /etc/default/tomcat8, then set them."
+				log "Can't find the memory setting on /etc/default/${TOMCAT}, then set them."
 				if ! (sed -i.bak --regexp-extended '0,/(^JAVA_OPTS\=)"([^"]*)"/s//\1"\2 -Xmx8192M -Xms1024M -XX:MaxPermSize=512M"/;' /etc/default/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-					log "Unable to modify heap space settings in /etc/default/tomcat8"
+					log "Unable to modify heap space settings in /etc/default/${TOMCAT}"
 				fi
 		fi
 		
@@ -1307,20 +1272,20 @@ function configure_tomcat()
 		fi
 	fi
 	
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /etc/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /etc/tomcat8"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /etc/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /etc/${TOMCAT}"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/lib/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/lib/tomcat8"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/lib/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/lib/${TOMCAT}"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/log/tomcat8"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/log/${TOMCAT}"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/cache/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /var/cache/tomcat8"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/cache/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /var/cache/${TOMCAT}"
 	fi
-	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /usr/share/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to chown on /usr/share/tomcat8"
+	if ! (chown -R ${TOMCAT_USER}:${TOMCAT_USER} /usr/share/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+		log "Unable to chown on /usr/share/${TOMCAT}"
 	fi
 
 }
