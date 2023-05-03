@@ -4,6 +4,10 @@ set -e
 ACTION=${1}
 NEW_VERSION=${2}
 
+TOMCAT=tomcat9
+TOMCAT_USER=tomcat
+DATAONE_USER=tomcat
+TOMCAT_HOME=/var/lib/tomcat9
 
 # Source the debconf library
 if [ -e "/usr/share/debconf/confmodule" ]; then
@@ -19,7 +23,7 @@ D1_LOG_DIR=/var/log/dataone
 D1_LOG_FILE=dataone-cn-os-core.remove.log
 if [ ! -e ${D1_LOG_DIR} ]; then
     mkdir -p ${D1_LOG_DIR}
-    chown tomcat8:tomcat8 ${D1_LOG_DIR}
+    chown ${TOMCAT_USER}:${TOMCAT_USER} ${D1_LOG_DIR}
 fi
 
 # functions to echo to STDERR or the install log instead of STDOUT
@@ -32,10 +36,6 @@ log () {
     echo -e "${now} postrm $@" >> ${D1_LOG_DIR}/${D1_LOG_FILE}
 }
 
-TOMCAT=tomcat8
-TOMCAT_USER=tomcat8
-DATAONE_USER=tomcat8
-TOMCAT_HOME=/var/lib/tomcat8
 SOURCE_DIR=/usr/share/dataone-cn-os-core
 SCRIPT_DIR=${SOURCE_DIR}/debian
 APACHE_CONF=/etc/apache2
@@ -113,27 +113,6 @@ if [ "$ACTION" = "purge" ]; then
 		log "Unable to start Apache2"
 	fi
 
-	## restore server.xml to original copy, removing the dataone hacked version, but the logic below does not work
-	## Stop tomcat
-	# log "Stopping Tomcat"
-	# /etc/init.d/${TOMCAT} stop
-	
-	
-	# this mv code does not work, mv thinks /conf/server.xml is a directory. fix it
-	# rm -f ${TOMCAT_HOME}/conf/server.xml
-	# maybe do a find in the subdirectory with a mv
-	# mv ${TOMCAT_HOME}/conf/server.xml.* ${TOMCAT_HOME}/conf/server.xml
-	# mv ${TOMCAT_HOME}/conf/catalina.properties.* ${TOMCAT_HOME}/conf/catalina.properties
-	
-	
-	# if [ -e "/var/log/dataone" ]; then
-	#  rm -rf "/var/log/dataone"
-	# fi
-	
-	## Start Tomcat
-	# log "starting Tomcat server"
-	
-	# /etc/init.d/${TOMCAT} start
 
 fi
 db_stop
