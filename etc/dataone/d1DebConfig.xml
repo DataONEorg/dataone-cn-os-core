@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <dpc:debconf xmlns:dpc="http://ns.dataone.org/debian/conf/types/v1"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ns.dataone.org/debian/conf/types/v1 https://repository.dataone.org/software/cicore/trunk/d1_schemas/dataoneDebPkgConfigTypes.xsd">
+ xsi:schemaLocation="http://ns.dataone.org/debian/conf/types/v1 https://raw.githubusercontent.com/DataONEorg/d1_schemas/main/dataoneDebPkgConfigTypes.xsd">
     <templates>
         <template key="dataone-cn-os-core/cn.context.label">
             <description>Which deployment environment?
