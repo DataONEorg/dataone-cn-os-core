@@ -10,6 +10,7 @@
             <choices>
                 <choice>CUSTOM</choice>
                 <choice>LOCALNET</choice>
+                <choice>TEST</choice>
                 <choice>SANDBOX</choice>
                 <choice>STAGE</choice>
                 <choice>PRODUCTION</choice>
@@ -378,6 +379,42 @@
         <!-- this question must be asked. it can not be derived or pre-configured -->
         <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
         
+    </environment>
+
+    <environment  context="TEST" >
+        <machine  ip="128.111.85.191" >
+            <question  keyref="dataone-cn-os-core/cn.hostname" >wanted-moray.nceas.ucsb.edu</question>
+            <question  keyref="dataone-cn-os-core/cn.nodeid">urn:node:cnTestUCSB1</question>
+            <question  keyref="dataone-cn-os-core/cn.client.certificate.filename">urn:node:cnTestUCSB1.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.certificate.filename">cn-test-ucsb-1.test.dataone.org.pem</question>
+            <question  keyref="dataone-cn-os-core/cn.replication.privatekey.filename">cn-test-ucsb-1.test.dataone.org.key</question>
+            <question  keyref="dataone-cn-os-core/cn.openldap.serverID">1</question>
+        </machine>
+        <!-- cn.context.label is derived from the context attribute of the environment element -->
+        <question keyref="dataone-cn-os-core/cn.context.label" />
+        <!-- cn.iplist is  derived from all the ip attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.iplist"/>
+        <!-- cn.hostnamelist is  derived from all the hostname attributes of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.hostnamelist"/>
+        <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
+        <question keyref="dataone-cn-os-core/cn.nodeids"/>
+        
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-test.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnTest</question>
+        <question  keyref="dataone-cn-os-core/cn.search.hostname">search-test.test.dataone.org</question>        
+        <question keyref="dataone-cn-os-core/cn.server.cachain.filename">fullchain.pem</question>
+        <question keyref="dataone-cn-os-core/cn.dataone.ca.filename">DataONETestCAChain.crt</question>
+        <question  keyref="dataone-cn-os-core/cn.server.publiccert.filename">cert.pem</question>
+        <question  keyref="dataone-cn-os-core/cn.server.privatekey.filename">privkey.pem</question>
+        <question  keyref="dataone-cn-os-core/cn.client.certificate.dir">/etc/dataone/client/certs</question>
+        <question  keyref="dataone-cn-os-core/cn.client.key.dir">/etc/dataone/client/private</question>
+        <question keyref="dataone-cn-os-core/cn.keystore.password"/>
+        
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.password"/>
+        <question keyref="dataone-cn-os-core/cn.openldap.synchronized">true</question>
+        <!-- this question must be asked. it can not be derived or pre-configured -->
+        <question keyref="dataone-cn-os-core/cn.openldap.firstcn"/>
     </environment>
 
     <environment  context="SANDBOX" >
