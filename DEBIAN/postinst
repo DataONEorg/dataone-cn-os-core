@@ -1005,7 +1005,7 @@ function configure_apache()
 		log "Unable to copy ${SCRIPT_DIR}/mod_qos_500_error.xml to ${APACHE_WWW_DIR}/"
 	fi
 	
-	## disable and then re-enable mod_proxy, mod_rewrite, and mod_headers
+	## disable and then re-enable mod_proxy, mod_rewrite, cache_disk, and mod_headers
 	log "Refreshing Proxy"	
 	if ! (a2dismod proxy_ajp >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to disable proxy_ajp apache module"
@@ -1044,10 +1044,10 @@ function configure_apache()
 	fi
 	
 	log "Refreshing Cache module"
-	if ! (a2dismod disk_cache >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (a2dismod cache_disk >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to disable apache disk_cache module"
 	fi
-	if ! (a2enmod disk_cache >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+	if ! (a2enmod cache_disk >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to enable apache disk_cache module"
 	fi
 	
