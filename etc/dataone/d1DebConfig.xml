@@ -399,7 +399,7 @@
         <!-- cn.nodeids  is derived from all the question element values with a key of cn.nodeid that are children of the machine elements in this environment-->
         <question keyref="dataone-cn-os-core/cn.nodeids"/>
         
-        <question  keyref="dataone-cn-os-core/cn.router.hostname">cn-test.test.dataone.org</question>
+        <question  keyref="dataone-cn-os-core/cn.router.hostname">wanted-moray.nceas.ucsb.edu</question>
         <question  keyref="dataone-cn-os-core/cn.router.nodeId">urn:node:cnTest</question>
         <question  keyref="dataone-cn-os-core/cn.search.hostname">search-test.test.dataone.org</question>        
         <question keyref="dataone-cn-os-core/cn.server.cachain.filename">fullchain.pem</question>
