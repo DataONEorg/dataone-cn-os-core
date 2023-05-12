@@ -1294,7 +1294,8 @@ function configure_tomcat()
       log "${LOG4J} exists in /etc/default/${TOMCAT} and don't need to do anything."  
    else
       log "${LOG4J} doesn't exist /etc/default/${TOMCAT} and we need to add it."
-      sudo sed -i "$ a\\JAVA_OPTS=\"'${JAVA_OPTS}' ${LOG4J}\"" /etc/default/${TOMCAT}
+      JAVA_OPTS='${JAVA_OPTS}'
+      sudo sed -i "$ a\\JAVA_OPTS=\"${JAVA_OPTS} ${LOG4J}\"" /etc/default/${TOMCAT}
    fi
 
 }
