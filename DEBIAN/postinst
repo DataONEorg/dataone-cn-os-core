@@ -1234,7 +1234,7 @@ function configure_tomcat()
 				## developer VMs will not be able to support this amount of heap space
 				## in fact our development environment probably cannot
 				log "Can't find the memory setting on /etc/default/${TOMCAT}, then set them."
-				if ! (sed -i.bak --regexp-extended '0,/(^JAVA_OPTS\=)"([^"]*)"/s//\1"\2 -Xmx8192M -Xms1024M -XX:MaxPermSize=512M"/;' /etc/default/tomcat8 >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
+				if ! (sed -i.bak --regexp-extended '0,/(^JAVA_OPTS\=)"([^"]*)"/s//\1"\2 -Xmx8192M -Xms1024M -XX:MaxPermSize=512M"/;' /etc/default/${TOMCAT} >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 					log "Unable to modify heap space settings in /etc/default/${TOMCAT}"
 				fi
 		fi
