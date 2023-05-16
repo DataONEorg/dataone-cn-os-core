@@ -1837,6 +1837,20 @@ function configure_bouncycastle()
 	fi
 	
 }
+
+
+#####
+##### configure_ssl()
+##### In order to accomodate the certificates signed by DataONE CA, we need to modify the ssl
+#####
+function configure_ssl()
+{
+    log "update ssl settings to support the DataONE CA"
+    sed -i.bak 's/DEFAULT:@SECLEVEL=2/DEFAULT:@SECLEVEL=0/' /etc/ssl/openssl.cnf
+}
+
+
+
 #####
 ##### configure_check_mk()
 ##### make certain check_mk exists and has correct permissions
@@ -1989,6 +2003,8 @@ function main()
 			configure_openldap
 
 			configure_bouncycastle
+			
+			configure_ssl
 
 			log "ETC configuration"                 
 			###############################################################################
