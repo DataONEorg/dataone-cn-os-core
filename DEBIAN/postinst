@@ -1061,13 +1061,10 @@ function configure_apache()
 		log "Unable to enable ssl site"
 	fi
 	
-	## disable and then re-enable mod qos to pick up changes
+	## disable  mod qos since there are some syntax issues coming form PPA apache
 	log "Refreshing Mod QoS"
 	if ! (a2dismod qos >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to disable mod qos"
-	fi
-	if ! (a2enmod qos >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
-		log "Unable to enable mod qos"
 	fi
 	## disable and then re-enable mod jk to pick up changes
 	log "Refreshing Mod JK"
@@ -1077,7 +1074,7 @@ function configure_apache()
 	if ! (a2enmod jk >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to enable jk apache site"
 	fi
-	## disable and then re-enable mod qos to pick up changes
+	## disable and then re-enable mod expires to pick up changes
 	log "Refreshing Mod Expires"
 	if ! (a2dismod expires >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1); then
 		log "Unable to disable mod expires"
